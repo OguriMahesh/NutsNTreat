@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
-const Notification = require('../models/Notification'); // ← NEW
+const Notification = require('../models/Notification');
 
 const orderSchema = new mongoose.Schema({
   orderId:       { type: String, unique: true },
