@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" type="image/png" href="../../assests/img/high-resolution-color-logo-removebg-preview.png">
+<link rel="apple-touch-icon" href="../../assests/img/high-resolution-color-logo-removebg-preview.png">
+<title>Login – NutsNTreat</title>
+
+<!-- ══ AUTH GUARD: hide body immediately, before any paint ══ -->
+<style id="auth-guard">body{visibility:hidden!important;}</style>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --cream:#FDF6EC;--brown:#3B1F0A;--amber:#C8832A;--amber-light:#F5D5A0;
+  --amber-dark:#8B5A1A;--green:#2D5016;--green-light:#8BC34A;--red:#C0392B;--shadow:rgba(59,31,10,0.12);
+}
+body{font-family:'DM Sans',sans-serif;background:var(--brown);min-height:100vh;display:flex;flex-direction:column}
+
+/* NAV */
+nav{padding:0 2.5rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.07)}
+.logo{font-family:'Playfair Display',serif;font-size:1.7rem;color:#F5D5A0;text-decoration:none;padding:1rem 0;letter-spacing:-0.5px}
+.logo span{color:#8BC34A}
+
+/* LAYOUT */
+.auth-wrap{flex:1;display:flex;align-items:center;justify-content:center;padding:2rem;position:relative;overflow:hidden}
+.auth-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1574570068730-4de717f6e571?w=1400&q=50') center/cover;opacity:0.06;pointer-events:none}
+.auth-bg2{position:absolute;inset:0;background:radial-gradient(ellipse at 20% 50%,rgba(200,131,42,0.08) 0%,transparent 60%),radial-gradient(ellipse at 80% 20%,rgba(139,194,74,0.05) 0%,transparent 50%);pointer-events:none}
+
+/* CARD */
+.auth-card{background:#fff;border-radius:28px;padding:2.8rem 3rem;width:100%;max-width:460px;position:relative;z-index:1;box-shadow:0 24px 80px rgba(0,0,0,0.45),0 0 0 1px rgba(255,255,255,0.05)}
+.auth-logo{text-align:center;margin-bottom:2rem}
+.auth-logo .logo-text{font-family:'Playfair Display',serif;font-size:1.9rem;color:var(--brown)}
+.auth-logo .logo-text span{color:var(--amber)}
+.auth-logo p{font-size:0.8rem;color:rgba(59,31,10,0.45);margin-top:4px;letter-spacing:0.8px;text-transform:uppercase;font-weight:600}
+
+/* TABS */
+.auth-tabs{display:flex;background:var(--cream);border-radius:14px;padding:4px;margin-bottom:1.8rem;gap:4px}
+.auth-tab{flex:1;padding:0.7rem;text-align:center;border:none;background:none;cursor:pointer;border-radius:11px;font-family:'DM Sans',sans-serif;font-size:0.88rem;font-weight:500;color:rgba(59,31,10,0.5);transition:all 0.22s}
+.auth-tab.active{background:#fff;color:var(--brown);font-weight:700;box-shadow:0 2px 10px rgba(59,31,10,0.1)}
+
+/* FORMS */
+.auth-form{display:none}
+.auth-form.active{display:block;animation:fadeUp 0.3s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* FORM FIELDS */
+.form-group{margin-bottom:1.1rem}
+.form-group label{display:flex;justify-content:space-between;align-items:center;font-size:0.73rem;font-weight:700;color:rgba(59,31,10,0.55);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:0.45rem}
+.form-group label a{font-size:0.72rem;color:var(--amber-dark);text-decoration:none;font-weight:500;text-transform:none;letter-spacing:0}
+.form-group label a:hover{text-decoration:underline}
+.input-wrap{position:relative}
+.input-wrap input{width:100%;padding:0.82rem 1.1rem;border:1.5px solid var(--amber-light);border-radius:12px;font-family:'DM Sans',sans-serif;font-size:0.92rem;color:var(--brown);background:#fff;outline:none;transition:all 0.2s}
+.input-wrap input:focus{border-color:var(--amber);box-shadow:0 0 0 3px rgba(200,131,42,0.1)}
+.input-wrap input.error{border-color:var(--red);box-shadow:0 0 0 3px rgba(192,57,43,0.08)}
+.input-wrap input:disabled{background:var(--cream);cursor:not-allowed;opacity:0.7}
+.pw-toggle{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:rgba(59,31,10,0.35);font-size:1rem;padding:4px;transition:color 0.2s}
+.pw-toggle:hover{color:var(--brown)}
+.input-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:0.9rem;pointer-events:none}
+.input-wrap.has-icon input{padding-left:2.4rem}
+.input-wrap.has-icon.has-pw-toggle input{padding-right:2.4rem}
+
+/* PASSWORD STRENGTH */
+.pw-strength{margin-top:6px;display:none}
+.pw-strength.show{display:block}
+.pw-bars{display:flex;gap:4px;margin-bottom:4px}
+.pw-bar{height:3px;flex:1;border-radius:3px;background:rgba(59,31,10,0.1);transition:background 0.3s}
+.pw-bar.weak{background:var(--red)}
+.pw-bar.fair{background:var(--amber)}
+.pw-bar.strong{background:var(--green-light)}
+.pw-label{font-size:0.7rem;color:rgba(59,31,10,0.45)}
+
+/* ALERTS */
+.alert{padding:0.75rem 1rem;border-radius:11px;font-size:0.83rem;font-weight:500;margin-bottom:1.1rem;display:none;align-items:flex-start;gap:0.6rem;line-height:1.5}
+.alert.show{display:flex;animation:fadeUp 0.2s ease}
+.alert-error{background:#fff0f0;border:1.5px solid #ffc5c5;color:#8B1A1A}
+.alert-success{background:#f0fff4;border:1.5px solid #b2f5c5;color:var(--green)}
+.alert-warn{background:#fffbf0;border:1.5px solid #fde68a;color:#78500A}
+.alert-icon{font-size:1rem;flex-shrink:0;margin-top:1px}
+
+/* LOCKOUT BANNER */
+.lockout-bar{background:linear-gradient(135deg,#8B1A1A,#C0392B);color:#fff;border-radius:12px;padding:1rem 1.2rem;margin-bottom:1.2rem;display:none;align-items:center;gap:0.8rem;font-size:0.84rem}
+.lockout-bar.show{display:flex}
+.lockout-countdown{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:#fff;min-width:40px;text-align:center}
+
+/* CAPTCHA */
+.captcha-wrap{background:var(--cream);border:1.5px solid var(--amber-light);border-radius:12px;padding:0.9rem 1.1rem;margin-bottom:1.1rem;display:none;align-items:center;justify-content:space-between;gap:1rem}
+.captcha-wrap.show{display:flex}
+.captcha-q{font-size:0.9rem;font-weight:600;color:var(--brown)}
+.captcha-input{width:80px;padding:0.5rem 0.7rem;border:1.5px solid var(--amber-light);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.9rem;color:var(--brown);outline:none;text-align:center;background:#fff}
+.captcha-input:focus{border-color:var(--amber)}
+.captcha-refresh{background:none;border:none;cursor:pointer;font-size:1.1rem;color:var(--amber-dark);transition:transform 0.3s}
+.captcha-refresh:hover{transform:rotate(180deg)}
+
+/* OTP */
+.otp-verify-wrap{display:none}
+.otp-verify-wrap.show{display:block;animation:fadeUp 0.3s ease}
+.otp-grid{display:flex;gap:0.6rem;justify-content:center;margin:1rem 0}
+.otp-box{width:48px;height:56px;border:2px solid var(--amber-light);border-radius:12px;text-align:center;font-size:1.4rem;font-weight:700;font-family:'Playfair Display',serif;color:var(--brown);outline:none;transition:all 0.2s;background:#fff}
+.otp-box:focus{border-color:var(--amber);box-shadow:0 0 0 3px rgba(200,131,42,0.12)}
+.otp-resend{text-align:center;font-size:0.8rem;color:rgba(59,31,10,0.5);margin-top:0.5rem}
+.otp-resend a{color:var(--amber-dark);cursor:pointer;font-weight:600;text-decoration:none}
+.otp-timer{font-weight:600;color:var(--brown)}
+
+/* SUBMIT BUTTON */
+.submit-btn{width:100%;padding:1rem;background:var(--brown);color:#fff;border:none;border-radius:30px;font-weight:700;font-size:0.95rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.22s;margin-top:0.3rem;letter-spacing:0.3px;position:relative;overflow:hidden}
+.submit-btn:hover:not(:disabled){background:var(--amber-dark);transform:translateY(-1px);box-shadow:0 8px 20px rgba(59,31,10,0.3)}
+.submit-btn:disabled{opacity:0.6;cursor:not-allowed;transform:none}
+.submit-btn .btn-loader{display:none;width:18px;height:18px;border:2px solid rgba(255,255,255,0.4);border-top-color:#fff;border-radius:50%;animation:spin 0.7s linear infinite;margin:0 auto}
+.submit-btn.loading .btn-text{display:none}
+.submit-btn.loading .btn-loader{display:block}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* DIVIDER */
+.divider{text-align:center;margin:1.2rem 0;color:rgba(59,31,10,0.3);font-size:0.78rem;position:relative}
+.divider::before,.divider::after{content:'';position:absolute;top:50%;width:43%;height:1px;background:rgba(59,31,10,0.1)}
+.divider::before{left:0}.divider::after{right:0}
+
+/* GUEST LINK */
+.guest-link{display:block;text-align:center;color:var(--amber-dark);font-size:0.86rem;text-decoration:none;font-weight:500;padding:0.4rem;transition:color 0.2s}
+.guest-link:hover{color:var(--amber)}
+
+/* ALREADY HAVE ACCOUNT LINK */
+.signin-link{display:block;text-align:center;color:rgba(59,31,10,0.55);font-size:0.86rem;margin-top:1rem}
+.signin-link a{color:var(--amber-dark);font-weight:600;text-decoration:none;cursor:pointer}
+.signin-link a:hover{text-decoration:underline}
+
+/* SECURITY BADGE */
+.security-badge{display:flex;align-items:center;justify-content:center;gap:0.4rem;margin-top:1.4rem;padding-top:1.2rem;border-top:1px solid rgba(59,31,10,0.07);font-size:0.73rem;color:rgba(59,31,10,0.35);font-weight:500}
+.security-badge span{font-size:0.85rem}
+
+/* ATTEMPTS INDICATOR */
+.attempts-indicator{display:flex;gap:4px;justify-content:center;margin-bottom:0.5rem}
+.attempt-dot{width:8px;height:8px;border-radius:50%;background:rgba(192,57,43,0.2);transition:background 0.3s}
+.attempt-dot.used{background:var(--red)}
+
+/* REDIRECT NOTICE */
+.redirect-notice{display:inline-flex;align-items:center;gap:5px;background:rgba(45,80,22,0.08);color:var(--green);font-size:0.72rem;font-weight:700;padding:4px 12px;border-radius:20px;border:1px solid rgba(45,80,22,0.15);margin-top:0.5rem}
+
+/* FORGOT PASSWORD MODAL */
+#fp-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:999;align-items:center;justify-content:center;padding:1.5rem;backdrop-filter:blur(3px)}
+#fp-modal-overlay.show{display:flex}
+
+@media(max-width:520px){.auth-card{padding:2rem 1.6rem;border-radius:20px}.otp-box{width:40px;height:48px;font-size:1.2rem}}
+</style>
+
+<!-- ══ AUTH GUARD SCRIPT: runs synchronously before any paint ══ -->
+<script>
+(function(){
+  function getSession(){
+    // 1. Cookies
+    try{
+      var token=decodeURIComponent((document.cookie.match(/nnt_token=([^;]+)/)||[])[1]||'');
+      var user=JSON.parse(decodeURIComponent((document.cookie.match(/nnt_user=([^;]+)/)||[])[1]||'null'));
+      if(token&&user) return {token:token,user:user};
+    }catch(e){}
+    // 2. sessionStorage
+    try{
+      var s=JSON.parse(sessionStorage.getItem('nnt_session'));
+      if(s&&s.token&&s.user) return s;
+    }catch(e){}
+    // 3. localStorage
+    try{
+      var s=JSON.parse(localStorage.getItem('nnt_session'));
+      if(s&&s.token&&s.user&&Date.now()<s.exp) return s;
+    }catch(e){}
+    return null;
+  }
+  var s=getSession();
+  if(!s){
+    document.getElementById('auth-guard').remove();
+    return;
+  }
+  var redirect=new URLSearchParams(window.location.search).get('redirect');
+  if(s.user.role==='admin') window.location.replace(redirect||'admin.html');
+  else window.location.replace(redirect||'index.html');
+})();
+</script>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">Nuts<span>N</span>Treat</a>
+</nav>
+
+<div class="auth-wrap">
+  <div class="auth-bg"></div>
+  <div class="auth-bg2"></div>
+
+  <div class="auth-card">
+    <div class="auth-logo">
+      <div class="logo-text">Nuts<span>N</span>Treat</div>
+      <p>Premium Dry Fruits & Mixes</p>
+    </div>
+
+    <!-- LOCKOUT BANNER -->
+    <div class="lockout-bar" id="lockout-bar">
+      <span style="font-size:1.4rem">🔒</span>
+      <div style="flex:1">
+        <div style="font-weight:700;margin-bottom:2px">Account temporarily locked</div>
+        <div style="opacity:0.85;font-size:0.8rem">Too many failed attempts. Try again in</div>
+      </div>
+      <div class="lockout-countdown" id="lockout-timer">--</div>
+    </div>
+
+    <!-- TABS -->
+    <div class="auth-tabs">
+      <button class="auth-tab active" onclick="switchTab('login')">Sign In</button>
+      <button class="auth-tab" onclick="switchTab('register')">Create Account</button>
+    </div>
+
+    <!-- ══ LOGIN FORM ══ -->
+    <div class="auth-form active" id="login-form">
+      <div class="alert alert-error"   id="login-error">  <span class="alert-icon">⚠️</span><span id="login-error-msg"></span></div>
+      <div class="alert alert-success" id="login-success"><span class="alert-icon">✓</span> <span id="login-success-msg"></span></div>
+      <div class="alert alert-warn"    id="login-warn">   <span class="alert-icon">ℹ️</span><span id="login-warn-msg"></span></div>
+
+      <!-- Failed attempt dots -->
+      <div class="attempts-indicator" id="attempts-dots" style="display:none">
+        <div class="attempt-dot" id="d1"></div>
+        <div class="attempt-dot" id="d2"></div>
+        <div class="attempt-dot" id="d3"></div>
+        <div class="attempt-dot" id="d4"></div>
+        <div class="attempt-dot" id="d5"></div>
+      </div>
+
+      <!-- CAPTCHA (shown after 3 failures) -->
+      <div class="captcha-wrap" id="login-captcha">
+        <div>
+          <div style="font-size:0.7rem;font-weight:700;color:rgba(59,31,10,0.45);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Security Check</div>
+          <div class="captcha-q" id="captcha-question">Loading...</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <input class="captcha-input" id="captcha-answer" type="text" maxlength="4" placeholder="?">
+          <button class="captcha-refresh" onclick="refreshCaptcha()" title="New question">🔄</button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Email Address</label>
+        <div class="input-wrap has-icon">
+          <span class="input-icon">✉️</span>
+          <input type="email" id="login-email" placeholder="you@email.com" autocomplete="email" oninput="clearLoginErrors()">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>
+          Password
+          <a href="#" onclick="showForgotPassword(); return false;">Forgot password?</a>
+        </label>
+        <div class="input-wrap has-icon has-pw-toggle">
+          <span class="input-icon">🔑</span>
+          <input type="password" id="login-password" placeholder="Your password" autocomplete="current-password" oninput="clearLoginErrors()">
+          <button class="pw-toggle" onclick="togglePw('login-password')" type="button">👁</button>
+        </div>
+      </div>
+
+      <button class="submit-btn" id="login-btn" onclick="doLogin()">
+        <span class="btn-text">Sign In →</span>
+        <div class="btn-loader"></div>
+      </button>
+
+      <div style="text-align:center;margin-top:0.8rem" id="role-redirect-notice"></div>
+
+      <div class="divider">or</div>
+      <a href="index.html" class="guest-link">Browse without signing in →</a>
+    </div>
+
+    <!-- ══ REGISTER FORM ══ -->
+    <div class="auth-form" id="register-form">
+      <div class="alert alert-error"   id="reg-error">  <span class="alert-icon">⚠️</span><span id="reg-error-msg"></span></div>
+      <div class="alert alert-success" id="reg-success"><span class="alert-icon">✓</span> <span id="reg-success-msg"></span></div>
+
+      <!-- OTP VERIFICATION STATE -->
+      <div class="otp-verify-wrap" id="otp-verify-wrap">
+        <div class="alert alert-warn show" style="margin-bottom:1rem"><span class="alert-icon">📧</span><span id="otp-verify-msg">Enter the 6-digit code sent to your email.</span></div>
+        <div class="otp-grid" id="reg-otp-grid">
+          <input class="otp-box" maxlength="1" id="rotp0" oninput="regOtpInput(this,0)">
+          <input class="otp-box" maxlength="1" id="rotp1" oninput="regOtpInput(this,1)">
+          <input class="otp-box" maxlength="1" id="rotp2" oninput="regOtpInput(this,2)">
+          <input class="otp-box" maxlength="1" id="rotp3" oninput="regOtpInput(this,3)">
+          <input class="otp-box" maxlength="1" id="rotp4" oninput="regOtpInput(this,4)">
+          <input class="otp-box" maxlength="1" id="rotp5" oninput="regOtpInput(this,5)">
+        </div>
+        <div class="otp-resend">Didn't receive it? <a onclick="resendRegOTP()" id="reg-resend-link">Resend code</a> <span class="otp-timer" id="reg-otp-timer"></span></div>
+        <button class="submit-btn" id="reg-otp-btn" onclick="verifyRegOTP()" style="margin-top:1rem">
+          <span class="btn-text">Verify & Activate →</span>
+          <div class="btn-loader"></div>
+        </button>
+        <div style="text-align:center;margin-top:0.8rem">
+          <a href="#" onclick="cancelOTPVerify(); return false;" style="font-size:0.82rem;color:rgba(59,31,10,0.45);text-decoration:none;">← Back to registration</a>
+        </div>
+      </div>
+
+      <div id="reg-fields">
+        <div class="form-group">
+          <label>Full Name *</label>
+          <div class="input-wrap has-icon">
+            <span class="input-icon">👤</span>
+            <input type="text" id="reg-name" placeholder="Your full name" autocomplete="name" oninput="clearRegErrors()">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Email Address *</label>
+          <div class="input-wrap has-icon">
+            <span class="input-icon">✉️</span>
+            <input type="email" id="reg-email" placeholder="you@email.com" autocomplete="email" oninput="clearRegErrors()">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Phone Number</label>
+          <div class="input-wrap has-icon">
+            <span class="input-icon">📱</span>
+            <input type="tel" id="reg-phone" placeholder="+91 98765 43210" autocomplete="tel">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Password * <span id="pw-strength-label" style="font-weight:500;text-transform:none;letter-spacing:0;font-size:0.7rem"></span></label>
+          <div class="input-wrap has-icon has-pw-toggle">
+            <span class="input-icon">🔑</span>
+            <input type="password" id="reg-password" placeholder="Min 8 characters" autocomplete="new-password" oninput="checkPasswordStrength(this.value)">
+            <button class="pw-toggle" onclick="togglePw('reg-password')" type="button">👁</button>
+          </div>
+          <div class="pw-strength" id="pw-strength">
+            <div class="pw-bars">
+              <div class="pw-bar" id="bar1"></div>
+              <div class="pw-bar" id="bar2"></div>
+              <div class="pw-bar" id="bar3"></div>
+              <div class="pw-bar" id="bar4"></div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Confirm Password *</label>
+          <div class="input-wrap has-icon has-pw-toggle">
+            <span class="input-icon">🔑</span>
+            <input type="password" id="reg-confirm" placeholder="Re-enter password" autocomplete="new-password" oninput="clearRegErrors()">
+            <button class="pw-toggle" onclick="togglePw('reg-confirm')" type="button">👁</button>
+          </div>
+        </div>
+
+        <button class="submit-btn" id="reg-btn" onclick="doRegister()">
+          <span class="btn-text">Create Account →</span>
+          <div class="btn-loader"></div>
+        </button>
+
+        <div class="signin-link">
+          Already have an account? <a onclick="switchTab('login')">Sign in</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECURITY BADGE -->
+    <div class="security-badge">
+      <span>🔒</span> 256-bit encrypted · Rate limited · CAPTCHA protected
+    </div>
+  </div>
+</div>
+
+<!-- ══ FORGOT PASSWORD MODAL ══ -->
+<div id="fp-modal-overlay">
+  <div style="background:#fff;border-radius:24px;padding:2.2rem 2.4rem;width:100%;max-width:420px;box-shadow:0 24px 80px rgba(0,0,0,0.4);animation:fadeUp 0.25s ease;position:relative">
+    <button onclick="closeForgotPassword()" style="position:absolute;top:1rem;right:1.2rem;background:none;border:none;font-size:1.3rem;cursor:pointer;color:rgba(59,31,10,0.35);line-height:1" title="Close">✕</button>
+    <div style="text-align:center;margin-bottom:1.6rem">
+      <div style="font-size:2rem;margin-bottom:0.5rem">🔑</div>
+      <div style="font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--brown);font-weight:700">Forgot Password?</div>
+      <p style="font-size:0.82rem;color:rgba(59,31,10,0.5);margin-top:6px;line-height:1.5">Enter your email and we'll send you a reset link.</p>
+    </div>
+    <div class="alert alert-error"   id="fp-error">  <span class="alert-icon">⚠️</span><span id="fp-error-msg"></span></div>
+    <div class="alert alert-success" id="fp-success"><span class="alert-icon">✓</span> <span id="fp-success-msg"></span></div>
+    <div class="form-group">
+      <label>Email Address</label>
+      <div class="input-wrap has-icon">
+        <span class="input-icon">✉️</span>
+        <input type="email" id="fp-email" placeholder="you@email.com" autocomplete="email">
+      </div>
+    </div>
+    <button class="submit-btn" id="fp-btn" onclick="doForgotPassword()" style="margin-top:0.4rem">
+      <span class="btn-text">Send Reset Link →</span>
+      <div class="btn-loader"></div>
+    </button>
+    <div style="text-align:center;margin-top:1rem">
+      <a href="#" onclick="closeForgotPassword();return false;" style="font-size:0.83rem;color:rgba(59,31,10,0.45);text-decoration:none;">← Back to Sign In</a>
+    </div>
+  </div>
+</div>
+
+<script>
+const API = 'http://localhost:5000/api';
+
+const SEC = {
+  MAX_ATTEMPTS: 5, LOCKOUT_DURATION: 300,
+  CAPTCHA_AFTER: 3, MIN_PW_LENGTH: 8,
+  OTP_RESEND_WAIT: 60,
+};
+
+// ── SESSION STORE (cookie + sessionStorage fallback) ──
+const Store = {
+  setSession(token, user) {
+    // 1. Try cookies
+    try {
+      const exp = new Date(Date.now() + 7 * 24 * 3600 * 1000).toUTCString();
+      document.cookie = `nnt_token=${encodeURIComponent(token)}; expires=${exp}; path=/; SameSite=Lax`;
+      document.cookie = `nnt_user=${encodeURIComponent(JSON.stringify(user))}; expires=${exp}; path=/; SameSite=Lax`;
+    } catch(e) {}
+    // 2. Always also save to sessionStorage (works even when cookies are blocked)
+    try {
+      sessionStorage.setItem('nnt_session', JSON.stringify({ token, user }));
+    } catch(e) {}
+    // 3. Try localStorage as well
+    try {
+      const exp = Date.now() + 7 * 24 * 3600 * 1000;
+      localStorage.setItem('nnt_session', JSON.stringify({ token, user, exp }));
+    } catch(e) {}
+  },
+  getSession() {
+    // 1. Try cookies first
+    try {
+      const token = decodeURIComponent((document.cookie.match(/nnt_token=([^;]+)/) || [])[1] || '');
+      const user  = JSON.parse(decodeURIComponent((document.cookie.match(/nnt_user=([^;]+)/) || [])[1] || 'null'));
+      if (token && user) return { token, user };
+    } catch(e) {}
+    // 2. Fallback to sessionStorage
+    try {
+      const s = JSON.parse(sessionStorage.getItem('nnt_session'));
+      if (s && s.token && s.user) return s;
+    } catch(e) {}
+    // 3. Fallback to localStorage
+    try {
+      const s = JSON.parse(localStorage.getItem('nnt_session'));
+      if (s && s.token && s.user && Date.now() < s.exp) return s;
+    } catch(e) {}
+    return null;
+  },
+  clear() {
+    try {
+      document.cookie = 'nnt_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+      document.cookie = 'nnt_user=;  expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    } catch(e) {}
+    try { sessionStorage.removeItem('nnt_session'); } catch(e) {}
+    try { localStorage.removeItem('nnt_session'); } catch(e) {}
+  }
+};
+
+// ── API HELPER ──
+async function api(path, method = 'GET', body = null) {
+  const opts = { method, headers: { 'Content-Type': 'application/json' } };
+  const s = Store.getSession();
+  if (s) opts.headers['Authorization'] = 'Bearer ' + s.token;
+  if (body) opts.body = JSON.stringify(body);
+  const res  = await fetch(API + path, opts);
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || 'Request failed');
+  return data;
+}
+
+// ── RATE LIMIT ──
+const RateLimit = {
+  key: 'nnt_login_attempts',
+  get()       { try { return JSON.parse(localStorage.getItem(this.key)) || { count:0, lockedUntil:0 }; } catch { return { count:0, lockedUntil:0 }; } },
+  increment() { const d=this.get(); d.count++; d.lastAttempt=Date.now(); if(d.count>=SEC.MAX_ATTEMPTS) d.lockedUntil=Date.now()+SEC.LOCKOUT_DURATION*1000; localStorage.setItem(this.key,JSON.stringify(d)); return d; },
+  reset()     { localStorage.removeItem(this.key); },
+  isLocked()  { const d=this.get(); return d.lockedUntil && Date.now()<d.lockedUntil; },
+  secsLeft()  { return Math.ceil((this.get().lockedUntil-Date.now())/1000); }
+};
+
+// ── CAPTCHA ──
+let _captchaAnswer = '';
+function refreshCaptcha() {
+  const ops=['+','-','×'], op=ops[Math.floor(Math.random()*3)];
+  let a=Math.floor(Math.random()*12)+1, b=Math.floor(Math.random()*12)+1, ans;
+  if(op==='+'){ans=a+b;}else if(op==='-'){if(a<b)[a,b]=[b,a];ans=a-b;}else{a=Math.floor(Math.random()*9)+1;b=Math.floor(Math.random()*9)+1;ans=a*b;}
+  _captchaAnswer=String(ans);
+  document.getElementById('captcha-question').textContent=`What is ${a} ${op} ${b}?`;
+  document.getElementById('captcha-answer').value='';
+}
+function validateCaptcha() { return document.getElementById('captcha-answer').value.trim()===_captchaAnswer; }
+
+// ── OTP STATE ──
+let _pendingUserId = '';
+let _otpResendTimer = null;
+
+// ── UI HELPERS ──
+function switchTab(tab) {
+  ['login','register'].forEach(t => {
+    document.getElementById(t+'-form').classList.toggle('active', t===tab);
+  });
+  document.querySelectorAll('.auth-tab').forEach((el,i) =>
+    el.classList.toggle('active', (i===0&&tab==='login')||(i===1&&tab==='register'))
+  );
+  ['login-error','login-warn','login-success','reg-error','reg-success'].forEach(hideAlert);
+}
+function showAlert(id, msg) {
+  const el=document.getElementById(id); if(!el)return;
+  const m=el.querySelector('span:last-child'); if(m)m.textContent=msg;
+  el.classList.add('show');
+}
+function hideAlert(id) { const el=document.getElementById(id); if(el)el.classList.remove('show'); }
+function clearLoginErrors() { hideAlert('login-error'); hideAlert('login-warn'); }
+function clearRegErrors()   { hideAlert('reg-error'); }
+function setLoading(btnId, loading) {
+  const btn=document.getElementById(btnId); if(!btn)return;
+  btn.disabled=loading; btn.classList.toggle('loading',loading);
+}
+function togglePw(id) { const el=document.getElementById(id); el.type=el.type==='password'?'text':'password'; }
+
+function updateAttemptDots(count) {
+  const dots=document.getElementById('attempts-dots');
+  dots.style.display=count>0?'flex':'none';
+  for(let i=1;i<=5;i++) document.getElementById('d'+i)?.classList.toggle('used',i<=count);
+}
+
+let _lockoutInterval;
+function startLockoutTimer() {
+  const bar=document.getElementById('lockout-bar'), timer=document.getElementById('lockout-timer');
+  bar.classList.add('show');
+  document.getElementById('login-btn').disabled=true;
+  clearInterval(_lockoutInterval);
+  _lockoutInterval=setInterval(()=>{
+    if(!RateLimit.isLocked()){
+      clearInterval(_lockoutInterval);
+      bar.classList.remove('show');
+      document.getElementById('login-btn').disabled=false;
+      updateAttemptDots(0);
+      RateLimit.reset();
+      return;
+    }
+    const s=RateLimit.secsLeft(), m=Math.floor(s/60);
+    timer.textContent=m>0?`${m}m ${s%60}s`:`${s}s`;
+  },1000);
+}
+
+function showCaptchaIfNeeded(attempts) {
+  const wrap=document.getElementById('login-captcha');
+  if(attempts>=SEC.CAPTCHA_AFTER){ wrap.classList.add('show'); refreshCaptcha(); }
+  else wrap.classList.remove('show');
+}
+
+function checkPasswordStrength(pw) {
+  const wrap=document.getElementById('pw-strength'), label=document.getElementById('pw-strength-label');
+  if(!pw){ wrap.classList.remove('show'); label.textContent=''; return; }
+  wrap.classList.add('show');
+  let score=0;
+  if(pw.length>=8)score++; if(pw.length>=12)score++;
+  if(/[A-Z]/.test(pw)&&/[a-z]/.test(pw))score++;
+  if(/\d/.test(pw))score++; if(/[!@#$%^&*(),.?":{}|<>]/.test(pw))score++;
+  const lvl=score<=1?'weak':score<=3?'fair':'strong';
+  const labels={weak:'🔴 Weak',fair:'🟡 Fair',strong:'🟢 Strong'};
+  for(let i=1;i<=4;i++){
+    const b=document.getElementById('bar'+i); b.className='pw-bar';
+    if(i<=Math.min(score,4)) b.classList.add(lvl);
+  }
+  label.textContent=labels[lvl];
+  label.style.color=lvl==='weak'?'var(--red)':lvl==='fair'?'var(--amber-dark)':'var(--green)';
+}
+
+// ── LOGIN ──
+async function doLogin() {
+  clearLoginErrors();
+  if(RateLimit.isLocked()){ startLockoutTimer(); showAlert('login-error','Too many failed attempts. Account is temporarily locked.'); return; }
+
+  const email=document.getElementById('login-email').value.trim();
+  const pw=document.getElementById('login-password').value;
+  if(!email||!pw){ showAlert('login-error','Please enter your email and password.'); return; }
+
+  const attempts=RateLimit.get().count;
+  if(attempts>=SEC.CAPTCHA_AFTER){
+    if(!document.getElementById('captcha-answer').value.trim()){ showAlert('login-error','Please complete the security check.'); return; }
+    if(!validateCaptcha()){ refreshCaptcha(); showAlert('login-error','Incorrect security answer. Please try again.'); return; }
+  }
+
+  setLoading('login-btn',true);
+  try {
+    const data = await api('/auth/login','POST',{ email, password: pw });
+    RateLimit.reset();
+    Store.setSession(data.token, data.user);
+
+    const isAdmin=data.user.role==='admin';
+    showAlert('login-success',`Welcome back, ${data.user.name}! Redirecting...`);
+    document.getElementById('role-redirect-notice').innerHTML=
+      `<span class="redirect-notice">${isAdmin?'🛡️ Admin':'🛒 Customer'} · Going to ${isAdmin?'Admin Panel':'Home'}</span>`;
+
+    setTimeout(()=>{
+      const redirect=new URLSearchParams(window.location.search).get('redirect');
+      if(isAdmin) window.location.replace(redirect||'admin.html');
+      else window.location.replace(redirect||'index.html');
+    }, 1200);
+  } catch(err) {
+    const d=RateLimit.increment();
+    updateAttemptDots(d.count);
+    showCaptchaIfNeeded(d.count);
+    if(RateLimit.isLocked()){ startLockoutTimer(); showAlert('login-error','Too many failed attempts. Account locked for 5 minutes.'); }
+    else{ const rem=SEC.MAX_ATTEMPTS-d.count; showAlert('login-error',`${err.message}. ${rem} attempt${rem!==1?'s':''} remaining.`); }
+  } finally {
+    setLoading('login-btn',false);
+  }
+}
+
+// ── REGISTER ──
+async function doRegister() {
+  clearRegErrors();
+  const name=document.getElementById('reg-name').value.trim();
+  const email=document.getElementById('reg-email').value.trim();
+  const phone=document.getElementById('reg-phone').value.trim();
+  const pw=document.getElementById('reg-password').value;
+  const conf=document.getElementById('reg-confirm').value;
+
+  if(!name||!email||!pw){ showAlert('reg-error','Name, email and password are required.'); return; }
+  if(!email.includes('@')){ showAlert('reg-error','Please enter a valid email address.'); return; }
+  if(pw.length<SEC.MIN_PW_LENGTH){ showAlert('reg-error',`Password must be at least ${SEC.MIN_PW_LENGTH} characters.`); return; }
+  if(pw!==conf){ showAlert('reg-error','Passwords do not match.'); return; }
+
+  setLoading('reg-btn',true);
+  try {
+    const data = await api('/auth/register','POST',{ name, email, phone, password: pw });
+    _pendingUserId = data.userId;
+    document.getElementById('reg-fields').style.display='none';
+    document.getElementById('otp-verify-wrap').classList.add('show');
+    document.getElementById('otp-verify-msg').textContent=`Enter the 6-digit code sent to ${email}.`;
+    startRegOTPTimer();
+    clearRegOTPBoxes();
+  } catch(err) {
+    showAlert('reg-error', err.message);
+  } finally {
+    setLoading('reg-btn',false);
+  }
+}
+
+// ── OTP ──
+function getRegOTPValue(){ return Array.from({length:6},(_,i)=>document.getElementById('rotp'+i)?.value||'').join(''); }
+function clearRegOTPBoxes(){ for(let i=0;i<6;i++){const b=document.getElementById('rotp'+i);if(b)b.value='';} document.getElementById('rotp0')?.focus(); }
+function regOtpInput(el,idx){ el.value=el.value.replace(/\D/g,''); if(el.value&&idx<5) document.getElementById('rotp'+(idx+1))?.focus(); if(getRegOTPValue().length===6) verifyRegOTP(); }
+function cancelOTPVerify(){ document.getElementById('otp-verify-wrap').classList.remove('show'); document.getElementById('reg-fields').style.display='block'; clearRegErrors(); }
+
+function startRegOTPTimer() {
+  let t=SEC.OTP_RESEND_WAIT;
+  const el=document.getElementById('reg-otp-timer'), link=document.getElementById('reg-resend-link');
+  link.style.opacity='0.4'; link.style.pointerEvents='none';
+  clearInterval(_otpResendTimer);
+  _otpResendTimer=setInterval(()=>{
+    el.textContent=`(${t}s)`; t--;
+    if(t<0){ clearInterval(_otpResendTimer); el.textContent=''; link.style.opacity='1'; link.style.pointerEvents='auto'; }
+  },1000);
+}
+
+async function resendRegOTP() {
+  try {
+    await api('/auth/resend-otp','POST',{ userId: _pendingUserId });
+    startRegOTPTimer(); clearRegOTPBoxes(); hideAlert('reg-error');
+    document.getElementById('otp-verify-msg').textContent='New code sent! Check your inbox.';
+  } catch(err) { showAlert('reg-error', err.message); }
+}
+
+async function verifyRegOTP() {
+  const entered=getRegOTPValue();
+  if(entered.length<6){ showAlert('reg-error','Please enter the complete 6-digit code.'); return; }
+  setLoading('reg-otp-btn',true);
+  try {
+    await api('/auth/verify-otp','POST',{ userId: _pendingUserId, otp: entered });
+    document.getElementById('otp-verify-wrap').classList.remove('show');
+    document.getElementById('reg-fields').style.display='block';
+    showAlert('reg-success','✅ Email verified! You can now sign in.');
+    setTimeout(()=>switchTab('login'),1500);
+  } catch(err) {
+    showAlert('reg-error', err.message);
+    clearRegOTPBoxes();
+  } finally {
+    setLoading('reg-otp-btn',false);
+  }
+}
+
+// ── FORGOT PASSWORD ──
+function showForgotPassword() {
+  const existingEmail=document.getElementById('login-email').value.trim();
+  if(existingEmail) document.getElementById('fp-email').value=existingEmail;
+  document.getElementById('fp-modal-overlay').classList.add('show');
+  document.getElementById('fp-email').focus();
+  hideAlert('fp-error'); hideAlert('fp-success');
+}
+function closeForgotPassword() { document.getElementById('fp-modal-overlay').classList.remove('show'); }
+
+async function doForgotPassword() {
+  const email=document.getElementById('fp-email').value.trim();
+  hideAlert('fp-error'); hideAlert('fp-success');
+  if(!email){ showAlert('fp-error','Please enter your email address.'); return; }
+  if(!email.includes('@')){ showAlert('fp-error','Please enter a valid email address.'); return; }
+  setLoading('fp-btn',true);
+  try {
+    await api('/auth/forgot-password','POST',{ email });
+    showAlert('fp-success',`✅ Reset link sent! Check your inbox at ${email}.`);
+    document.getElementById('fp-email').disabled=true;
+    document.getElementById('fp-btn').disabled=true;
+  } catch(err) {
+    showAlert('fp-error', err.message||'Something went wrong. Please try again.');
+  } finally {
+    setLoading('fp-btn',false);
+  }
+}
+
+// ── INIT ──
+refreshCaptcha();
+if(RateLimit.isLocked()){ startLockoutTimer(); updateAttemptDots(SEC.MAX_ATTEMPTS); showCaptchaIfNeeded(SEC.MAX_ATTEMPTS); }
+else{ const d=RateLimit.get(); if(d.count>0){ updateAttemptDots(d.count); showCaptchaIfNeeded(d.count); } }
+
+document.addEventListener('keydown', e => {
+  if(e.key!=='Enter') return;
+  if(document.getElementById('login-form').classList.contains('active')) doLogin();
+  else if(document.getElementById('register-form').classList.contains('active')){
+    if(document.getElementById('otp-verify-wrap').classList.contains('show')) verifyRegOTP();
+    else doRegister();
+  }
+});
+
+// Close forgot modal on overlay click
+document.getElementById('fp-modal-overlay').addEventListener('click', e => {
+  if(e.target===document.getElementById('fp-modal-overlay')) closeForgotPassword();
+});
+</script>
+</body>
+</html>

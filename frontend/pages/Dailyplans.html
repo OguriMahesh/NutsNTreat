@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" type="image/png" href="../../assests/img/high-resolution-color-logo-removebg-preview.png">
+<link rel="apple-touch-icon" href="../../assests/img/high-resolution-color-logo-removebg-preview.png">
+<title>Daily Box Plans – NutsNTreat</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --cream:#FDF6EC;--brown:#3B1F0A;--amber:#C8832A;--amber-light:#F5D5A0;
+  --amber-dark:#8B5A1A;--green:#2D5016;--green-light:#8BC34A;
+  --red:#C0392B;--shadow:rgba(59,31,10,0.10);--white:#fff;
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--brown);min-height:100vh}
+
+/* NAV */
+nav{background:var(--brown);padding:0 2.5rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:300;box-shadow:0 2px 24px rgba(0,0,0,0.35)}
+.logo{font-family:'Playfair Display',serif;font-size:1.75rem;color:#F5D5A0;cursor:pointer;padding:1rem 0;text-decoration:none;letter-spacing:-0.5px}
+.logo span{color:#8BC34A}
+.nav-links{display:flex;gap:0.15rem;align-items:center}
+.nav-links a{color:rgba(255,255,255,0.72);font-size:0.84rem;padding:0.5rem 0.9rem;cursor:pointer;border-radius:6px;transition:all 0.2s;font-weight:500;text-decoration:none;display:flex;align-items:center;gap:4px}
+.nav-links a img{width:16px;height:16px;object-fit:contain;filter:brightness(0) invert(1) opacity(0.7)}
+.nav-links a:hover img,.nav-links a.active img{filter:brightness(0) invert(1)}
+.nav-links a:hover,.nav-links a.active{background:rgba(255,255,255,0.1);color:#fff}
+.nav-cart{background:var(--amber)!important;color:#fff!important;border-radius:22px!important;padding:0.5rem 1.3rem!important;font-weight:700!important;text-decoration:none;display:flex;align-items:center;gap:6px;font-size:0.84rem;transition:all 0.2s}
+.nav-cart:hover{background:var(--amber-dark)!important;transform:translateY(-1px)}
+.cart-badge{background:#fff;color:var(--amber-dark);border-radius:50%;width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:700}
+
+.hamburger span{display:block;width:24px;height:2.5px;background:#fff;border-radius:2px;transition:all 0.3s ease}
+
+
+
+
+.mobile-menu.open{display:flex}
+.mobile-menu a{color:rgba(255,255,255,0.8);font-size:0.95rem;padding:0.85rem 1rem;border-radius:10px;text-decoration:none;font-weight:500;display:flex;align-items:center;gap:0.6rem;transition:all 0.18s;border-bottom:1px solid rgba(255,255,255,0.05)}
+.mobile-menu a:hover,.mobile-menu a.active{background:rgba(255,255,255,0.1);color:#fff}
+.mobile-menu .m-cart{background:var(--amber);color:#fff!important;border-radius:22px;margin-top:0.5rem;justify-content:center;font-weight:700;border:none!important}
+
+/* HERO */
+.plans-hero{display:grid;grid-template-columns:1fr 1fr;min-height:auto;position:relative;overflow:hidden}
+.hero-img-col{position:relative;overflow:hidden;max-height:600px;}
+.hero-img-col img{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
+.hero-img-col::after{content:'';position:absolute;inset:0;background:linear-gradient(to right,var(--brown) 0%,rgba(59,31,10,0) 55%)}
+.hero-text-col{background:var(--brown);display:flex;flex-direction:column;justify-content:center;padding:3rem 3rem 3rem 3rem;z-index:2}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(200,131,42,0.18);border:1px solid rgba(200,131,42,0.5);color:var(--amber-light);font-size:0.7rem;letter-spacing:2.5px;text-transform:uppercase;padding:0.45rem 1.2rem;border-radius:20px;margin-bottom:1.5rem;font-weight:600;width:fit-content}
+.hero-badge::before{content:'';width:6px;height:6px;background:var(--amber);border-radius:50%;display:inline-block;flex-shrink:0}
+.hero-text-col h1{font-family:'Playfair Display',serif;font-size:clamp(2.1rem,3.8vw,3.3rem);color:#fff;line-height:1.1;margin-bottom:1.2rem}
+.hero-text-col h1 em{color:var(--amber);font-style:italic}
+.hero-text-col p{color:rgba(255,255,255,0.62);font-size:0.95rem;line-height:1.82;max-width:440px;margin-bottom:2rem}
+.hero-pills{display:flex;gap:0.6rem;flex-wrap:wrap;margin-bottom:2.5rem}
+.hero-pill{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.14);color:rgba(255,255,255,0.7);padding:0.38rem 0.95rem;border-radius:20px;font-size:0.75rem;font-weight:500}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap}
+.btn-gold{background:var(--amber);color:#fff;padding:0.9rem 2.2rem;border-radius:28px;border:none;font-family:'DM Sans',sans-serif;font-weight:700;font-size:0.95rem;cursor:pointer;transition:all 0.22s;text-decoration:none;display:inline-block}
+.btn-gold:hover{background:var(--amber-dark);transform:translateY(-2px);box-shadow:0 10px 24px rgba(200,131,42,0.4)}
+.btn-ghost{background:transparent;color:#fff;padding:0.9rem 2rem;border-radius:28px;border:1.5px solid rgba(255,255,255,0.28);font-family:'DM Sans',sans-serif;font-weight:600;font-size:0.95rem;cursor:pointer;transition:all 0.22s;text-decoration:none;display:inline-block}
+.btn-ghost:hover{border-color:#fff;background:rgba(255,255,255,0.07)}
+
+/* STAT STRIP */
+.stat-strip{background:#fff;display:flex;justify-content:center;flex-wrap:wrap;box-shadow:0 4px 20px rgba(59,31,10,0.07)}
+.stat-item{padding:1.3rem 2.2rem;text-align:center;border-right:1px solid rgba(59,31,10,0.08);flex:1;min-width:120px}
+.stat-item:last-child{border-right:none}
+.stat-num{font-family:'Playfair Display',serif;font-size:1.9rem;color:var(--amber-dark);font-weight:700;line-height:1}
+.stat-lbl{font-size:0.67rem;color:rgba(59,31,10,0.45);letter-spacing:1.5px;text-transform:uppercase;margin-top:4px;font-weight:600}
+
+/* SHARED */
+.section-tag{display:inline-block;background:var(--amber-light);color:var(--amber-dark);font-size:0.68rem;letter-spacing:2px;text-transform:uppercase;padding:0.32rem 1.1rem;border-radius:20px;margin-bottom:0.8rem;font-weight:700}
+.section-hdr{text-align:center;margin-bottom:3rem}
+.section-hdr h2{font-family:'Playfair Display',serif;font-size:2.15rem;color:var(--brown);margin-bottom:0.4rem;line-height:1.2}
+.section-hdr p{color:rgba(59,31,10,0.55);font-size:0.92rem;max-width:500px;margin:0 auto;line-height:1.7}
+
+/* HOW IT WORKS */
+.hiw{background:#fff;padding:4.5rem 2.5rem}
+.hiw-inner{max-width:1100px;margin:0 auto}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative}
+.steps-line{position:absolute;top:58px;left:calc(12% + 36px);right:calc(12% + 36px);height:2px;background:linear-gradient(90deg,var(--amber-light),var(--amber),var(--amber-light));z-index:0}
+.step{text-align:center;padding:0 1rem;position:relative;z-index:1}
+.step-photo{
+  width:116px;height:116px;border-radius:50%;
+  margin:0 auto 1.2rem;
+  border:4px solid var(--amber);
+  box-shadow:0 4px 24px rgba(200,131,42,0.35);
+  position:relative;
+  background:linear-gradient(135deg,#3B1F0A 0%,#5a3010 100%);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.step-photo img{ display:none; }
+.step-num{font-family:'Playfair Display',serif;font-size:3rem;font-weight:900;color:var(--amber);text-shadow:0 2px 12px rgba(200,131,42,0.5);line-height:1;position:static;width:auto;height:auto;background:none;border:none;border-radius:0;}
+.step-title{font-weight:700;font-size:0.94rem;color:var(--brown);margin-bottom:0.4rem}
+.step-desc{font-size:0.79rem;color:rgba(59,31,10,0.57);line-height:1.65}
+
+/* PLAN TABS */
+.plans-wrap{padding:4rem 2.5rem;max-width:1280px;margin:0 auto}
+.plan-tabs{display:flex;gap:0.8rem;justify-content:center;flex-wrap:wrap;margin-bottom:3rem}
+.plan-tab{display:flex;align-items:center;gap:10px;background:#fff;border:2px solid var(--amber-light);color:var(--brown);padding:0.65rem 1.5rem;border-radius:50px;font-size:0.87rem;cursor:pointer;transition:all 0.25s;font-weight:600;font-family:'DM Sans',sans-serif;box-shadow:0 2px 8px var(--shadow)}
+
+/* FIX: tab-avatar wrapper approach */
+.tab-avatar-wrap{
+  width:34px;height:34px;border-radius:50%;
+  overflow:hidden;
+  flex-shrink:0;
+  border:2px solid rgba(200,131,42,0.3);
+  background:var(--amber-light);
+}
+.tab-avatar{
+  width:100%;height:100%;
+  object-fit:cover;
+  object-position:center center;
+  display:block;
+}
+.plan-tab:hover{background:var(--amber-light);border-color:var(--amber)}
+.plan-tab.active{background:var(--brown);border-color:var(--brown);color:#fff}
+
+/* PANELS */
+.plan-panel{display:none;animation:fadeIn 0.32s ease}
+.plan-panel.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* PLAN HEADER */
+.plan-hdr{border-radius:22px;overflow:hidden;display:grid;grid-template-columns:1fr 420px;margin-bottom:1.8rem;box-shadow:0 6px 28px rgba(59,31,10,0.16);min-height:270px}
+/* FIX: phdr-img — ensure img fills container absolutely */
+.phdr-img{position:relative;overflow:hidden;min-height:270px}
+.phdr-img img{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:cover;object-position:center;
+  display:block;
+}
+.phdr-img::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(59,31,10,0.4) 0%,transparent 60%)}
+.phdr-body{background:var(--brown);padding:2.5rem}
+.phdr-body h2{font-family:'Playfair Display',serif;font-size:1.7rem;color:#fff;margin-bottom:0.6rem;line-height:1.2}
+.phdr-body h2 em{color:var(--amber);font-style:italic}
+.phdr-body p{color:rgba(255,255,255,0.6);font-size:0.87rem;line-height:1.78;margin-bottom:1.1rem}
+.plan-tags{display:flex;gap:0.45rem;flex-wrap:wrap;margin-bottom:1.4rem}
+.plan-tag{background:rgba(200,131,42,0.18);border:1px solid rgba(200,131,42,0.38);color:var(--amber-light);font-size:0.68rem;padding:0.26rem 0.7rem;border-radius:10px;font-weight:600}
+.price-row{display:flex;align-items:flex-end;justify-content:space-between;border-top:1px solid rgba(255,255,255,0.1);padding-top:1.1rem}
+.price-big{font-family:'Playfair Display',serif;font-size:2.1rem;color:var(--amber-light);font-weight:700;line-height:1}
+.price-note{font-size:0.7rem;color:rgba(255,255,255,0.38);margin-top:3px}
+.save-pill{background:var(--green);color:#fff;font-size:0.62rem;font-weight:700;padding:4px 10px;border-radius:8px;margin-bottom:3px;display:inline-block}
+
+/* BOX INFO GRID */
+.box-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1.8rem}
+.box-card{background:#fff;border-radius:18px;padding:1.7rem;box-shadow:0 2px 12px var(--shadow)}
+.box-card h3{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--brown);margin-bottom:0.25rem}
+.box-card .sub{font-size:0.76rem;color:rgba(59,31,10,0.42);margin-bottom:1.1rem}
+.slot-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem}
+.slot-opt{border:2px solid var(--amber-light);border-radius:14px;overflow:hidden;cursor:pointer;transition:border-color 0.2s}
+.slot-opt:hover{border-color:var(--amber)}
+.slot-opt.on{border-color:var(--brown)}
+
+/* FIX: slot-img */
+.slot-img{height:78px;overflow:hidden;position:relative;background:#f0e8d8}
+.slot-img img{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:cover;object-position:center;
+  display:block;
+}
+.slot-body{padding:0.6rem 0.5rem;text-align:center}
+.slot-name{font-weight:700;font-size:0.87rem;color:var(--brown)}
+.slot-time{font-size:0.7rem;color:rgba(59,31,10,0.48);margin-top:1px}
+
+/* PERK ICONS */
+.perks{display:flex;flex-direction:column;gap:0.7rem}
+.perk{display:flex;align-items:center;gap:0.75rem;font-size:0.84rem;color:rgba(59,31,10,0.73)}
+.perk-icon{
+  width:36px;height:36px;
+  border-radius:10px;
+  background:var(--amber-light);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+  border:1.5px solid rgba(200,131,42,0.25);
+}
+.perk-icon svg{
+  width:18px;height:18px;
+  stroke:var(--amber-dark);
+  fill:none;
+  stroke-width:1.8;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+
+/* SCHEDULE */
+.sched-card{background:#fff;border-radius:20px;padding:2rem;box-shadow:0 2px 12px var(--shadow);margin-bottom:1.8rem}
+.sched-card h3{font-family:'Playfair Display',serif;font-size:1.25rem;color:var(--brown);margin-bottom:0.25rem}
+.sched-card .sub{font-size:0.78rem;color:rgba(59,31,10,0.42);margin-bottom:1.4rem}
+.day-tabs{display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:0.7rem}
+.day-tab{padding:0.42rem 1.05rem;border-radius:20px;border:1.5px solid var(--amber-light);font-size:0.79rem;font-weight:600;cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif;background:#fff;color:var(--brown)}
+.day-tab:hover{background:var(--amber-light)}
+.day-tab.active{background:var(--brown);color:#fff;border-color:var(--brown)}
+.day-hint{font-size:0.72rem;color:rgba(59,31,10,0.36);margin-bottom:1.3rem;font-style:italic}
+.day-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.1rem}
+.day-item{border:1.5px solid var(--amber-light);border-radius:15px;overflow:hidden;background:#fff;transition:all 0.22s;box-shadow:0 2px 8px rgba(59,31,10,0.06)}
+.day-item:hover{border-color:var(--amber);transform:translateY(-4px);box-shadow:0 10px 28px rgba(59,31,10,0.13)}
+/* FIX: di-img */
+.di-img{height:145px;overflow:hidden;position:relative;background:#f5ede0}
+.di-img img{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:cover;object-position:center;
+  display:block;
+  transition:transform 0.42s;
+}
+.day-item:hover .di-img img{transform:scale(1.07)}
+.di-badge{position:absolute;top:8px;left:8px;font-size:0.57rem;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;padding:3px 8px;border-radius:9px;z-index:1}
+.b-seed{background:rgba(45,80,22,0.88);color:#fff}
+.b-nut{background:rgba(139,90,26,0.88);color:#fff}
+.b-fruit{background:rgba(192,57,43,0.88);color:#fff}
+.b-mix{background:rgba(59,31,10,0.78);color:#fff}
+.di-body{padding:0.8rem 0.95rem 0.95rem}
+.di-name{font-weight:700;font-size:0.83rem;color:var(--brown);margin-bottom:0.18rem;line-height:1.3}
+.di-weight{font-size:0.68rem;color:rgba(59,31,10,0.42);font-weight:500}
+
+/* SUBSCRIBE STRIP */
+.sub-strip{border-radius:20px;overflow:hidden;display:grid;grid-template-columns:200px 1fr auto;margin-bottom:1.8rem;box-shadow:0 4px 20px rgba(200,131,42,0.28);background:linear-gradient(135deg,var(--amber) 0%,var(--amber-dark) 100%)}
+/* FIX: ss-img */
+.ss-img{overflow:hidden;position:relative}
+.ss-img img{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:cover;object-position:center;
+  display:block;
+}
+.ss-body{padding:1.8rem 2rem}
+.ss-body h3{font-family:'Playfair Display',serif;font-size:1.38rem;color:#fff;margin-bottom:0.3rem}
+.ss-body p{color:rgba(255,255,255,0.72);font-size:0.86rem}
+.ss-actions{padding:1.8rem;display:flex;flex-direction:column;justify-content:center;gap:0.75rem;background:rgba(0,0,0,0.1);min-width:200px}
+.slot-sel{background:rgba(255,255,255,0.14);border:1.5px solid rgba(255,255,255,0.32);color:#fff;padding:0.65rem 1rem;border-radius:26px;font-family:'DM Sans',sans-serif;font-size:0.86rem;font-weight:600;cursor:pointer;outline:none;appearance:none;-webkit-appearance:none;width:100%;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='white' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 0.9rem center;padding-right:2rem}
+.slot-sel option{color:var(--brown);background:#fff}
+.btn-sub{background:#fff;color:var(--amber-dark);border:none;padding:0.7rem 1.2rem;border-radius:26px;font-family:'DM Sans',sans-serif;font-weight:700;font-size:0.9rem;cursor:pointer;transition:all 0.2s;width:100%}
+.btn-sub:hover{background:var(--brown);color:#fff}
+
+/* ALL PLANS */
+.all-plans{padding:4rem 2.5rem;background:var(--brown)}
+.ap-inner{max-width:1100px;margin:0 auto}
+.ap-inner .section-hdr h2{color:#fff}
+.ap-inner .section-hdr p{color:rgba(255,255,255,0.52)}
+.ap-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem}
+.ap-card{border:1px solid rgba(255,255,255,0.1);border-radius:20px;overflow:hidden;transition:all 0.25s;position:relative;background:rgba(255,255,255,0.05)}
+.ap-card:hover{border-color:var(--amber);transform:translateY(-5px);background:rgba(255,255,255,0.09)}
+.ap-card.feat{border-color:var(--amber);background:rgba(200,131,42,0.1)}
+.feat-tag{position:absolute;top:0;right:0;background:var(--amber);color:#fff;font-size:0.6rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:5px 13px;border-radius:0 20px 0 12px;z-index:2}
+/* FIX: ap-img — image must be absolutely positioned inside overflow:hidden container */
+.ap-img{
+  height:155px;
+  overflow:hidden;
+  position:relative;
+  background:#2a1506;
+}
+.ap-img img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  display:block;
+  transition:transform 0.4s;
+}
+.ap-card:hover .ap-img img{transform:scale(1.06)}
+.ap-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(59,31,10,0.72) 0%,transparent 55%)}
+.ap-body{padding:1.4rem}
+.ap-name{font-family:'Playfair Display',serif;font-size:1.12rem;color:#fff;margin-bottom:0.3rem}
+.ap-desc{font-size:0.76rem;color:rgba(255,255,255,0.48);line-height:1.6;margin-bottom:1rem}
+.ap-price{margin-bottom:1.1rem}
+.ap-price .pv{font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--amber-light);font-weight:700}
+.ap-price .ps{font-size:0.68rem;color:rgba(255,255,255,0.38)}
+.ap-feats{list-style:none;display:flex;flex-direction:column;gap:0.45rem;margin-bottom:1.3rem}
+.ap-feats li{font-size:0.76rem;color:rgba(255,255,255,0.65);display:flex;align-items:center;gap:0.45rem}
+.ap-feats li::before{content:'✓';color:var(--green-light);font-weight:700;flex-shrink:0}
+.btn-ap{width:100%;padding:0.62rem;border-radius:20px;border:1.5px solid rgba(255,255,255,0.2);background:transparent;color:#fff;font-family:'DM Sans',sans-serif;font-weight:600;font-size:0.82rem;cursor:pointer;transition:all 0.2s}
+.btn-ap:hover,.ap-card.feat .btn-ap{background:var(--amber);border-color:var(--amber)}
+
+/* TESTIMONIALS */
+.testis{padding:4rem 2.5rem}
+.testis-inner{max-width:1100px;margin:0 auto}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.testi{background:#fff;border-radius:18px;padding:1.8rem;box-shadow:0 2px 12px var(--shadow);position:relative}
+.testi::before{content:'"';font-family:'Playfair Display',serif;font-size:5rem;color:var(--amber-light);position:absolute;top:-10px;left:1.2rem;line-height:1}
+.testi-text{font-size:0.87rem;color:rgba(59,31,10,0.7);line-height:1.78;margin-bottom:1.2rem;padding-top:2rem}
+.testi-author{display:flex;align-items:center;gap:0.75rem}
+/* FIX: testi-avatar — wrap in div for proper circle clipping */
+.testi-avatar-wrap{
+  width:44px;height:44px;border-radius:50%;
+  overflow:hidden;flex-shrink:0;
+  border:2px solid var(--amber-light);
+}
+.testi-avatar{
+  width:100%;height:100%;
+  object-fit:cover;object-position:center top;
+  display:block;
+}
+.testi-name{font-weight:700;font-size:0.87rem;color:var(--brown)}
+.testi-plan{font-size:0.7rem;color:var(--amber-dark);font-weight:600;margin-top:1px}
+.testi-stars{color:var(--amber);font-size:0.82rem;margin-bottom:0.5rem;letter-spacing:2px}
+
+/* FAQ */
+.faq{padding:4rem 2.5rem;max-width:760px;margin:0 auto}
+.faq-item{border-bottom:1px solid rgba(59,31,10,0.1);padding:1.25rem 0;cursor:pointer}
+.faq-q{display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:0.93rem;color:var(--brown)}
+.faq-arr{color:var(--amber);transition:transform 0.25s;flex-shrink:0;margin-left:1rem;font-size:1rem}
+.faq-item.open .faq-arr{transform:rotate(180deg)}
+.faq-a{font-size:0.84rem;color:rgba(59,31,10,0.58);line-height:1.78;max-height:0;overflow:hidden;transition:max-height 0.3s ease,padding 0.3s}
+.faq-item.open .faq-a{max-height:200px;padding-top:0.72rem}
+
+/* TOAST */
+.toast{position:fixed;bottom:2rem;right:2rem;background:var(--brown);color:#fff;padding:0.9rem 1.6rem;border-radius:16px;font-size:0.85rem;font-weight:500;transform:translateY(120px);opacity:0;transition:all 0.35s cubic-bezier(.34,1.56,.64,1);z-index:9999;max-width:320px;box-shadow:0 8px 28px rgba(0,0,0,0.28);display:flex;align-items:center;gap:10px}
+.toast.show{transform:translateY(0);opacity:1}
+
+/* FOOTER */
+footer{background:var(--brown)}
+.footer-top{padding:3.5rem 2.5rem;display:grid;grid-template-columns:2fr 1fr 1fr 1.2fr;gap:3rem;max-width:1280px;margin:0 auto}
+.footer-brand .logo-f{font-family:'Playfair Display',serif;font-size:1.6rem;color:#F5D5A0;margin-bottom:0.8rem}
+.footer-brand .logo-f span{color:#8BC34A}
+.footer-brand p{color:rgba(255,255,255,0.5);font-size:0.82rem;line-height:1.75;margin-bottom:1.2rem;max-width:240px}
+.footer-social{display:flex;gap:0.6rem}
+.social-btn{width:36px;height:36px;background:rgba(255,255,255,0.08);border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;text-decoration:none;overflow:hidden}
+.social-btn:hover{background:var(--amber)}
+.social-btn img{width:18px;height:18px;object-fit:contain;filter:brightness(0) invert(1);opacity:0.75;transition:opacity 0.2s}
+.social-btn:hover img{opacity:1}
+.logo-f{font-family:'Playfair Display',serif;font-size:1.6rem;color:#F5D5A0;margin-bottom:0.8rem}
+.logo-f span{color:#8BC34A}
+.footer-brand p{color:rgba(255,255,255,0.48);font-size:0.81rem;line-height:1.75;margin-bottom:1.2rem;max-width:240px}
+.f-social{display:flex;gap:0.6rem}
+.f-soc-btn{width:36px;height:36px;background:rgba(255,255,255,0.08);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:0.78rem;cursor:pointer;transition:all 0.2s;text-decoration:none;color:rgba(255,255,255,0.6);font-weight:700}
+.f-soc-btn:hover{background:var(--amber);color:#fff}
+.footer-col h4{font-size:0.7rem;color:rgba(255,255,255,0.38);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:1.1rem}
+.footer-col a{display:block;color:rgba(255,255,255,0.55);font-size:0.82rem;text-decoration:none;margin-bottom:0.55rem;transition:color 0.2s}
+.footer-col a:hover{color:#fff}
+.footer-btm{border-top:1px solid rgba(255,255,255,0.08);padding:1.2rem 2.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.footer-btm p{color:rgba(255,255,255,0.28);font-size:0.74rem}
+.f-badges{display:flex;gap:0.5rem}
+.f-badge{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:4px 12px;font-size:0.66rem;color:rgba(255,255,255,0.45);font-weight:600;letter-spacing:0.5px}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .plans-hero{grid-template-columns:1fr}
+  .hero-img-col{display:none}
+  .hero-text-col{padding:4rem 2.5rem}
+  .plan-hdr{grid-template-columns:1fr}
+  .phdr-img{height:220px}
+  .sub-strip{grid-template-columns:1fr}
+  .ss-img{display:none}
+  .ss-actions{flex-direction:row;min-width:auto}
+}
+@media(max-width:900px){
+  .steps{grid-template-columns:repeat(2,1fr)}
+  .steps-line{display:none}
+  .ap-grid{grid-template-columns:repeat(2,1fr)}
+  .day-grid{grid-template-columns:repeat(2,1fr)}
+  .box-grid{grid-template-columns:1fr}
+  .testi-grid{grid-template-columns:1fr 1fr}
+  .footer-top{grid-template-columns:1fr 1fr}
+}
+@media(max-width:600px){
+  nav{padding:0 1rem}
+  .nav-links{display:none}
+  
+  .plans-wrap{padding:2.5rem 1.2rem}
+  .plan-tabs{gap:0.4rem}
+  .plan-tab{padding:0.55rem 0.9rem;font-size:0.78rem}
+  .ap-grid{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr}
+  .day-grid{grid-template-columns:repeat(2,1fr)}
+  .di-img{height:108px}
+  .testi-grid{grid-template-columns:1fr}
+  .footer-top{grid-template-columns:1fr}
+  .ss-actions{flex-direction:column}
+  .all-plans{padding:2.5rem 1.2rem}
+  .faq{padding:2.5rem 1.2rem}
+  .testis{padding:2.5rem 1.2rem}
+}
+
+/* ── NNT MOBILE DRAWER ── */
+.nnt-nav-toggle{display:none;background:none;border:none;cursor:pointer;padding:0.5rem;flex-direction:column;gap:5px;align-items:center;justify-content:center}
+.nnt-nav-toggle span{display:block;width:22px;height:2.5px;background:#F5D5A0;border-radius:2px;transition:all 0.3s}
+.nnt-nav-toggle.open span:nth-child(1){transform:translateY(7.5px) rotate(45deg)}
+.nnt-nav-toggle.open span:nth-child(2){opacity:0}
+.nnt-nav-toggle.open span:nth-child(3){transform:translateY(-7.5px) rotate(-45deg)}
+.nnt-mobile-drawer{position:fixed;top:0;right:-80%;width:78%;max-width:300px;height:100vh;background:var(--brown);z-index:1000;display:flex;flex-direction:column;transition:right 0.3s ease;box-shadow:-6px 0 32px rgba(0,0,0,0.45)}
+.nnt-mobile-drawer.open{right:0}
+.nnt-drawer-head{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.2rem;border-bottom:1px solid rgba(255,255,255,0.1);margin-bottom:0.3rem}
+.nnt-drawer-logo{font-family:'Playfair Display',serif;font-size:1.6rem;color:#F5D5A0;text-decoration:none}
+.nnt-drawer-logo span{color:#8BC34A}
+.nnt-drawer-close{background:rgba(255,255,255,0.12);border:none;color:#fff;width:32px;height:32px;border-radius:50%;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1}
+.nnt-mobile-drawer a{display:flex;align-items:center;gap:0.8rem;padding:0.9rem 1.4rem;color:rgba(255,255,255,0.75);font-size:0.94rem;font-weight:500;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.06);transition:all 0.2s}
+.nnt-mobile-drawer a:hover,.nnt-mobile-drawer a.active{background:rgba(200,131,42,0.18);color:#F5D5A0}
+.nnt-mobile-drawer a.active{border-left:3px solid var(--amber)}
+.nnt-mobile-drawer a img{width:18px;height:18px;filter:brightness(0) invert(1) opacity(0.7)}
+.nnt-mobile-drawer a:hover img,.nnt-mobile-drawer a.active img{filter:brightness(0) invert(1)}
+.nnt-drawer-logout{margin-top:auto!important;border-top:1px solid rgba(255,255,255,0.12)!important;border-bottom:none!important;color:#e05252!important}
+.nnt-drawer-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:999}
+.nnt-drawer-overlay.open{display:block}
+@media(max-width:640px){
+  .nnt-nav-toggle{display:flex}
+  .nav-links{display:none!important}
+}
+</style>
+</head>
+<body>
+
+<!-- SVG ICON DEFS (reusable) -->
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <symbol id="icon-box" viewBox="0 0 24 24">
+      <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/>
+      <path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/>
+    </symbol>
+    <symbol id="icon-rotate" viewBox="0 0 24 24">
+      <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+      <path d="M3 3v5h5"/>
+    </symbol>
+    <symbol id="icon-seed" viewBox="0 0 24 24">
+      <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/>
+      <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
+    </symbol>
+    <symbol id="icon-truck" viewBox="0 0 24 24">
+      <path d="M5 17H3a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v3"/>
+      <rect width="7" height="7" x="14" y="10" rx="1"/>
+      <path d="M5 17a2 2 0 1 0 4 0 2 2 0 0 0-4 0Z"/>
+      <path d="M16 17a2 2 0 1 0 4 0 2 2 0 0 0-4 0Z"/>
+    </symbol>
+    <symbol id="icon-check" viewBox="0 0 24 24">
+      <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10Z"/>
+      <path d="m9 12 2 2 4-4"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="logo">Nuts<span>N</span>Treat</a>
+  <div class="nav-links">
+    <a href="index.html"><img src="https://cdn.jsdelivr.net/npm/lucide-static@0.383.0/icons/home.svg" alt="">Home</a>
+    <a href="shop.html"><img src="https://cdn.jsdelivr.net/npm/lucide-static@0.383.0/icons/shopping-bag.svg" alt="">Shop</a>
+    <a href="Dailyplans.html" class="active"><img src="https://cdn.jsdelivr.net/npm/lucide-static@0.383.0/icons/calendar-days.svg" alt="">Daily Plans</a>
+    <a href="index.html#about"><img src="https://cdn.jsdelivr.net/npm/lucide-static@0.383.0/icons/info.svg" alt="">About</a>
+    <a href="contact.html"><img src="https://cdn.jsdelivr.net/npm/lucide-static@0.383.0/icons/mail.svg" alt="">Contact</a>
+    <a href="profile.html"><img src="https://cdn.jsdelivr.net/npm/lucide-static@0.383.0/icons/user.svg" alt="">Profile</a>
+    <a href="cart.html" class="nav-cart"><img src="https://cdn.jsdelivr.net/npm/lucide-static@0.383.0/icons/shopping-cart.svg" alt="" style="filter:brightness(0) invert(1)">Cart <span class="cart-badge" id="cart-count">0</span></a>
+  </div>
+  <button class="nnt-nav-toggle" id="nnt-toggle" onclick="_nntToggleNav()" aria-label="Open menu"><span></span><span></span><span></span></button>
+</nav>
+<div class="nnt-drawer-overlay" id="nnt-overlay" onclick="_nntCloseNav()"></div>
+<div class="nnt-mobile-drawer" id="nnt-drawer">
+  <div class="nnt-drawer-head">
+    <img src="../../assests/img/high-resolution-color-logo-removebg-preview.png"
+       alt="Nuts N Treat Logo"
+        style="height: 40px; width: auto; object-fit: contain;"
+     />
+    <button class="nnt-drawer-close" onclick="_nntCloseNav()">&#x2715;</button>
+  </div>
+  <a href="index.html"><img src="https://cdn.jsdelivr.net/npm/lucide-static@0.383.0/icons/home.svg" alt="">Home</a>
+  <a href="shop.html"><img src="https://cdn.jsdelivr.net/npm/lucide-static@0.383.0/icons/shopping-bag.svg" alt="">Shop</a>
+  <a href="Dailyplans.html" class="active"><img src="https://cdn.jsdelivr.net/npm/lucide-static@0.383.0/icons/calendar.svg" alt="">Daily Plans</a>
+  <a href="wishlist.html"><img src="https://cdn.jsdelivr.net/npm/lucide-static@0.383.0/icons/heart.svg" alt="">Wishlist</a>
+  <a href="cart.html"><img src="https://cdn.jsdelivr.net/npm/lucide-static@0.383.0/icons/shopping-cart.svg" alt="">Cart</a>
+  <a href="contact.html"><img src="https://cdn.jsdelivr.net/npm/lucide-static@0.383.0/icons/mail.svg" alt="">Contact</a>
+  <a href="profile.html"><img src="https://cdn.jsdelivr.net/npm/lucide-static@0.383.0/icons/user.svg" alt="">Profile</a>
+  <a href="#" class="nnt-drawer-logout" onclick="(typeof doLogout!=='undefined'?doLogout():(window.location.href='login.html'));return false;"><img src="https://cdn.jsdelivr.net/npm/lucide-static@0.383.0/icons/log-out.svg" alt="">Log Out</a>
+</div>
+
+<!-- HERO -->
+<section class="plans-hero">
+  <div class="hero-img-col">
+    <img src="https://copilot.microsoft.com/th/id/BCO.74b60ff5-e3cc-476b-9e4a-952eb2ad7dbc.png" alt="Premium Dry Fruits">
+  </div>
+  <div class="hero-text-col">
+    <div class="hero-badge">New — Daily Home Delivery</div>
+    <h1>Your Daily Box,<br><em>Curated for You</em></h1>
+    <p>Pay once a month. Receive a fresh box of 4 premium items at your door every day — tailored to your lifestyle, with a 7-day rotating menu that never repeats.</p>
+    <div class="hero-pills">
+      <span class="hero-pill">Home Delivery</span>
+      <span class="hero-pill">7-Day Rotation</span>
+      <span class="hero-pill">4 Items Daily</span>
+      <span class="hero-pill">Morning or Evening</span>
+      <span class="hero-pill">1 Seed Per Day</span>
+    </div>
+    <div class="hero-btns">
+      <a href="#plans" class="btn-gold">Choose Your Plan →</a>
+      <a href="#how-it-works" class="btn-ghost">How It Works</a>
+    </div>
+  </div>
+</section>
+
+<!-- STAT STRIP -->
+<div class="stat-strip">
+  <div class="stat-item"><div class="stat-num">4</div><div class="stat-lbl">Plan Types</div></div>
+  <div class="stat-item"><div class="stat-num">4</div><div class="stat-lbl">Items Per Day</div></div>
+  <div class="stat-item"><div class="stat-num">7</div><div class="stat-lbl">Day Rotation</div></div>
+  <div class="stat-item"><div class="stat-num">30</div><div class="stat-lbl">Days Monthly</div></div>
+  <div class="stat-item"><div class="stat-num">1</div><div class="stat-lbl">Seed Per Box</div></div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section class="hiw" id="how-it-works">
+  <div class="hiw-inner">
+    <div class="section-hdr">
+      <div class="section-tag">Simple Process</div>
+      <h2>How Your Daily Box Works</h2>
+      <p>From choosing your plan to receiving your box at the door — completely effortless</p>
+    </div>
+    <div class="steps">
+      <div class="steps-line"></div>
+      <div class="step">
+        <div class="step-photo"><span class="step-num">01</span></div>
+        <div class="step-title">Choose Your Plan</div>
+        <div class="step-desc">Pick from Children, Gym, Senior Wellness, or Office — each curated for your specific daily needs.</div>
+      </div>
+      <div class="step">
+        <div class="step-photo"><span class="step-num">02</span></div>
+        <div class="step-title">Pick Your Slot</div>
+        <div class="step-desc">Choose morning (7–10 AM) or evening (5–8 PM). We deliver at your preferred time daily.</div>
+      </div>
+      <div class="step">
+        <div class="step-photo"><span class="step-num">03</span></div>
+        <div class="step-title">Pay Monthly</div>
+        <div class="step-desc">One simple payment per month. No hidden charges, no lock-in. Cancel anytime.</div>
+      </div>
+      <div class="step">
+        <div class="step-photo"><span class="step-num">04</span></div>
+        <div class="step-title">Receive Daily</div>
+        <div class="step-desc">Your 4-item box arrives fresh every day. The 7-day cycle keeps it different all month.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PLAN TABS -->
+<div class="plans-wrap" id="plans">
+  <div class="section-hdr">
+    <div class="section-tag">Your Lifestyle Plan</div>
+    <h2>Explore Each Daily Box</h2>
+    <p>Select your category to see the full 7-day schedule and what arrives every day</p>
+  </div>
+  <div class="plan-tabs">
+    <!-- FIX: wrap tab-avatar img in .tab-avatar-wrap div for proper circle clipping -->
+    <button class="plan-tab active" onclick="switchPlan('children',this)">
+      <div class="tab-avatar-wrap"><img class="tab-avatar" src="https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=100&q=80" alt="Children"></div>
+      Children's Box
+    </button>
+    <button class="plan-tab" onclick="switchPlan('gym',this)">
+      <div class="tab-avatar-wrap"><img class="tab-avatar" src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=100&q=80" alt="Gym"></div>
+      Gym Power Box
+    </button>
+    <button class="plan-tab" onclick="switchPlan('senior',this)">
+      <div class="tab-avatar-wrap"><img class="tab-avatar" src="https://copilot.microsoft.com/th/id/BCO.0f431f43-0526-4b45-a0b7-f6ecb130eaea.png" alt="Senior"></div>
+      Senior Wellness
+    </button>
+    <button class="plan-tab" onclick="switchPlan('office',this)">
+      <div class="tab-avatar-wrap"><img class="tab-avatar" src="https://copilot.microsoft.com/th/id/BCO.96f9a44e-2a25-483f-ad79-f5ed0c30c3a3.png" alt="Office"></div>
+      Office Focus Box
+    </button>
+  </div>
+
+  <!-- CHILDREN PANEL -->
+  <div class="plan-panel active" id="panel-children">
+    <div class="plan-hdr">
+      <div class="phdr-img"><img src="https://copilot.microsoft.com/th/id/BCO.4dabe075-9c6b-44f2-97f0-24e716b199ee.png" alt="Children Box"></div>
+      <div class="phdr-body">
+        <h2>Children's <em>Daily Box</em></h2>
+        <p>Brain-boosting, energy-rich dry fruits and nuts — perfectly portioned for growing kids. No added sugar, no artificial flavours. Just nature's best snacks children love.</p>
+        <div class="plan-tags">
+          <span class="plan-tag">Brain Boost</span><span class="plan-tag">Energy Rich</span><span class="plan-tag">No Additives</span><span class="plan-tag">Kid-Sized</span>
+        </div>
+        <div class="price-row">
+          <div><div class="price-big"><span id="price-children">—</span></div><div class="price-note">per month · 4 items daily</div></div>
+          <div style="text-align:right"><div class="save-pill">BEST FOR KIDS</div><div style="font-size:0.68rem;color:rgba(255,255,255,0.32);margin-top:2px">30-day cycle</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="box-grid">
+      <div class="box-card">
+        <h3>Choose Delivery Slot</h3>
+        <p class="sub">Pick the time your box arrives every day</p>
+        <div class="slot-grid">
+          <div class="slot-opt on" onclick="selectSlot(this,'children','morning')">
+            <div class="slot-img"><img src="https://copilot.microsoft.com/th/id/BCO.a78c8b05-a557-4067-a31a-e1f124d2ec13.png" alt="Morning"></div>
+            <div class="slot-body"><div class="slot-name">Morning</div><div class="slot-time">7:00 – 10:00 AM</div></div>
+          </div>
+          <div class="slot-opt" onclick="selectSlot(this,'children','evening')">
+            <div class="slot-img"><img src="https://copilot.microsoft.com/th/id/BCO.583b8ef7-9e24-4c31-827a-cfeed53cc3a3.png" alt="Evening"></div>
+            <div class="slot-body"><div class="slot-name">Evening</div><div class="slot-time">5:00 – 8:00 PM</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="box-card">
+        <h3>What You Get Every Day</h3>
+        <p class="sub">Included in every Children's Box</p>
+        <div class="perks">
+          <div class="perk"><div class="perk-icon"><svg><use href="#icon-box"/></svg></div>4 items freshly packed daily</div>
+          <div class="perk"><div class="perk-icon"><svg><use href="#icon-rotate"/></svg></div>7-day rotation, repeats each week</div>
+          <div class="perk"><div class="perk-icon"><svg><use href="#icon-seed"/></svg></div>Exactly 1 seed item per box</div>
+          <div class="perk"><div class="perk-icon"><svg><use href="#icon-truck"/></svg></div>Delivered straight to your door</div>
+          <div class="perk"><div class="perk-icon"><svg><use href="#icon-check"/></svg></div>Cancel anytime, no lock-in</div>
+        </div>
+      </div>
+    </div>
+    <div class="sched-card">
+      <h3>7-Day Rotation Schedule</h3>
+      <p class="sub">Tap a day to preview what arrives in the box — repeats every week all month</p>
+      <div class="day-tabs" id="days-children">
+        <button class="day-tab active" onclick="switchDay('children',1,this)">Day 1</button>
+        <button class="day-tab" onclick="switchDay('children',2,this)">Day 2</button>
+        <button class="day-tab" onclick="switchDay('children',3,this)">Day 3</button>
+        <button class="day-tab" onclick="switchDay('children',4,this)">Day 4</button>
+        <button class="day-tab" onclick="switchDay('children',5,this)">Day 5</button>
+        <button class="day-tab" onclick="switchDay('children',6,this)">Day 6</button>
+        <button class="day-tab" onclick="switchDay('children',7,this)">Day 7</button>
+      </div>
+      <p class="day-hint">Green label = Seed item · Only 1 seed per box · Cycle repeats from Day 1 after Day 7</p>
+      <div class="day-grid" id="schedule-children"></div>
+    </div>
+    <div class="sub-strip">
+      <div class="ss-img"><img src="https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=400&q=80" alt="Children"></div>
+      <div class="ss-body">
+        <h3>Subscribe to Children's Box</h3>
+        <p>Home delivery · ₹ — per month · 4 items every day · 30-day cycle · Cancel anytime</p>
+      </div>
+      <div class="ss-actions">
+        <select class="slot-sel" id="slot-children"><option value="morning">Morning (7–10 AM)</option><option value="evening">Evening (5–8 PM)</option></select>
+        <button class="btn-sub" onclick="subscribe('Children')">Subscribe Now →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- GYM PANEL -->
+  <div class="plan-panel" id="panel-gym">
+    <div class="plan-hdr">
+      <div class="phdr-img"><img src="https://copilot.microsoft.com/th/id/BCO.f92b045b-72f8-4a6c-8068-118217b088a1.png" alt="Gym Box"></div>
+      <div class="phdr-body">
+        <h2>Gym Members' <em>Power Box</em></h2>
+        <p>High-protein, muscle-recovery focused nuts and dry fruits. Designed around your workout schedule — nature's performance snacks to fuel your training.</p>
+        <div class="plan-tags">
+          <span class="plan-tag">High Protein</span><span class="plan-tag">Pre-Workout</span><span class="plan-tag">Post-Recovery</span><span class="plan-tag">Energy Dense</span>
+        </div>
+        <div class="price-row">
+          <div><div class="price-big"><span id="price-gym">—</span></div><div class="price-note">per month · 4 items daily</div></div>
+          <div style="text-align:right"><div class="save-pill">BEST FOR FITNESS</div><div style="font-size:0.68rem;color:rgba(255,255,255,0.32);margin-top:2px">30-day cycle</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="box-grid">
+      <div class="box-card">
+        <h3>Choose Delivery Slot</h3>
+        <p class="sub">Morning recommended for pre-workout fuel</p>
+        <div class="slot-grid">
+          <div class="slot-opt on" onclick="selectSlot(this,'gym','morning')">
+            <div class="slot-img"><img src="https://copilot.microsoft.com/th/id/BCO.a78c8b05-a557-4067-a31a-e1f124d2ec13.png" alt="Morning"></div>
+            <div class="slot-body"><div class="slot-name">Morning</div><div class="slot-time">7:00 – 10:00 AM</div></div>
+          </div>
+          <div class="slot-opt" onclick="selectSlot(this,'gym','evening')">
+            <div class="slot-img"><img src="https://copilot.microsoft.com/th/id/BCO.583b8ef7-9e24-4c31-827a-cfeed53cc3a3.png" alt="Evening"></div>
+            <div class="slot-body"><div class="slot-name">Evening</div><div class="slot-time">5:00 – 8:00 PM</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="box-card">
+        <h3>What You Get Every Day</h3>
+        <p class="sub">Included in every Gym Power Box</p>
+        <div class="perks">
+          <div class="perk"><div class="perk-icon"><svg><use href="#icon-box"/></svg></div>4 items freshly packed daily</div>
+          <div class="perk"><div class="perk-icon"><svg><use href="#icon-rotate"/></svg></div>7-day rotation, repeats each week</div>
+          <div class="perk"><div class="perk-icon"><svg><use href="#icon-seed"/></svg></div>Exactly 1 seed item per box</div>
+          <div class="perk"><div class="perk-icon"><svg><use href="#icon-truck"/></svg></div>Delivered straight to your door</div>
+          <div class="perk"><div class="perk-icon"><svg><use href="#icon-check"/></svg></div>Cancel anytime, no lock-in</div>
+        </div>
+      </div>
+    </div>
+    <div class="sched-card">
+      <h3>7-Day Rotation Schedule</h3>
+      <p class="sub">Tap a day to preview what arrives in the box — repeats every week all month</p>
+      <div class="day-tabs" id="days-gym">
+        <button class="day-tab active" onclick="switchDay('gym',1,this)">Day 1</button>
+        <button class="day-tab" onclick="switchDay('gym',2,this)">Day 2</button>
+        <button class="day-tab" onclick="switchDay('gym',3,this)">Day 3</button>
+        <button class="day-tab" onclick="switchDay('gym',4,this)">Day 4</button>
+        <button class="day-tab" onclick="switchDay('gym',5,this)">Day 5</button>
+        <button class="day-tab" onclick="switchDay('gym',6,this)">Day 6</button>
+        <button class="day-tab" onclick="switchDay('gym',7,this)">Day 7</button>
+      </div>
+      <p class="day-hint">Green label = Seed item · Only 1 seed per box · Cycle repeats from Day 1 after Day 7</p>
+      <div class="day-grid" id="schedule-gym"></div>
+    </div>
+    <div class="sub-strip">
+      <div class="ss-img"><img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&q=80" alt="Gym"></div>
+      <div class="ss-body">
+        <h3>Subscribe to Gym Power Box</h3>
+        <p>Home delivery · ₹ — per month · 4 items every day · 30-day cycle · Cancel anytime</p>
+      </div>
+      <div class="ss-actions">
+        <select class="slot-sel" id="slot-gym"><option value="morning">Morning (7–10 AM)</option><option value="evening">Evening (5–8 PM)</option></select>
+        <button class="btn-sub" onclick="subscribe('Gym Power')">Subscribe Now →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SENIOR PANEL -->
+  <div class="plan-panel" id="panel-senior">
+    <div class="plan-hdr">
+      <div class="phdr-img"><img src="https://copilot.microsoft.com/th/id/BCO.06a7c797-8232-4ae1-b106-879a44117a5c.png" alt="Senior Box"></div>
+      <div class="phdr-body">
+        <h2>Senior <em>Wellness Box</em></h2>
+        <p>Heart-healthy, bone-strengthening and digestion-friendly items for seniors. Gentle portions and ingredients proven to support healthy ageing every day.</p>
+        <div class="plan-tags">
+          <span class="plan-tag">Heart Health</span><span class="plan-tag">Bone Strength</span><span class="plan-tag">Digestion</span><span class="plan-tag">Low Sodium</span>
+        </div>
+        <div class="price-row">
+          <div><div class="price-big"><span id="price-senior">—</span></div><div class="price-note">per month · 4 items daily</div></div>
+          <div style="text-align:right"><div class="save-pill">SENIOR CARE</div><div style="font-size:0.68rem;color:rgba(255,255,255,0.32);margin-top:2px">30-day cycle</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="box-grid">
+      <div class="box-card">
+        <h3>Choose Delivery Slot</h3>
+        <p class="sub">Morning suits daily wellness routines best</p>
+        <div class="slot-grid">
+          <div class="slot-opt on" onclick="selectSlot(this,'senior','morning')">
+            <div class="slot-img"><img src="https://copilot.microsoft.com/th/id/BCO.a78c8b05-a557-4067-a31a-e1f124d2ec13.png" alt="Morning"></div>
+            <div class="slot-body"><div class="slot-name">Morning</div><div class="slot-time">7:00 – 10:00 AM</div></div>
+          </div>
+          <div class="slot-opt" onclick="selectSlot(this,'senior','evening')">
+            <div class="slot-img"><img src="https://copilot.microsoft.com/th/id/BCO.583b8ef7-9e24-4c31-827a-cfeed53cc3a3.png" alt="Evening"></div>
+            <div class="slot-body"><div class="slot-name">Evening</div><div class="slot-time">5:00 – 8:00 PM</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="box-card">
+        <h3>What You Get Every Day</h3>
+        <p class="sub">Included in every Senior Wellness Box</p>
+        <div class="perks">
+          <div class="perk"><div class="perk-icon"><svg><use href="#icon-box"/></svg></div>4 items freshly packed daily</div>
+          <div class="perk"><div class="perk-icon"><svg><use href="#icon-rotate"/></svg></div>7-day rotation, repeats each week</div>
+          <div class="perk"><div class="perk-icon"><svg><use href="#icon-seed"/></svg></div>Exactly 1 seed item per box</div>
+          <div class="perk"><div class="perk-icon"><svg><use href="#icon-truck"/></svg></div>Delivered straight to your door</div>
+          <div class="perk"><div class="perk-icon"><svg><use href="#icon-check"/></svg></div>Cancel anytime, no lock-in</div>
+        </div>
+      </div>
+    </div>
+    <div class="sched-card">
+      <h3>7-Day Rotation Schedule</h3>
+      <p class="sub">Tap a day to preview what arrives in the box — repeats every week all month</p>
+      <div class="day-tabs" id="days-senior">
+        <button class="day-tab active" onclick="switchDay('senior',1,this)">Day 1</button>
+        <button class="day-tab" onclick="switchDay('senior',2,this)">Day 2</button>
+        <button class="day-tab" onclick="switchDay('senior',3,this)">Day 3</button>
+        <button class="day-tab" onclick="switchDay('senior',4,this)">Day 4</button>
+        <button class="day-tab" onclick="switchDay('senior',5,this)">Day 5</button>
+        <button class="day-tab" onclick="switchDay('senior',6,this)">Day 6</button>
+        <button class="day-tab" onclick="switchDay('senior',7,this)">Day 7</button>
+      </div>
+      <p class="day-hint">Green label = Seed item · Only 1 seed per box · Cycle repeats from Day 1 after Day 7</p>
+      <div class="day-grid" id="schedule-senior"></div>
+    </div>
+    <div class="sub-strip">
+      <div class="ss-img"><img src="https://copilot.microsoft.com/th/id/BCO.7eb857ff-b31e-492b-a7fb-dc1e8edc88a2.png" alt="Senior"></div>
+      <div class="ss-body">
+        <h3>Subscribe to Senior Wellness Box</h3>
+        <p>Home delivery · ₹ — per month · 4 items every day · 30-day cycle · Cancel anytime</p>
+      </div>
+      <div class="ss-actions">
+        <select class="slot-sel" id="slot-senior"><option value="morning">Morning (7–10 AM)</option><option value="evening">Evening (5–8 PM)</option></select>
+        <button class="btn-sub" onclick="subscribe('Senior Wellness')">Subscribe Now →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- OFFICE PANEL -->
+  <div class="plan-panel" id="panel-office">
+    <div class="plan-hdr">
+      <div class="phdr-img"><img src="https://copilot.microsoft.com/th/id/BCO.adea6f3a-660c-44eb-9677-fe919e536998.png" alt="Office Box"></div>
+      <div class="phdr-body">
+        <h2>Office Workers' <em>Focus Box</em></h2>
+        <p>Beat the afternoon slump with focus-boosting, stress-busting dry fruit combos. Quick, mess-free, and ready to eat at your desk — clean brain fuel for your workday.</p>
+        <div class="plan-tags">
+          <span class="plan-tag">Focus Boost</span><span class="plan-tag">Stress Relief</span><span class="plan-tag">Quick Energy</span><span class="plan-tag">Desk Friendly</span>
+        </div>
+        <div class="price-row">
+          <div><div class="price-big"><span id="price-office">—</span></div><div class="price-note">per month · 4 items daily</div></div>
+          <div style="text-align:right"><div class="save-pill">OFFICE FAVOURITE</div><div style="font-size:0.68rem;color:rgba(255,255,255,0.32);margin-top:2px">30-day cycle</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="box-grid">
+      <div class="box-card">
+        <h3>Choose Delivery Slot</h3>
+        <p class="sub">Morning means snacks ready before you leave</p>
+        <div class="slot-grid">
+          <div class="slot-opt on" onclick="selectSlot(this,'office','morning')">
+            <div class="slot-img"><img src="https://copilot.microsoft.com/th/id/BCO.a78c8b05-a557-4067-a31a-e1f124d2ec13.png" alt="Morning"></div>
+            <div class="slot-body"><div class="slot-name">Morning</div><div class="slot-time">7:00 – 10:00 AM</div></div>
+          </div>
+          <div class="slot-opt" onclick="selectSlot(this,'office','evening')">
+            <div class="slot-img"><img src="https://copilot.microsoft.com/th/id/BCO.583b8ef7-9e24-4c31-827a-cfeed53cc3a3.png" alt="Evening"></div>
+            <div class="slot-body"><div class="slot-name">Evening</div><div class="slot-time">5:00 – 8:00 PM</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="box-card">
+        <h3>What You Get Every Day</h3>
+        <p class="sub">Included in every Office Focus Box</p>
+        <div class="perks">
+          <div class="perk"><div class="perk-icon"><svg><use href="#icon-box"/></svg></div>4 items freshly packed daily</div>
+          <div class="perk"><div class="perk-icon"><svg><use href="#icon-rotate"/></svg></div>7-day rotation, repeats each week</div>
+          <div class="perk"><div class="perk-icon"><svg><use href="#icon-seed"/></svg></div>Exactly 1 seed item per box</div>
+          <div class="perk"><div class="perk-icon"><svg><use href="#icon-truck"/></svg></div>Delivered straight to your door</div>
+          <div class="perk"><div class="perk-icon"><svg><use href="#icon-check"/></svg></div>Cancel anytime, no lock-in</div>
+        </div>
+      </div>
+    </div>
+    <div class="sched-card">
+      <h3>7-Day Rotation Schedule</h3>
+      <p class="sub">Tap a day to preview what arrives in the box — repeats every week all month</p>
+      <div class="day-tabs" id="days-office">
+        <button class="day-tab active" onclick="switchDay('office',1,this)">Day 1</button>
+        <button class="day-tab" onclick="switchDay('office',2,this)">Day 2</button>
+        <button class="day-tab" onclick="switchDay('office',3,this)">Day 3</button>
+        <button class="day-tab" onclick="switchDay('office',4,this)">Day 4</button>
+        <button class="day-tab" onclick="switchDay('office',5,this)">Day 5</button>
+        <button class="day-tab" onclick="switchDay('office',6,this)">Day 6</button>
+        <button class="day-tab" onclick="switchDay('office',7,this)">Day 7</button>
+      </div>
+      <p class="day-hint">Green label = Seed item · Only 1 seed per box · Cycle repeats from Day 1 after Day 7</p>
+      <div class="day-grid" id="schedule-office"></div>
+    </div>
+    <div class="sub-strip">
+      <div class="ss-img"><img src="https://copilot.microsoft.com/th/id/BCO.96f9a44e-2a25-483f-ad79-f5ed0c30c3a3.png" alt="Office"></div>
+      <div class="ss-body">
+        <h3>Subscribe to Office Focus Box</h3>
+        <p>Home delivery · ₹ — per month · 4 items every day · 30-day cycle · Cancel anytime</p>
+      </div>
+      <div class="ss-actions">
+        <select class="slot-sel" id="slot-office"><option value="morning">Morning (7–10 AM)</option><option value="evening">Evening (5–8 PM)</option></select>
+        <button class="btn-sub" onclick="subscribe('Office Focus')">Subscribe Now →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ALL PLANS -->
+<section class="all-plans">
+  <div class="ap-inner">
+    <div class="section-hdr">
+      <div class="section-tag" style="background:rgba(200,131,42,0.18);color:var(--amber-light)">Compare Plans</div>
+      <h2>All Daily Box Plans</h2>
+      <p>Every plan delivers 4 items per day with exactly 1 seed — built for your lifestyle</p>
+    </div>
+    <div class="ap-grid">
+      <div class="ap-card">
+        <div class="ap-img"><img src="https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=500&q=80" alt="Children"><div class="ap-overlay"></div></div>
+        <div class="ap-body">
+          <div class="ap-name">Children's Box</div>
+          <div class="ap-desc">Brain-boosting, energy-rich snacks kids love. No sugar, no additives.</div>
+          <div class="ap-price"><span class="pv" id="ap-price-children">₹ —</span><span class="ps"> /month</span></div>
+          <ul class="ap-feats"><li>Almonds, Cashews, Raisins</li><li>Brain-boosting walnuts</li><li>Sweet dates & figs</li><li>1 seed per day (rotating)</li><li>Kid-sized portions</li></ul>
+          <button class="btn-ap" onclick="switchPlan('children',null);document.getElementById('plans').scrollIntoView({behavior:'smooth'})">View Schedule →</button>
+        </div>
+      </div>
+      <div class="ap-card feat">
+        <div class="feat-tag">Popular</div>
+        <div class="ap-img"><img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&q=80" alt="Gym"><div class="ap-overlay"></div></div>
+        <div class="ap-body">
+          <div class="ap-name">Gym Power Box</div>
+          <div class="ap-desc">High-protein power snacks to fuel workouts and aid muscle recovery.</div>
+          <div class="ap-price"><span class="pv" id="ap-price-gym">₹ —</span><span class="ps"> /month</span></div>
+          <ul class="ap-feats"><li>Peanuts, Almonds, Walnuts</li><li>Protein-rich Brazil nuts</li><li>Energy dates & apricots</li><li>1 seed per day (rotating)</li><li>Pre & post-workout picks</li></ul>
+          <button class="btn-ap" onclick="switchPlan('gym',null);document.getElementById('plans').scrollIntoView({behavior:'smooth'})">View Schedule →</button>
+        </div>
+      </div>
+      <div class="ap-card">
+        <div class="ap-img"><img src="https://copilot.microsoft.com/th/id/BCO.7eb857ff-b31e-492b-a7fb-dc1e8edc88a2.png" alt="Senior"><div class="ap-overlay"></div></div>
+        <div class="ap-body">
+          <div class="ap-name">Senior Wellness</div>
+          <div class="ap-desc">Heart-healthy, bone-strengthening items for everyday senior wellbeing.</div>
+          <div class="ap-price"><span class="pv" id="ap-price-senior">₹ —</span><span class="ps"> /month</span></div>
+          <ul class="ap-feats"><li>Walnuts, Figs, Prunes</li><li>Soft pistachios & almonds</li><li>Digestive-friendly raisins</li><li>1 seed per day (rotating)</li><li>Low-sodium selections</li></ul>
+          <button class="btn-ap" onclick="switchPlan('senior',null);document.getElementById('plans').scrollIntoView({behavior:'smooth'})">View Schedule →</button>
+        </div>
+      </div>
+      <div class="ap-card">
+        <div class="ap-img"><img src="https://copilot.microsoft.com/th/id/BCO.96f9a44e-2a25-483f-ad79-f5ed0c30c3a3.png" alt="Office"><div class="ap-overlay"></div></div>
+        <div class="ap-body">
+          <div class="ap-name">Office Focus Box</div>
+          <div class="ap-desc">Focus-boosting, stress-relieving snacks for your busy working day.</div>
+          <div class="ap-price"><span class="pv" id="ap-price-office">₹ —</span><span class="ps"> /month</span></div>
+          <ul class="ap-feats"><li>Mixed nuts trail blend</li><li>Choco-coated cashews</li><li>Energy raisins & dates</li><li>1 seed per day (rotating)</li><li>Mess-free, desk-ready</li></ul>
+          <button class="btn-ap" onclick="switchPlan('office',null);document.getElementById('plans').scrollIntoView({behavior:'smooth'})">View Schedule →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testis">
+  <div class="testis-inner">
+    <div class="section-hdr">
+      <div class="section-tag">Reviews</div>
+      <h2>What Our Subscribers Say</h2>
+      <p>Real customers who receive their daily box every morning</p>
+    </div>
+    <div class="testi-grid">
+      <div class="testi">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">My kids actually look forward to opening their box every morning. The variety keeps them excited and I love that each day is different. Best decision I made for their snacking habits.</p>
+        <div class="testi-author">
+          <!-- FIX: wrap avatar in .testi-avatar-wrap for proper circle clipping -->
+          <div class="testi-avatar-wrap"><img class="testi-avatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80" alt="Priya"></div>
+          <div><div class="testi-name">Priya Sharma</div><div class="testi-plan">Children's Box · Chennai</div></div>
+        </div>
+      </div>
+      <div class="testi">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">As someone who trains 5 days a week, having the right pre-workout snacks delivered daily is a game changer. The nut combinations are perfectly curated for performance.</p>
+        <div class="testi-author">
+          <div class="testi-avatar-wrap"><img class="testi-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80" alt="Arjun"></div>
+          <div><div class="testi-name">Arjun Krishnan</div><div class="testi-plan">Gym Power Box · Bangalore</div></div>
+        </div>
+      </div>
+      <div class="testi">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">I subscribed the Senior Wellness plan for my parents and they absolutely love it. The morning delivery fits their routine perfectly and the portions are just right for them.</p>
+        <div class="testi-author">
+          <div class="testi-avatar-wrap"><img class="testi-avatar" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&q=80" alt="Meera"></div>
+          <div><div class="testi-name">Meera Nair</div><div class="testi-plan">Senior Wellness · Coimbatore</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<div class="faq">
+  <div class="section-hdr">
+    <div class="section-tag">FAQ</div>
+    <h2>Common Questions</h2>
+    <p>Everything you need to know about your Daily Box</p>
+  </div>
+  <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">What if I miss a delivery? <span class="faq-arr">↓</span></div><div class="faq-a">If you're not home, we'll leave the box at your door or with a neighbour. You can also reschedule a delivery up to 10 PM the night before via the app or by contacting us directly.</div></div>
+  <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Why only 1 seed item per day? <span class="faq-arr">↓</span></div><div class="faq-a">Seeds are nutritionally dense and consuming too many types together can be heavy on digestion. We include exactly one seed item per box, rotating daily — so you get the full benefits without overloading.</div></div>
+  <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Can I switch my plan mid-month? <span class="faq-arr">↓</span></div><div class="faq-a">Yes. You can switch your plan category at any time. The change takes effect from the next billing cycle. You can also change your delivery slot anytime for free.</div></div>
+  <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">How does the 7-day rotation work exactly? <span class="faq-arr">↓</span></div><div class="faq-a">We have 7 unique daily combinations. Day 1 differs from Day 2, all the way to Day 7. On Day 8 your box matches Day 1 again — and repeats throughout the month, ensuring variety every day.</div></div>
+  <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Can I pause deliveries when I'm travelling? <span class="faq-arr">↓</span></div><div class="faq-a">Yes. You can pause for up to 15 days per month. Paused days are automatically extended to the next month — you never lose a delivery you paid for.</div></div>
+  <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Are the item weights consistent every day? <span class="faq-arr">↓</span></div><div class="faq-a">Each item is portioned to a standard serve size — typically 30–50g per item. Total box weight varies slightly day to day but is always aligned with your plan's nutritional goals.</div></div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="logo-f">Nuts<span>N</span>Treat</div>
+      <p>Premium dry fruits, artisan trail mixes & curated daily boxes for every lifestyle. Fresh sourced, farm direct.</p>
+      <div class="footer-social">
+        <a class="social-btn" href="#" title="Instagram"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/instagram.svg" alt="Instagram"></a>
+        <a class="social-btn" href="#" title="Facebook"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/facebook.svg" alt="Facebook"></a>
+        <a class="social-btn" href="#" title="WhatsApp"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/whatsapp.svg" alt="WhatsApp"></a>
+        <a class="social-btn" href="#" title="YouTube"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/youtube.svg" alt="YouTube"></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Shop</h4>
+      <a href="shop.html">All Products</a>
+      <a href="index.html#categories">Categories</a>
+      <a href="Dailyplans.html">Daily Plans</a>
+      <a href="#all-plans">Subscriptions</a>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <a href="index.html#about">About Us</a>
+      <a href="contact.html">Contact</a>
+      <a href="#">Blog</a>
+      <a href="#">Careers</a>
+    </div>
+    <div class="footer-col">
+      <h4>Help</h4>
+      <a href="Dailyplans.html">Delivery Info</a>
+      <a href="Dailyplans.html">Returns Policy</a>
+      <a href="Dailyplans.html">Track Order</a>
+      <a href="Dailyplans.html">Privacy Policy</a>
+    </div>
+  </div>
+  <div class="footer-btm">
+    <p>© 2025 NutsNTreat. All rights reserved.</p>
+    <div class="f-badges">
+      <span class="f-badge">100% NATURAL</span>
+      <span class="f-badge">FSSAI CERTIFIED</span>
+      <span class="f-badge">SECURE PAY</span>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"><span id="toast-icon">✅</span><span id="toast-msg"></span></div>
+
+<script>
+const PLAN_META = {
+  'Children':        { price: 1499, img: 'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=300&q=70' },
+  'Gym Power':       { price: 1799, img: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&q=70' },
+  'Senior Wellness': { price: 1399, img: 'https://copilot.microsoft.com/th/id/BCO.7eb857ff-b31e-492b-a7fb-dc1e8edc88a2.png' },
+  'Office Focus':    { price: 1299, img: 'https://copilot.microsoft.com/th/id/BCO.96f9a44e-2a25-483f-ad79-f5ed0c30c3a3.png' },
+};
+
+(function injectPrices() {
+  const map = {
+    'price-children':    PLAN_META['Children'].price,
+    'price-gym':         PLAN_META['Gym Power'].price,
+    'price-senior':      PLAN_META['Senior Wellness'].price,
+    'price-office':      PLAN_META['Office Focus'].price,
+    'ap-price-children': PLAN_META['Children'].price,
+    'ap-price-gym':      PLAN_META['Gym Power'].price,
+    'ap-price-senior':   PLAN_META['Senior Wellness'].price,
+    'ap-price-office':   PLAN_META['Office Focus'].price,
+  };
+  function doInject() {
+    Object.entries(map).forEach(([id, price]) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = '₹' + price.toLocaleString('en-IN');
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', doInject);
+  } else {
+    doInject();
+  }
+})();
+
+async function subscribe(planName) {
+  const slotKey   = planName === 'Children'       ? 'children'
+                  : planName === 'Gym Power'       ? 'gym'
+                  : planName === 'Senior Wellness' ? 'senior'
+                  : 'office';
+  const slotEl    = document.getElementById('slot-' + slotKey);
+  const slot      = slotEl ? slotEl.value : 'morning';
+  const slotLabel = slot === 'morning' ? 'Morning (7–10 AM)' : 'Evening (5–8 PM)';
+  const meta      = PLAN_META[planName] || { price: 1499, img: '' };
+
+  const subItem = {
+    id:             'sub_' + slotKey,
+    name:           planName + ' Box – Daily Plan',
+    price:          meta.price,
+    img:            meta.img,
+    qty:            1,
+    weight:         '4 items/day · 30-day cycle · ' + slotLabel,
+    cat:            'Subscription',
+    isSubscription: true,
+    plan:           planName,
+    slot:           slotLabel,
+  };
+
+  localStorage.setItem('nnt_pending_cart_item', JSON.stringify(subItem));
+
+  try {
+    const session = JSON.parse(localStorage.getItem('nnt_session') || 'null');
+    const headers = { 'Content-Type': 'application/json' };
+    if (session && session.token) headers['Authorization'] = 'Bearer ' + session.token;
+    await fetch('http://localhost:5000/api/subscriptions', {
+      method: 'POST', headers,
+      body: JSON.stringify({
+        plan:         planName + ' Box',
+        price:        meta.price,
+        deliverySlot: slotLabel,
+        deliveryDay:  1,
+        status:       'Pending',
+        customerName: session?.user?.name  || 'Guest',
+        email:        session?.user?.email || '',
+        phone:        session?.user?.phone || '',
+        user:         session?.user?.id    || null,
+      }),
+    });
+  } catch(e) {
+    console.warn('[NNT] Backend save skipped:', e.message);
+  }
+
+  showToast('🛒', `${planName} Box added to cart! Redirecting...`);
+  setTimeout(() => { window.location.href = 'cart.html'; }, 950);
+}
+
+const IMGS = {
+  'California Almonds':'https://images.unsplash.com/photo-1508061253366-f7da158b6d46?w=400&q=80',
+  'Golden Raisins':'https://www.mashed.com/img/gallery/what-are-golden-raisins-and-what-do-they-taste-like/intro-1616084168.jpg',
+  'Cashew Kernels':'https://copilot.microsoft.com/th/id/BCO.069dfcd4-da68-4536-80bf-06b05c6561ff.png',
+  'Sunflower Seeds':'https://copilot.microsoft.com/th/id/BCO.9b321241-3ae4-4016-bc7d-9030a666547f.png',
+  'Roasted Peanuts':'https://copilot.microsoft.com/th/id/BCO.2993cb28-0615-4dc0-b8a8-2531e1fa27c8.png',
+  'Dried Apricots':'https://copilot.microsoft.com/th/id/BCO.ac07018c-c219-4a98-acfb-c72f920a0a4f.png',
+  'Pistachio Kernels':'https://iranforworld.com/wp-content/uploads/2024/11/iranian-pistachios-3.jpg',
+  'Pumpkin Seeds':'https://copilot.microsoft.com/th/id/BCO.b0727488-f01b-4980-a97d-bb9d65a2bcc8.png',
+  'Walnuts':'https://copilot.microsoft.com/th/id/BCO.4779cb4e-3844-4233-bdf7-b5bb3882d6cf.png',
+  'Medjool Dates':'https://copilot.microsoft.com/th/id/BCO.ba6c8dc2-96d0-4421-9609-c5e79392e3c6.png',
+  'Honey Almonds':'https://copilot.microsoft.com/th/id/BCO.2d382ea8-46aa-4304-8814-1078907d544d.png',
+  'Flax Seeds':'https://copilot.microsoft.com/th/id/BCO.9d76f22c-26d6-45b0-8aa1-46a4f2bb6d4e.png',
+  'Cashew Halves':'https://copilot.microsoft.com/th/id/BCO.95f384ee-4ef9-4d9f-bd36-f68ce219659e.png',
+  'Dried Cranberries':'https://copilot.microsoft.com/th/id/BCO.aef5e04f-cc9c-4ed6-a472-c25c4b200d8e.png',
+  'Brazil Nuts':'https://media.post.rvohealth.io/wp-content/uploads/2022/05/brazil-nuts-1296x728-body.jpg',
+  'Chia Seeds':'https://copilot.microsoft.com/th/id/BCO.73ce19c6-fdf1-4423-9ce9-a123d62a2905.png',
+  'Almonds & Raisins Mix':'https://copilot.microsoft.com/th/id/BCO.0135b3b2-4b40-4552-b5f9-c0d56eef1621.png',
+  'Soft Figs':'https://copilot.microsoft.com/th/id/BCO.ed582740-caaf-4ef9-b3e8-3a195428740d.png',
+  'Roasted Cashews':'https://copilot.microsoft.com/th/id/BCO.ae5d00f5-315e-4cf4-a9f2-83d55d57f942.png',
+  'Watermelon Seeds':'https://copilot.microsoft.com/th/id/BCO.396f16b5-b627-452a-8f97-5ec03bd135f0.png',
+  'Walnut Halves':'https://copilot.microsoft.com/th/id/BCO.81047ce0-2eeb-435e-a6c9-b5e2c6304881.png',
+  'Black Raisins':'https://www.nutritionfact.in/wp-content/uploads/2023/07/Black-Resins.jpg',
+  'Macadamia Nuts':'https://copilot.microsoft.com/th/id/BCO.640cfd59-d85d-477b-ae05-4800c701ebde.png',
+  'Roasted Pumpkin Seeds':'https://copilot.microsoft.com/th/id/BCO.c4cb5dea-45be-4f70-af2f-67f8fdda5865.png',
+  'Pistachios':'https://iranforworld.com/wp-content/uploads/2024/11/iranian-pistachios-3.jpg',
+  'Dried Mango Slices':'https://copilot.microsoft.com/th/id/BCO.dac16ead-d1bb-4b07-bb3e-5fe0e53fcd13.png',
+  'Almond & Cashew Blend':'https://copilot.microsoft.com/th/id/BCO.a792d9ea-a11c-4ecc-9357-eafc3a9b2d12.png',
+  'Hemp Seeds':'https://tse3.mm.bing.net/th/id/OIP.JieHU7bGbl4XLSKDp0aO2AHaE6?rs=1&pid=ImgDetMain&o=7&rm=3',
+  'Raw Almonds':'https://images.unsplash.com/photo-1508061253366-f7da158b6d46?w=400&q=80',
+  'Energy Dates':'https://copilot.microsoft.com/th/id/BCO.bff590af-fb29-4fe0-acda-9cdb6c281a4b.png',
+  'Peanut Butter Cashews':'https://copilot.microsoft.com/th/id/BCO.6f0024bf-3df1-4855-93bf-4d194511ecae.png',
+  'High-Protein Peanuts':'https://copilot.microsoft.com/th/id/BCO.aedd4630-2d3a-4a73-9d92-1cb00e11758d.png',
+  'Almond Halves':'https://images.unsplash.com/photo-1508061253366-f7da158b6d46?w=400&q=80',
+  'Omega Walnuts':'https://copilot.microsoft.com/th/id/BCO.73452bbf-a113-4ff5-a4e2-db71f2005e9c.png',
+  'Cashew Pieces':'https://copilot.microsoft.com/th/id/BCO.8c3acaab-ca50-4694-8b75-80fdc953f49f.png',
+  'Mixed Power Nuts':'https://copilot.microsoft.com/th/id/BCO.7ddfac84-1967-4e27-b07a-018106f7fa34.png',
+  'Almonds & Walnuts':'https://copilot.microsoft.com/th/id/BCO.8df11a19-9de7-4bdc-92a7-e818d1471b93.png',
+  'Dried Blueberries':'https://copilot.microsoft.com/th/id/BCO.92c9c678-18da-4499-89ce-72d981e2012c.png',
+  'Hazel Nuts':'https://copilot.microsoft.com/th/id/BCO.5d1bdf8d-daee-4c2d-8934-ec913f9d4a66.png',
+  'Recovery Walnut Mix':'https://copilot.microsoft.com/th/id/BCO.18c86c77-be79-4970-a1ec-af1e1b3d10dc.png',
+  'Dates & Apricot Blend':'https://copilot.microsoft.com/th/id/BCO.08c5c1d0-8136-4fe4-b52c-dbdd5e7dd078.png',
+  'Salted Almonds':'https://images.unsplash.com/photo-1508061253366-f7da158b6d46?w=400&q=80',
+  'Soaked Almonds':'https://images.unsplash.com/photo-1508061253366-f7da158b6d46?w=400&q=80',
+  'Pistachios (unsalted)':'https://copilot.microsoft.com/th/id/BCO.816eb566-9848-42a8-90a6-6fc64949c385.png',
+  'Soft Cashews':'https://copilot.microsoft.com/th/id/BCO.c8c8bed6-fdc7-4264-a650-9fe60461561c.png',
+  'Almond Kernels':'https://images.unsplash.com/photo-1508061253366-f7da158b6d46?w=400&q=80',
+  'Prunes':'https://copilot.microsoft.com/th/id/BCO.3ffe28e1-634d-4067-b2a5-d7710b98a268.png',
+  'Walnut & Almond Mix':'https://copilot.microsoft.com/th/id/BCO.18436eab-513b-4715-ba4f-5b605b3d09ad.png',
+  'Soft Prunes':'https://copilot.microsoft.com/th/id/BCO.4be4e480-ea7a-43a3-a3aa-8b299af3bd51.png',
+  'Hazelnuts':'https://copilot.microsoft.com/th/id/BCO.cf5eb5f1-8aac-4e23-9d33-b01f629df704.png',
+  'Flax & Chia Blend':'https://copilot.microsoft.com/th/id/BCO.7b0ca8cc-7680-49b3-9f16-82b7fa29b2e9.png',
+  'Pistachio & Almond':'https://copilot.microsoft.com/th/id/BCO.50f0af48-e911-4355-a7e4-dfffa4fff9c1.png',
+  'Almonds & Raisins':'https://copilot.microsoft.com/th/id/BCO.2c68b216-f02d-4748-8296-ff422b2ee38d.png',
+  'Cranberry Mix':'https://copilot.microsoft.com/th/id/BCO.75ac15f1-95e1-4523-90d7-5d0fa2a34f86.png',
+  'Trail Mix Blend':'https://copilot.microsoft.com/th/id/BCO.25073fc2-d211-4bf8-a917-f37fd1ad742f.png',
+  'Dried Mango Bites':'https://copilot.microsoft.com/th/id/BCO.b2a4ac18-0d50-47b2-868b-7a7943df420b.png',
+  'Focus Walnut Mix':'https://copilot.microsoft.com/th/id/BCO.72aeae18-0aa3-4b90-b145-b700f85f7a2b.png',
+  'Honey Roasted Cashews':'https://copilot.microsoft.com/th/id/BCO.4096b34f-15a9-414b-82c7-aa332bd28d37.png',
+  'Almond & Raisin Mix':'https://copilot.microsoft.com/th/id/BCO.0135b3b2-4b40-4552-b5f9-c0d56eef1621.png',
+  'Desk Crunch Mix':'https://copilot.microsoft.com/th/id/BCO.7b4b01f0-a204-4c09-8ac5-1bd92e264b94.png',
+  'Apricots & Raisins':'https://copilot.microsoft.com/th/id/BCO.4bbd199a-3ef1-41a2-8fc5-e31f7c0fef1d.png',
+  'Choco Cashew Bites':'https://copilot.microsoft.com/th/id/BCO.88de6f37-d78b-44be-afea-f8138fbe679a.png',
+};
+const FALLBACK = 'https://images.unsplash.com/photo-1574570068730-4de717f6e571?w=400&q=80';
+const TL = {nut:'Nut',fruit:'Dry Fruit',seed:'Seed',mix:'Mix'};
+const TC = {nut:'b-nut',fruit:'b-fruit',seed:'b-seed',mix:'b-mix'};
+
+const SCHEDULES = {
+  children:[
+    [{n:'California Almonds',w:'30g',t:'nut'},{n:'Golden Raisins',w:'40g',t:'fruit'},{n:'Cashew Kernels',w:'25g',t:'nut'},{n:'Sunflower Seeds',w:'20g',t:'seed'}],
+    [{n:'Roasted Peanuts',w:'35g',t:'nut'},{n:'Dried Apricots',w:'40g',t:'fruit'},{n:'Pistachio Kernels',w:'25g',t:'nut'},{n:'Pumpkin Seeds',w:'20g',t:'seed'}],
+    [{n:'Walnuts',w:'30g',t:'nut'},{n:'Medjool Dates',w:'45g',t:'fruit'},{n:'Honey Almonds',w:'25g',t:'nut'},{n:'Flax Seeds',w:'15g',t:'seed'}],
+    [{n:'Cashew Halves',w:'30g',t:'nut'},{n:'Dried Cranberries',w:'35g',t:'fruit'},{n:'Brazil Nuts',w:'25g',t:'nut'},{n:'Chia Seeds',w:'15g',t:'seed'}],
+    [{n:'Almonds & Raisins Mix',w:'40g',t:'mix'},{n:'Soft Figs',w:'40g',t:'fruit'},{n:'Roasted Cashews',w:'25g',t:'nut'},{n:'Watermelon Seeds',w:'20g',t:'seed'}],
+    [{n:'Walnut Halves',w:'30g',t:'nut'},{n:'Black Raisins',w:'40g',t:'fruit'},{n:'Macadamia Nuts',w:'25g',t:'nut'},{n:'Roasted Pumpkin Seeds',w:'20g',t:'seed'}],
+    [{n:'Pistachios',w:'30g',t:'nut'},{n:'Dried Mango Slices',w:'35g',t:'fruit'},{n:'Almond & Cashew Blend',w:'30g',t:'mix'},{n:'Hemp Seeds',w:'15g',t:'seed'}],
+  ],
+  gym:[
+    [{n:'Raw Almonds',w:'40g',t:'nut'},{n:'Energy Dates',w:'50g',t:'fruit'},{n:'Walnuts',w:'30g',t:'nut'},{n:'Pumpkin Seeds',w:'25g',t:'seed'}],
+    [{n:'Peanut Butter Cashews',w:'35g',t:'nut'},{n:'Dried Apricots',w:'45g',t:'fruit'},{n:'Brazil Nuts',w:'30g',t:'nut'},{n:'Flax Seeds',w:'20g',t:'seed'}],
+    [{n:'High-Protein Peanuts',w:'50g',t:'nut'},{n:'Golden Raisins',w:'40g',t:'fruit'},{n:'Almond Halves',w:'30g',t:'nut'},{n:'Sunflower Seeds',w:'20g',t:'seed'}],
+    [{n:'Omega Walnuts',w:'35g',t:'nut'},{n:'Medjool Dates',w:'50g',t:'fruit'},{n:'Cashew Pieces',w:'30g',t:'nut'},{n:'Chia Seeds',w:'20g',t:'seed'}],
+    [{n:'Mixed Power Nuts',w:'45g',t:'mix'},{n:'Soft Figs',w:'40g',t:'fruit'},{n:'Pistachios',w:'30g',t:'nut'},{n:'Watermelon Seeds',w:'20g',t:'seed'}],
+    [{n:'Almonds & Walnuts',w:'40g',t:'mix'},{n:'Dried Blueberries',w:'35g',t:'fruit'},{n:'Hazel Nuts',w:'25g',t:'nut'},{n:'Roasted Pumpkin Seeds',w:'20g',t:'seed'}],
+    [{n:'Recovery Walnut Mix',w:'40g',t:'mix'},{n:'Dates & Apricot Blend',w:'45g',t:'fruit'},{n:'Salted Almonds',w:'30g',t:'nut'},{n:'Hemp Seeds',w:'15g',t:'seed'}],
+  ],
+  senior:[
+    [{n:'Walnut Halves',w:'30g',t:'nut'},{n:'Soft Figs',w:'45g',t:'fruit'},{n:'Soaked Almonds',w:'25g',t:'nut'},{n:'Flax Seeds',w:'15g',t:'seed'}],
+    [{n:'Pistachios (unsalted)',w:'25g',t:'nut'},{n:'Prunes',w:'50g',t:'fruit'},{n:'Soft Cashews',w:'25g',t:'nut'},{n:'Chia Seeds',w:'15g',t:'seed'}],
+    [{n:'Almond Kernels',w:'30g',t:'nut'},{n:'Black Raisins',w:'45g',t:'fruit'},{n:'Walnuts',w:'25g',t:'nut'},{n:'Pumpkin Seeds',w:'15g',t:'seed'}],
+    [{n:'Brazil Nuts',w:'25g',t:'nut'},{n:'Medjool Dates',w:'45g',t:'fruit'},{n:'Macadamia Nuts',w:'25g',t:'nut'},{n:'Sunflower Seeds',w:'15g',t:'seed'}],
+    [{n:'Walnut & Almond Mix',w:'35g',t:'mix'},{n:'Dried Apricots',w:'45g',t:'fruit'},{n:'Cashew Halves',w:'25g',t:'nut'},{n:'Hemp Seeds',w:'15g',t:'seed'}],
+    [{n:'Salted Almonds',w:'30g',t:'nut'},{n:'Soft Prunes',w:'50g',t:'fruit'},{n:'Hazelnuts',w:'25g',t:'nut'},{n:'Flax & Chia Blend',w:'15g',t:'seed'}],
+    [{n:'Pistachio & Almond',w:'30g',t:'mix'},{n:'Golden Raisins',w:'45g',t:'fruit'},{n:'Walnuts',w:'25g',t:'nut'},{n:'Watermelon Seeds',w:'15g',t:'seed'}],
+  ],
+  office:[
+    [{n:'Almonds & Raisins',w:'35g',t:'mix'},{n:'Energy Dates',w:'40g',t:'fruit'},{n:'Roasted Cashews',w:'30g',t:'nut'},{n:'Sunflower Seeds',w:'20g',t:'seed'}],
+    [{n:'Choco Cashew Bites',w:'30g',t:'nut'},{n:'Cranberry Mix',w:'35g',t:'fruit'},{n:'Walnuts',w:'30g',t:'nut'},{n:'Pumpkin Seeds',w:'20g',t:'seed'}],
+    [{n:'Trail Mix Blend',w:'40g',t:'mix'},{n:'Medjool Dates',w:'40g',t:'fruit'},{n:'Pistachios',w:'25g',t:'nut'},{n:'Flax Seeds',w:'15g',t:'seed'}],
+    [{n:'Salted Almonds',w:'35g',t:'nut'},{n:'Dried Mango Bites',w:'35g',t:'fruit'},{n:'Roasted Peanuts',w:'35g',t:'nut'},{n:'Chia Seeds',w:'15g',t:'seed'}],
+    [{n:'Focus Walnut Mix',w:'35g',t:'mix'},{n:'Dried Blueberries',w:'35g',t:'fruit'},{n:'Brazil Nuts',w:'25g',t:'nut'},{n:'Watermelon Seeds',w:'20g',t:'seed'}],
+    [{n:'Honey Roasted Cashews',w:'30g',t:'nut'},{n:'Soft Figs',w:'40g',t:'fruit'},{n:'Almond & Raisin Mix',w:'35g',t:'mix'},{n:'Hemp Seeds',w:'15g',t:'seed'}],
+    [{n:'Desk Crunch Mix',w:'40g',t:'mix'},{n:'Apricots & Raisins',w:'40g',t:'fruit'},{n:'Pistachio Kernels',w:'25g',t:'nut'},{n:'Roasted Pumpkin Seeds',w:'20g',t:'seed'}],
+  ]
+};
+
+function renderDay(plan,idx){
+  return SCHEDULES[plan][idx].map(p=>`
+    <div class="day-item">
+      <div class="di-img">
+        <img src="${IMGS[p.n]||FALLBACK}" alt="${p.n}" loading="lazy">
+        <span class="di-badge ${TC[p.t]}">${TL[p.t]}</span>
+      </div>
+      <div class="di-body">
+        <div class="di-name">${p.n}</div>
+        <div class="di-weight">${p.w} per serve</div>
+      </div>
+    </div>`).join('');
+}
+
+function switchDay(plan,day,btn){
+  document.querySelectorAll(`#days-${plan} .day-tab`).forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  document.getElementById(`schedule-${plan}`).innerHTML = renderDay(plan,day-1);
+}
+
+function switchPlan(plan,btn){
+  document.querySelectorAll('.plan-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.plan-tab').forEach(b=>b.classList.remove('active'));
+  document.getElementById(`panel-${plan}`).classList.add('active');
+  if(btn){
+    btn.classList.add('active');
+  } else {
+    document.querySelectorAll('.plan-tab').forEach(b=>{
+      if(b.getAttribute('onclick')&&b.getAttribute('onclick').includes(`'${plan}'`)) b.classList.add('active');
+    });
+  }
+  switchDay(plan,1,document.querySelector(`#days-${plan} .day-tab`));
+}
+
+function selectSlot(el,plan,slot){
+  el.closest('.slot-grid').querySelectorAll('.slot-opt').forEach(d=>d.classList.remove('on'));
+  el.classList.add('on');
+  const s=document.getElementById(`slot-${plan}`);
+  if(s) s.value=slot;
+}
+
+function toggleFaq(el){ el.classList.toggle('open'); }
+
+function showToast(icon,msg){
+  document.getElementById('toast-icon').textContent=icon;
+  document.getElementById('toast-msg').textContent=msg;
+  const t=document.getElementById('toast');
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3800);
+}
+
+function toggleMenu(){
+  document.getElementById('hamburger').classList.toggle('open');
+  document.getElementById('mobile-menu').classList.toggle('open');
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  ['children','gym','senior','office'].forEach(p=>{
+    switchDay(p,1,document.querySelector(`#days-${p} .day-tab`));
+  });
+});
+</script>
+<script>
+function _nntToggleNav(){
+  var d=document.getElementById('nnt-drawer'),t=document.getElementById('nnt-toggle'),o=document.getElementById('nnt-overlay');
+  var open=d.classList.toggle('open');
+  t.classList.toggle('open',open);
+  o.classList.toggle('open',open);
+  document.body.style.overflow=open?'hidden':'';
+}
+function _nntCloseNav(){
+  var d=document.getElementById('nnt-drawer'),t=document.getElementById('nnt-toggle'),o=document.getElementById('nnt-overlay');
+  d.classList.remove('open');t.classList.remove('open');o.classList.remove('open');
+  document.body.style.overflow='';
+}
+(function(){
+  function init(){
+    var dr=document.getElementById('nnt-drawer');
+    if(!dr)return;
+    dr.querySelectorAll('a').forEach(function(a){a.addEventListener('click',_nntCloseNav);});
+  }
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init);}else{init();}
+})();
+</script>
+</body>
+</html>

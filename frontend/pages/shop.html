@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" type="image/png" href="../../assests/img/high-resolution-color-logo-removebg-preview.png">
+<link rel="apple-touch-icon" href="../../assests/img/high-resolution-color-logo-removebg-preview.png">
+<title>Shop – NutsNTreat</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --cream:#FDF6EC;--brown:#3B1F0A;--amber:#C8832A;--amber-light:#F5D5A0;
+  --amber-dark:#8B5A1A;--green:#2D5016;--green-light:#8BC34A;
+  --red:#C0392B;--shadow:rgba(59,31,10,0.10);
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--brown);min-height:100vh}
+
+/* NAV */
+nav.topnav{background:var(--brown);padding:0 2.5rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:400;box-shadow:0 2px 24px rgba(0,0,0,0.35);height:60px}
+.logo{font-family:'Playfair Display',serif;font-size:1.75rem;color:#F5D5A0;cursor:pointer;text-decoration:none}
+.logo span{color:#8BC34A}
+.nav-links{display:flex;gap:0.15rem;align-items:center}
+.nav-links a{color:rgba(255,255,255,0.72);font-size:0.84rem;padding:0.5rem 0.9rem;cursor:pointer;border-radius:6px;transition:all 0.2s;font-weight:500;text-decoration:none;display:flex;align-items:center;gap:4px}
+.nav-links a img{width:16px;height:16px;object-fit:contain;filter:brightness(0) invert(1) opacity(0.7)}
+.nav-links a:hover img{filter:brightness(0) invert(1)}
+.nav-links a:hover{background:rgba(255,255,255,0.1);color:#fff}
+.nav-cart{background:var(--amber)!important;color:#fff!important;border-radius:22px!important;padding:0.5rem 1.3rem!important;font-weight:700!important;display:flex!important;align-items:center;gap:6px;font-size:0.84rem;transition:all 0.2s;text-decoration:none!important}
+.nav-cart:hover{background:var(--amber-dark)!important}
+.cart-badge{background:#fff;color:var(--amber-dark);border-radius:50%;width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:700}
+.hamburger{display:none;flex-direction:column;justify-content:center;align-items:center;gap:5px;background:none;border:none;cursor:pointer;padding:0.5rem;border-radius:8px}
+.hamburger span{display:block;width:24px;height:2.5px;background:#fff;border-radius:2px;transition:all 0.3s ease}
+.hamburger.open span:nth-child(1){transform:translateY(7.5px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.hamburger.open span:nth-child(3){transform:translateY(-7.5px) rotate(-45deg)}
+.mobile-menu{display:none;position:fixed;top:60px;left:0;right:0;background:var(--brown);z-index:350;flex-direction:column;padding:0.5rem 1rem 1rem;box-shadow:0 8px 24px rgba(0,0,0,0.35);border-top:1px solid rgba(255,255,255,0.08)}
+.mobile-menu.open{display:flex}
+.mobile-menu a{color:rgba(255,255,255,0.8);font-size:0.95rem;padding:0.85rem 1rem;border-radius:10px;text-decoration:none;font-weight:500;display:flex;align-items:center;gap:0.6rem;transition:all 0.18s;border-bottom:1px solid rgba(255,255,255,0.05)}
+.mobile-menu a:hover,.mobile-menu a.active{background:rgba(255,255,255,0.1);color:#fff}
+.mobile-menu .m-cart{background:var(--amber);color:#fff!important;border-radius:22px;margin-top:0.5rem;justify-content:center;font-weight:700;border:none!important}
+.mobile-menu .m-logout{color:var(--red)!important;border-top:1px solid rgba(192,57,43,0.2)!important;margin-top:0.3rem}
+
+/* MOBILE CATEGORY SCROLLABLE TABS */
+.mob-cats{display:none;background:var(--brown);overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;position:sticky;top:60px;z-index:300;border-top:1px solid rgba(255,255,255,0.1)}
+.mob-cats::-webkit-scrollbar{display:none}
+.mob-cats-inner{display:flex;white-space:nowrap;padding:0 0.5rem;min-width:max-content}
+.mob-cat-btn{flex-shrink:0;padding:0.58rem 0.9rem;font-size:0.76rem;font-weight:600;color:rgba(255,255,255,0.5);border:none;border-bottom:2.5px solid transparent;background:none;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;display:inline-flex;align-items:center;gap:4px}
+.mob-cat-btn.active{color:#fff;border-bottom-color:var(--amber)}
+.mob-cat-btn:hover{color:rgba(255,255,255,0.85)}
+
+/* HERO */
+.cat-hero{position:relative;height:200px;overflow:hidden;display:flex;align-items:flex-end}
+.cat-hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.cat-hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(59,31,10,0.92) 0%,rgba(59,31,10,0.4) 60%,rgba(59,31,10,0.15) 100%)}
+.cat-hero-content{position:relative;z-index:2;padding:1.5rem 2rem;width:100%}
+.breadcrumb{display:flex;align-items:center;gap:8px;margin-bottom:0.5rem;font-size:0.75rem;color:rgba(255,255,255,0.5)}
+.breadcrumb a{color:rgba(255,255,255,0.5);text-decoration:none}
+.breadcrumb span{color:rgba(255,255,255,0.25)}
+.cat-hero-title{font-family:'Playfair Display',serif;font-size:clamp(1.6rem,4vw,2.6rem);color:#fff;line-height:1.1;margin-bottom:0.3rem}
+.cat-hero-title em{color:var(--amber);font-style:italic}
+.cat-hero-desc{color:rgba(255,255,255,0.65);font-size:0.85rem;max-width:500px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+/* FILTERS - single horizontal scrollable row */
+.filters-wrap{background:#fff;border-bottom:1px solid rgba(59,31,10,0.08);position:sticky;top:73px;z-index:200;box-shadow:0 2px 12px rgba(0,0,0,0.04)}
+.filters-inner{max-width:1280px;margin:0 auto;padding:0.65rem 1.5rem;display:flex;align-items:center;gap:0.7rem}
+.filter-label{font-size:0.7rem;font-weight:700;color:rgba(59,31,10,0.4);text-transform:uppercase;letter-spacing:1px;white-space:nowrap;flex-shrink:0}
+.filter-tags{display:flex;gap:0.4rem;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;flex:1}
+.filter-tags::-webkit-scrollbar{display:none}
+.filter-tag{flex-shrink:0;padding:0.3rem 0.9rem;border:1.5px solid var(--amber-light);border-radius:20px;font-size:0.76rem;cursor:pointer;transition:all 0.2s;font-weight:600;background:#fff;color:var(--brown);font-family:'DM Sans',sans-serif;white-space:nowrap}
+.filter-tag:hover{background:var(--amber-light)}
+.filter-tag.active{background:var(--brown);border-color:var(--brown);color:#fff}
+.filter-right{display:flex;align-items:center;gap:0.6rem;flex-shrink:0}
+.sort-select{padding:0.32rem 0.65rem;border:1.5px solid var(--amber-light);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:0.76rem;color:var(--brown);background:#fff;cursor:pointer;outline:none}
+.sort-select:focus{border-color:var(--amber)}
+.result-count{font-size:0.75rem;color:rgba(59,31,10,0.45);white-space:nowrap}
+
+/* LAYOUT */
+.shop-layout{max-width:1280px;margin:0 auto;padding:2rem 2rem 4rem}
+.shop-inner{display:grid;grid-template-columns:210px 1fr;gap:2rem}
+.side-nav{position:sticky;top:140px;height:fit-content}
+.side-nav-title{font-size:0.68rem;font-weight:700;color:rgba(59,31,10,0.4);text-transform:uppercase;letter-spacing:2px;margin-bottom:1rem}
+.side-nav-list{display:flex;flex-direction:column;gap:2px}
+.side-nav-item{display:flex;align-items:center;gap:10px;padding:0.65rem 1rem;border-radius:10px;cursor:pointer;font-size:0.88rem;font-weight:500;color:rgba(59,31,10,0.65);transition:all 0.2s;text-decoration:none}
+.side-nav-item:hover{background:var(--amber-light);color:var(--brown)}
+.side-nav-item.active{background:var(--brown);color:#fff;font-weight:600}
+.side-nav-item .count{margin-left:auto;font-size:0.72rem;opacity:0.6;background:rgba(0,0,0,0.08);padding:1px 7px;border-radius:10px}
+
+/* PRODUCT GRID */
+.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1.3rem}
+.product-card{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 2px 12px var(--shadow);transition:all 0.28s;position:relative;cursor:pointer;animation:fadeUp 0.4s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.product-card:hover{transform:translateY(-6px);box-shadow:0 14px 36px rgba(59,31,10,0.14)}
+.product-img{height:190px;overflow:hidden;position:relative;background:#f9f4ee}
+.product-img img{width:100%;height:100%;object-fit:cover;transition:transform 0.45s ease}
+.product-card:hover .product-img img{transform:scale(1.08)}
+.product-overlay{position:absolute;inset:0;background:rgba(59,31,10,0);display:flex;align-items:center;justify-content:center;transition:all 0.25s;opacity:0}
+.product-card:hover .product-overlay{background:rgba(59,31,10,0.25);opacity:1}
+.quick-add{background:var(--amber);color:#fff;border:none;padding:0.55rem 1.3rem;border-radius:22px;font-weight:700;font-size:0.8rem;cursor:pointer;font-family:'DM Sans',sans-serif;transform:translateY(8px);transition:all 0.22s}
+.product-card:hover .quick-add{transform:translateY(0)}
+.prod-badge{position:absolute;top:9px;left:9px;z-index:2;padding:3px 9px;border-radius:11px;font-size:0.6rem;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:#fff}
+.badge-seller{background:var(--amber)}.badge-new{background:var(--green)}.badge-hot{background:var(--red)}.badge-sale,.badge-exotic{background:#6A1B9A}
+.prod-wish{position:absolute;top:9px;right:9px;z-index:2;background:#fff;border:none;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:0.85rem;box-shadow:0 2px 8px rgba(0,0,0,0.12);transition:all 0.2s}
+.prod-wish:hover{transform:scale(1.15)}
+.prod-info{padding:1rem 1.1rem 1.2rem}
+.prod-cat-label{font-size:0.65rem;color:rgba(59,31,10,0.4);text-transform:uppercase;letter-spacing:1px;font-weight:600;margin-bottom:0.22rem}
+.prod-name{font-weight:700;font-size:0.93rem;margin-bottom:0.28rem;color:var(--brown);line-height:1.3}
+.prod-stars{display:flex;align-items:center;gap:2px;margin-bottom:0.35rem;font-size:0.78rem;color:var(--amber)}
+.prod-stars span{font-size:0.65rem;color:rgba(59,31,10,0.45);margin-left:3px}
+.prod-desc{font-size:0.74rem;color:rgba(59,31,10,0.55);line-height:1.5;margin-bottom:0.8rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.prod-footer{display:flex;align-items:center;justify-content:space-between}
+.prod-price .price{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--amber-dark);font-weight:700}
+.prod-price .orig{font-size:0.7rem;color:rgba(59,31,10,0.35);text-decoration:line-through;margin-left:4px}
+.prod-price .per{font-size:0.65rem;color:rgba(59,31,10,0.42);display:block;margin-top:1px}
+.add-cart-btn{background:var(--brown);color:#fff;border:none;padding:0.44rem 1rem;border-radius:20px;font-size:0.76rem;cursor:pointer;font-weight:600;transition:all 0.2s;font-family:'DM Sans',sans-serif}
+.add-cart-btn:hover{background:var(--amber-dark)}
+.add-cart-btn.added{background:var(--green)}
+.empty-state{text-align:center;padding:4rem 2rem;color:rgba(59,31,10,0.4);grid-column:1/-1}
+.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--brown);color:#fff;padding:0.85rem 1.4rem;border-radius:14px;font-size:0.84rem;font-weight:500;transform:translateY(120px);opacity:0;transition:all 0.35s cubic-bezier(.34,1.56,.64,1);z-index:9999;max-width:300px;box-shadow:0 8px 28px rgba(0,0,0,0.28);display:flex;align-items:center;gap:10px}
+.toast.show{transform:translateY(0);opacity:1}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* MOBILE */
+@media(max-width:600px){
+  nav.topnav{padding:0 1rem}
+  .nav-links{display:none}
+  .hamburger{display:flex}
+  /* Show mobile cat tabs */
+  .mob-cats{display:block}
+  /* Filters below nav(60) + mob-cats(44) */
+  .filters-wrap{top:104px}
+  .filters-inner{padding:0.5rem 0.75rem;gap:0.4rem}
+  .filter-label{display:none}
+  .sort-select{font-size:0.7rem;padding:0.28rem 0.5rem}
+  .result-count{font-size:0.68rem}
+  /* Hide desktop sidebar */
+  .shop-inner{grid-template-columns:1fr}
+  .side-nav{display:none!important}
+  /* Hero */
+  .cat-hero{height:160px}
+  .cat-hero-content{padding:1.2rem}
+  .shop-layout{padding:0.9rem 0.75rem 3rem}
+  /* 2 columns */
+  .product-grid{grid-template-columns:repeat(2,1fr);gap:0.65rem}
+  .product-img{height:135px}
+  .prod-info{padding:0.6rem 0.65rem 0.75rem}
+  .prod-cat-label{font-size:0.6rem}
+  .prod-name{font-size:0.82rem;margin-bottom:0.18rem}
+  .prod-stars{font-size:0.7rem;margin-bottom:0.22rem}
+  .prod-desc{display:none}
+  .prod-price .price{font-size:1rem}
+  .add-cart-btn{font-size:0.68rem;padding:0.34rem 0.65rem}
+  .quick-add{font-size:0.72rem;padding:0.44rem 0.9rem}
+  .toast{left:0.75rem;right:0.75rem;max-width:none;bottom:1rem}
+}
+
+/* TABLET */
+@media(min-width:601px) and (max-width:900px){
+  .mob-cats{display:block}
+  .shop-inner{grid-template-columns:1fr}
+  .side-nav{display:none!important}
+  .filters-wrap{top:104px}
+  .product-grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
+  .cat-hero-content{padding:2rem 1.5rem}
+  .shop-layout{padding:1.5rem 1.2rem 3rem}
+}
+
+/* ── NNT MOBILE DRAWER ── */
+.nnt-nav-toggle{display:none;background:none;border:none;cursor:pointer;padding:0.5rem;flex-direction:column;gap:5px;align-items:center;justify-content:center}
+.nnt-nav-toggle span{display:block;width:22px;height:2.5px;background:#F5D5A0;border-radius:2px;transition:all 0.3s}
+.nnt-nav-toggle.open span:nth-child(1){transform:translateY(7.5px) rotate(45deg)}
+.nnt-nav-toggle.open span:nth-child(2){opacity:0}
+.nnt-nav-toggle.open span:nth-child(3){transform:translateY(-7.5px) rotate(-45deg)}
+.nnt-mobile-drawer{position:fixed;top:0;right:-80%;width:78%;max-width:300px;height:100vh;background:var(--brown);z-index:1000;display:flex;flex-direction:column;transition:right 0.3s ease;box-shadow:-6px 0 32px rgba(0,0,0,0.45)}
+.nnt-mobile-drawer.open{right:0}
+.nnt-drawer-head{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.2rem;border-bottom:1px solid rgba(255,255,255,0.1);margin-bottom:0.3rem}
+.nnt-drawer-logo{font-family:'Playfair Display',serif;font-size:1.6rem;color:#F5D5A0;text-decoration:none}
+.nnt-drawer-logo span{color:#8BC34A}
+.nnt-drawer-close{background:rgba(255,255,255,0.12);border:none;color:#fff;width:32px;height:32px;border-radius:50%;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1}
+.nnt-mobile-drawer a{display:flex;align-items:center;gap:0.8rem;padding:0.9rem 1.4rem;color:rgba(255,255,255,0.75);font-size:0.94rem;font-weight:500;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.06);transition:all 0.2s}
+.nnt-mobile-drawer a:hover,.nnt-mobile-drawer a.active{background:rgba(200,131,42,0.18);color:#F5D5A0}
+.nnt-mobile-drawer a.active{border-left:3px solid var(--amber)}
+.nnt-mobile-drawer a img{width:18px;height:18px;filter:brightness(0) invert(1) opacity(0.7)}
+.nnt-mobile-drawer a:hover img,.nnt-mobile-drawer a.active img{filter:brightness(0) invert(1)}
+.nnt-drawer-logout{margin-top:auto!important;border-top:1px solid rgba(255,255,255,0.12)!important;border-bottom:none!important;color:#e05252!important}
+.nnt-drawer-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:999}
+.nnt-drawer-overlay.open{display:block}
+@media(max-width:640px){
+  .nnt-nav-toggle{display:flex}
+  .nav-links{display:none!important}
+  .hamburger{display:none!important}
+}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <a href="index.html" class="logo">Nuts<span>N</span>Treat</a>
+  <div class="nav-links">
+    <a href="index.html"><img src="https://cdn.jsdelivr.net/npm/lucide-static@0.383.0/icons/home.svg" alt="">Home</a>
+    <a href="shop.html" class="active"><img src="https://cdn.jsdelivr.net/npm/lucide-static@0.383.0/icons/shopping-bag.svg" alt="">Shop</a>
+    <a href="Dailyplans.html"><img src="https://cdn.jsdelivr.net/npm/lucide-static@0.383.0/icons/calendar-days.svg" alt="">Daily Plans</a>
+    <a href="index.html#about"><img src="https://cdn.jsdelivr.net/npm/lucide-static@0.383.0/icons/info.svg" alt="">About</a>
+    <a href="contact.html"><img src="https://cdn.jsdelivr.net/npm/lucide-static@0.383.0/icons/mail.svg" alt="">Contact</a>
+    <a href="profile.html"><img src="https://cdn.jsdelivr.net/npm/lucide-static@0.383.0/icons/user.svg" alt="">Profile</a>
+    <a href="wishlist.html"><img src="https://cdn.jsdelivr.net/npm/lucide-static@0.383.0/icons/heart.svg" alt="">Wishlist
+      <span id="wish-nav-count" style="background:var(--red);color:#fff;border-radius:50%;min-width:18px;height:18px;font-size:0.65rem;font-weight:700;display:none;align-items:center;justify-content:center;vertical-align:middle;margin-left:2px;padding:0 3px"></span>
+    </a>
+    <a href="cart.html" class="nav-cart"><img src="https://cdn.jsdelivr.net/npm/lucide-static@0.383.0/icons/shopping-cart.svg" alt="" style="filter:brightness(0) invert(1)">Cart <span class="cart-badge" id="cart-count">0</span></a>
+  </div>
+  <button class="nnt-nav-toggle" id="nnt-toggle" onclick="_nntToggleNav()" aria-label="Open menu"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="nnt-drawer-overlay" id="nnt-overlay" onclick="_nntCloseNav()"></div>
+<div class="nnt-mobile-drawer" id="nnt-drawer">
+  <div class="nnt-drawer-head">
+    <img src="../../assests/img/high-resolution-color-logo-removebg-preview.png"
+       alt="Nuts N Treat Logo"
+        style="height: 40px; width: auto; object-fit: contain;"
+     />
+    <button class="nnt-drawer-close" onclick="_nntCloseNav()">&#x2715;</button>
+  </div>
+  <a href="index.html"><img src="https://cdn.jsdelivr.net/npm/lucide-static@0.383.0/icons/home.svg" alt="">Home</a>
+  <a href="shop.html" class="active"><img src="https://cdn.jsdelivr.net/npm/lucide-static@0.383.0/icons/shopping-bag.svg" alt="">Shop</a>
+  <a href="Dailyplans.html"><img src="https://cdn.jsdelivr.net/npm/lucide-static@0.383.0/icons/calendar.svg" alt="">Daily Plans</a>
+  <a href="wishlist.html"><img src="https://cdn.jsdelivr.net/npm/lucide-static@0.383.0/icons/heart.svg" alt="">Wishlist</a>
+  <a href="cart.html"><img src="https://cdn.jsdelivr.net/npm/lucide-static@0.383.0/icons/shopping-cart.svg" alt="">Cart</a>
+  <a href="contact.html"><img src="https://cdn.jsdelivr.net/npm/lucide-static@0.383.0/icons/mail.svg" alt="">Contact</a>
+  <a href="profile.html"><img src="https://cdn.jsdelivr.net/npm/lucide-static@0.383.0/icons/user.svg" alt="">Profile</a>
+  <a href="#" class="nnt-drawer-logout" onclick="(typeof doLogout!=='undefined'?doLogout():(window.location.href='login.html'));return false;"><img src="https://cdn.jsdelivr.net/npm/lucide-static@0.383.0/icons/log-out.svg" alt="">Log Out</a>
+</div>
+
+
+<!-- MOBILE CATEGORY SCROLLABLE TABS (sticky, below nav) -->
+<div class="mob-cats" id="mob-cats">
+  <div class="mob-cats-inner" id="mob-cats-inner"></div>
+</div>
+
+<div class="cat-hero">
+  <img class="cat-hero-img" id="hero-img" src="" alt="">
+  <div class="cat-hero-overlay"></div>
+  <div class="cat-hero-content">
+    <div class="breadcrumb">
+      <a href="index.html">Home</a><span>›</span>
+      <a href="shop.html">Shop</a><span>›</span>
+      <span id="breadcrumb-cat">Category</span>
+    </div>
+    <h1 class="cat-hero-title" id="hero-title">Loading...</h1>
+    <p class="cat-hero-desc" id="hero-desc"></p>
+  </div>
+</div>
+
+<div class="filters-wrap">
+  <div class="filters-inner">
+    <span class="filter-label">Filter:</span>
+    <div class="filter-tags" id="filter-tags"></div>
+    <div class="filter-right">
+      <span class="result-count" id="result-count"></span>
+      <select class="sort-select" id="sort-select" onchange="applySort()">
+        <option value="default">Default</option>
+        <option value="price-asc">Price ↑</option>
+        <option value="price-desc">Price ↓</option>
+        <option value="rating">Top Rated</option>
+        <option value="name">A → Z</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<div class="shop-layout">
+  <div class="shop-inner">
+    <aside class="side-nav">
+      <div class="side-nav-title">Categories</div>
+      <div class="side-nav-list" id="side-nav-list"></div>
+    </aside>
+    <div>
+      <div class="product-grid" id="product-grid"></div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">
+  <span id="toast-icon">✓</span>
+  <span id="toast-msg"></span>
+</div>
+
+<script src="../js/nnt-store.js"></script>
+<script>
+// ── WRAPPERS: delegate all storage to shared NNT module ──
+function isInWishlist(id)    { return NNT.isInWishlist(id); }
+
+function updateWishCount(){
+  const n = NNT.getWishlist().length;
+  ['wish-nav-count','wish-nav-count-mobile'].forEach(eid=>{
+    const el=document.getElementById(eid);
+    if(el){el.textContent=n;el.style.display=n>0?'inline-flex':'none';}
+  });
+}
+async function toggleWish(btn,id){
+  const p=ALL_PRODUCTS.find(x=>String(x.id)===String(id));if(!p)return;
+  const product={id:p.id,name:p.name,price:p.price,originalPrice:p.orig||null,img:p.img,weight:p.weight,cat:p.cat,rating:p.rating||4.5,badge:p.badge||''};
+  const {added} = await NNT.toggleWishlist(product);
+  btn.textContent=added?'❤️':'🤍';
+  btn.setAttribute('aria-pressed', added);
+  showToast(added?'❤️':'🤍', added?'Added to wishlist!':'Removed from wishlist');
+  updateWishCount();
+}
+
+function updateCartCount(){
+  const n=NNT.cartCount();
+  document.querySelectorAll('#cart-count,#cart-count-mobile').forEach(el=>el.textContent=n);
+}
+async function addToCart(id){
+  const p=ALL_PRODUCTS.find(x=>String(x.id)===String(id));if(!p)return;
+  await NNT.addToCart({id:p.id,name:p.name,price:p.price,img:p.img,weight:p.weight,cat:p.cat,qty:1});
+  updateCartCount();
+  showToast('✓',p.name+' added to cart!');
+  const btn=document.querySelector('[data-id="'+id+'"] .add-cart-btn');
+  if(btn){btn.textContent='Added ✓';btn.classList.add('added');setTimeout(()=>{btn.textContent='+ Add';btn.classList.remove('added');},1500);}
+}
+
+const API_BASE='http://localhost:5000/api';
+let ALL_PRODUCTS=[];
+
+const CAT_META={
+  'Dry Fruits':{emoji:'🥜',label:'Dry Fruits',    title:'Premium <em>Dry Fruits</em>',    desc:'California almonds, Medjool dates, Iranian pistachios & more — farm-sourced, lab-tested, packed fresh.',     img:'https://images.unsplash.com/photo-1508061253366-f7da158b6d46?w=1200&q=80', filters:['All','Under ₹300','₹300–₹500','Above ₹500','Best Seller','New']},
+  'Mixes':     {emoji:'🌰',label:'Trail Mixes',   title:'Artisan <em>Trail Mixes</em>',   desc:'Handcrafted nut & fruit blends — classic trail mixes to spicy masala and dark choco combos.',               img:'https://copilot.microsoft.com/th/id/BCO.d9d538fd-3685-431f-b2ac-be7d0758fd75.png', filters:['All','Under ₹300','₹300–₹400','Best Seller','Hot','New']},
+  'Kids':      {emoji:'🧒',label:'Kids Combos',   title:'Healthy <em>Kids Combos</em>',   desc:'School-tiffin ready, no added sugar snacks — fruity bites, choco nuts & fun gift boxes kids adore.',         img:'https://copilot.microsoft.com/th/id/BCO.a6b46a0d-c8ff-46c3-a9f8-80d8e065f1d7.png', filters:['All','Under ₹300','₹300–₹450','Best Seller','New','Hot']},
+  'Adults':    {emoji:'🧑',label:'Adult Wellness',title:'Adult <em>Wellness</em> Packs',  desc:'Curated nut blends for heart health, immunity, stress relief & anti-ageing — your daily wellness ritual.',    img:'https://copilot.microsoft.com/th/id/BCO.71c236f0-652a-4dbd-a745-c72f4ce534af.png', filters:['All','Under ₹500','₹500–₹600','Above ₹600','Best Seller','New']},
+  'Gym':       {emoji:'💪',label:'Gym Power',     title:'Gym <em>Power</em> Packs',       desc:'High-protein, performance-boosting nut blends for pre-workout fuel, muscle recovery & endurance.',            img:'https://copilot.microsoft.com/th/id/BCO.f2db9da4-8bc6-40ab-97f6-870af0ffdc86.png', filters:['All','Under ₹500','₹500–₹650','Best Seller','Hot','New']},
+  'Seeds':     {emoji:'🌻',label:'Seeds',         title:'Superfood <em>Seeds</em>',       desc:'Chia, hemp, pumpkin & sesame seeds — loaded with omega-3, protein and essential minerals.',                   img:'https://copilot.microsoft.com/th/id/BCO.325a18fe-7ae0-409c-abe4-19271e4236e0.png', filters:['All','Under ₹200','₹200–₹350','Best Seller','New']},
+  'Exotic':    {emoji:'✨',label:'Exotic Picks',  title:'<em>Exotic</em> Luxury Picks',   desc:'Saffron almonds, rose pistachios & truffle cashews — rare gourmet nuts for the discerning palate.',          img:'https://thumbs.dreamstime.com/z/almonds-cashew-nuts-pistachio-wooden-bowl-52428842.jpg', filters:['All','Under ₹700','Above ₹700','New','Hot']},
+};
+const ALL_CATS=Object.entries(CAT_META).map(([key,v])=>({key,...v}));
+
+let activeCat='Dry Fruits';
+let activeFilter='All';
+let activeSort='default';
+
+function getCatFromURL(){
+  const raw=new URLSearchParams(window.location.search).get('cat')||'Dry Fruits';
+  return CAT_META[raw]?raw:'Dry Fruits';
+}
+
+/* Build mobile scrollable category tabs */
+function buildMobCats(){
+  const inner=document.getElementById('mob-cats-inner');
+  inner.innerHTML=ALL_CATS.map(c=>
+    '<button class="mob-cat-btn'+(c.key===activeCat?' active':'')+'" onclick="switchCat(\''+c.key+'\',this)">'+c.emoji+' '+c.label+'</button>'
+  ).join('');
+  // Scroll active into view
+  const active=inner.querySelector('.mob-cat-btn.active');
+  if(active)setTimeout(()=>active.scrollIntoView({inline:'center',behavior:'smooth'}),100);
+}
+
+/* Switch category without page reload (mobile tabs) */
+function switchCat(key,btn){
+  activeCat=key; activeFilter='All';
+  const url=new URL(window.location.href);
+  url.searchParams.set('cat',key);
+  window.history.replaceState({},'',url);
+  document.querySelectorAll('.mob-cat-btn').forEach(b=>b.classList.remove('active'));
+  if(btn){btn.classList.add('active');btn.scrollIntoView({inline:'center',behavior:'smooth'});}
+  document.querySelectorAll('.side-nav-item').forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='?cat='+encodeURIComponent(key)));
+  const meta=CAT_META[key];
+  document.getElementById('hero-img').src=meta.img;
+  document.getElementById('hero-title').innerHTML=meta.title;
+  document.getElementById('hero-desc').textContent=meta.desc;
+  document.getElementById('breadcrumb-cat').textContent=meta.label;
+  document.title=meta.label+' – NutsNTreat';
+  buildFilterTags(meta.filters);
+  renderProducts();
+}
+
+function buildSideNav(){
+  document.getElementById('side-nav-list').innerHTML=ALL_CATS.map(c=>{
+    const count=ALL_PRODUCTS.filter(p=>p.cat===c.key).length;
+    return '<a class="side-nav-item'+(c.key===activeCat?' active':'')+'" href="?cat='+encodeURIComponent(c.key)+'">'+c.emoji+' '+c.label+'<span class="count">'+(count||'—')+'</span></a>';
+  }).join('');
+}
+
+function buildFilterTags(filters){
+  document.getElementById('filter-tags').innerHTML=filters.map(f=>
+    '<button class="filter-tag'+(f==='All'?' active':'')+'" onclick="setFilter(\''+f+'\',this)">'+f+'</button>'
+  ).join('');
+}
+function setFilter(f,btn){
+  activeFilter=f;
+  document.querySelectorAll('.filter-tag').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderProducts();
+}
+function applySort(){activeSort=document.getElementById('sort-select').value;renderProducts();}
+function applyFilterSort(products){
+  let r=[...products];
+  if(activeFilter==='Under ₹200')r=r.filter(p=>p.price<200);
+  else if(activeFilter==='Under ₹300')r=r.filter(p=>p.price<300);
+  else if(activeFilter==='Under ₹500')r=r.filter(p=>p.price<500);
+  else if(activeFilter==='Under ₹700')r=r.filter(p=>p.price<700);
+  else if(activeFilter==='₹200–₹350')r=r.filter(p=>p.price>=200&&p.price<=350);
+  else if(activeFilter==='₹300–₹400')r=r.filter(p=>p.price>=300&&p.price<=400);
+  else if(activeFilter==='₹300–₹450')r=r.filter(p=>p.price>=300&&p.price<=450);
+  else if(activeFilter==='₹300–₹500')r=r.filter(p=>p.price>=300&&p.price<=500);
+  else if(activeFilter==='₹500–₹600')r=r.filter(p=>p.price>=500&&p.price<=600);
+  else if(activeFilter==='₹500–₹650')r=r.filter(p=>p.price>=500&&p.price<=650);
+  else if(activeFilter==='Above ₹500')r=r.filter(p=>p.price>500);
+  else if(activeFilter==='Above ₹600')r=r.filter(p=>p.price>600);
+  else if(activeFilter==='Above ₹700')r=r.filter(p=>p.price>700);
+  else if(activeFilter==='Best Seller')r=r.filter(p=>p.badge==='Best Seller');
+  else if(activeFilter==='New')r=r.filter(p=>p.badge==='New');
+  else if(activeFilter==='Hot')r=r.filter(p=>p.badge==='Hot');
+  if(activeSort==='price-asc')r.sort((a,b)=>a.price-b.price);
+  if(activeSort==='price-desc')r.sort((a,b)=>b.price-a.price);
+  if(activeSort==='rating')r.sort((a,b)=>b.rating-a.rating);
+  if(activeSort==='name')r.sort((a,b)=>a.name.localeCompare(b.name));
+  return r;
+}
+function starRating(r){return '★'.repeat(Math.floor(r))+(r%1>=0.5?'½':'')+'☆'.repeat(5-Math.floor(r)-(r%1>=0.5?1:0));}
+
+function renderProducts(){
+  const base=ALL_PRODUCTS.filter(p=>p.cat===activeCat);
+  const products=applyFilterSort(base);
+  const grid=document.getElementById('product-grid');
+  document.getElementById('result-count').textContent=products.length+' products';
+  if(!products.length){
+    grid.innerHTML='<div class="empty-state"><div style="font-size:3.5rem;margin-bottom:1rem">🔍</div><p>No products match this filter.<br>Try a different option.</p></div>';
+    return;
+  }
+  const badgeMap={'Hot':'badge-hot','New':'badge-new','Best Seller':'badge-seller','Exotic':'badge-exotic'};
+  grid.innerHTML=products.map((p,i)=>{
+    const inWish=isInWishlist(p.id);
+    return '<div class="product-card" data-id="'+p.id+'" style="animation-delay:'+(i*0.05)+'s">'+
+      '<div class="product-img">'+
+        '<img src="'+p.img+'" alt="'+p.name+'" loading="lazy" onerror="this.src=\'https://images.unsplash.com/photo-1574570068730-4de717f6e571?w=500&q=80\'">'+
+        '<div class="product-overlay"><button class="quick-add" onclick="addToCart(\''+p.id+'\')">+ Quick Add</button></div>'+
+        (p.badge?'<span class="prod-badge '+(badgeMap[p.badge]||'badge-sale')+'">'+p.badge+'</span>':'')+
+        '<button class="prod-wish" onclick="toggleWish(this,\''+p.id+'\')" aria-pressed="'+inWish+'">'+(inWish?'❤️':'🤍')+'</button>'+
+      '</div>'+
+      '<div class="prod-info">'+
+        '<div class="prod-cat-label">'+p.cat+' · '+p.weight+'</div>'+
+        '<div class="prod-name">'+p.name+'</div>'+
+        '<div class="prod-stars">'+starRating(p.rating)+' <span>'+p.rating+'</span></div>'+
+        '<div class="prod-desc">'+p.desc+'</div>'+
+        '<div class="prod-footer">'+
+          '<div class="prod-price">'+
+            '<span class="price">₹'+p.price+'</span>'+(p.orig?'<span class="orig">₹'+p.orig+'</span>':'')+
+            '<span class="per">per pack</span>'+
+          '</div>'+
+          '<button class="add-cart-btn" onclick="addToCart(\''+p.id+'\')">+ Add</button>'+
+        '</div>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+
+/* Fallback products when API is unavailable */
+const FALLBACK_PRODUCTS=[
+  {id:1, name:'California Almonds',   cat:'Dry Fruits',price:349,orig:399,weight:'250g',badge:'Best Seller',rating:4.9,desc:'Grade A almonds from California, roasted to perfection. Rich in Vitamin E & protein.',img:'https://images.unsplash.com/photo-1508061253366-f7da158b6d46?w=500&q=80'},
+  {id:2, name:'Medjool Dates',        cat:'Dry Fruits',price:299,orig:0,  weight:'200g',badge:'',           rating:4.7,desc:'Jumbo Medjool dates — soft, caramel-rich and packed with natural energy.',img:'https://images.unsplash.com/photo-1609501676725-7186f017a4b7?w=500&q=80'},
+  {id:3, name:'Cashew W240',          cat:'Dry Fruits',price:419,orig:479,weight:'250g',badge:'Hot',        rating:4.8,desc:'Whole Grade W240 cashews — extra creamy, buttery & large.',img:'https://i0.wp.com/post.healthline.com/wp-content/uploads/2020/06/cashews-nuts-1296x728-header.jpg?w=1155&h=1528'},
+  {id:4, name:'Iranian Pistachios',   cat:'Dry Fruits',price:529,orig:0,  weight:'200g',badge:'',           rating:4.6,desc:'Hand-picked Iranian pistachios, roasted & lightly salted in shell.',img:'https://iranforworld.com/wp-content/uploads/2024/11/iranian-pistachios-3.jpg'},
+  {id:5, name:'Organic Walnuts',      cat:'Dry Fruits',price:389,orig:449,weight:'250g',badge:'New',        rating:4.8,desc:'Shelled walnut halves — omega-3 rich, brain-boosting superfood.',img:'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=500&q=80'},
+  {id:6, name:'Golden Raisins',       cat:'Dry Fruits',price:199,orig:0,  weight:'300g',badge:'',           rating:4.5,desc:'Sun-dried golden raisins — naturally sweet with no added sugar.',img:'https://www.mashed.com/img/gallery/what-are-golden-raisins-and-what-do-they-taste-like/intro-1616084168.jpg'},
+  {id:7, name:'Dried Apricots',       cat:'Dry Fruits',price:289,orig:329,weight:'200g',badge:'New',        rating:4.7,desc:'Plump Turkish apricots, sun-dried & naturally sweet. High in iron & fibre.',img:'https://www.nutritionfact.in/wp-content/uploads/2023/07/Dried-Apricots.jpg'},
+  {id:8, name:'Dried Figs',           cat:'Dry Fruits',price:319,orig:0,  weight:'200g',badge:'',           rating:4.5,desc:'Naturally sweet Turkish figs — high in calcium, fibre and natural sugars.',img:'https://images.unsplash.com/photo-1601493700631-2b16ec4b4716?w=500&q=80'},
+  {id:13,name:'Classic Trail Mix',    cat:'Mixes',     price:279,orig:319,weight:'200g',badge:'Best Seller',rating:4.9,desc:'Almonds, cashews, raisins & cranberries — the ultimate all-day trail mix.',img:'https://images.unsplash.com/photo-1511690656952-34342bb7c2f2?w=500&q=80'},
+  {id:14,name:'Spicy Masala Mix',     cat:'Mixes',     price:249,orig:0,  weight:'200g',badge:'Hot',        rating:4.7,desc:'Bold masala-spiced mixed nuts & seeds for the adventurous snacker.',img:'https://i.ytimg.com/vi/hzBqPWRkmko/maxresdefault.jpg'},
+  {id:15,name:'Dark Choco Nut Mix',   cat:'Mixes',     price:319,orig:0,  weight:'200g',badge:'',           rating:4.8,desc:'Dark choco chips, almonds & hazelnuts — sinfully delicious & guilt-free.',img:'https://static.wixstatic.com/media/5e083f_43ac36c5909a4fd1830af0b81164d4ff~mv2.png/v1/fill/w_980,h_980,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/5e083f_43ac36c5909a4fd1830af0b81164d4ff~mv2.png'},
+  {id:16,name:'Honey Roasted Mix',    cat:'Mixes',     price:289,orig:329,weight:'200g',badge:'New',        rating:4.6,desc:'Cashews, almonds & peanuts glazed in pure honey and sea salt.',img:'https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=500&q=80'},
+  {id:17,name:'Tropical Fruit Mix',   cat:'Mixes',     price:259,orig:0,  weight:'250g',badge:'',           rating:4.5,desc:'Mango, pineapple, papaya & coconut chips — a holiday in every bite.',img:'https://images.unsplash.com/photo-1490474418585-ba9bad8fd0ea?w=500&q=80'},
+  {id:21,name:'Kids Fruity Combo',    cat:'Kids',      price:399,orig:449,weight:'300g',badge:'Best Seller',rating:4.9,desc:'Raisins, apricots, cranberries & dates. No added sugar.',img:'https://copilot.microsoft.com/th/id/BCO.1de9bf5c-9138-4fd1-bacc-4585ec89d202.png'},
+  {id:22,name:'Kids Choco Nuts',      cat:'Kids',      price:359,orig:0,  weight:'250g',badge:'',           rating:4.8,desc:'Mini cashews & almonds with dark choco drops. Kids absolutely love it!',img:'https://images.unsplash.com/photo-1548907040-4baa42d10919?w=500&q=80'},
+  {id:23,name:'Tiny Munchies Box',    cat:'Kids',      price:449,orig:499,weight:'400g',badge:'Hot',        rating:4.7,desc:'6 curated kid-approved snacks in a fun, colourful gift box.',img:'https://tse4.mm.bing.net/th/id/OIP.o203tYSzvTO4GdopPWJWFgHaFP?rs=1&pid=ImgDetMain&o=7&rm=3'},
+  {id:24,name:'Rainbow Fruit Bites',  cat:'Kids',      price:299,orig:0,  weight:'200g',badge:'New',        rating:4.8,desc:'Colourful dried fruits — strawberry, mango, kiwi & blueberry.',img:'https://images.unsplash.com/photo-1490474418585-ba9bad8fd0ea?w=500&q=80'},
+  {id:25,name:'School Snack Pack',    cat:'Kids',      price:249,orig:289,weight:'250g',badge:'',           rating:4.6,desc:'Portion-sized nut & fruit mix for school bags. 5 individual packs inside.',img:'https://images.unsplash.com/photo-1610832958506-aa56368176cf?w=500&q=80'},
+  {id:26,name:'Nutty Buddy Bar',      cat:'Kids',      price:199,orig:0,  weight:'180g',badge:'New',        rating:4.5,desc:'No-bake nut & date bars sweetened naturally. Great after-school snack.',img:'https://i5.walmartimages.com/seo/Little-Debbie-Nutty-Buddy-Bars-12-ct_fb9b89fe-04f5-46ff-8d19-ceaf0efd64c5.3ff702c657b5967f9527bb03656d8a52.jpeg'},
+  {id:27,name:'Adult Wellness Pack',  cat:'Adults',    price:599,orig:679,weight:'350g',badge:'Best Seller',rating:4.9,desc:'Walnuts, almonds, flaxseed & pumpkin seeds — your daily wellness ritual.',img:'https://copilot.microsoft.com/th/id/BCO.6ddc2ef4-3296-4f66-b33b-eef1a626e917.png'},
+  {id:28,name:'Heart Health Mix',     cat:'Adults',    price:549,orig:0,  weight:'300g',badge:'',           rating:4.8,desc:'Omega-3 rich nuts and seeds formulated for cardiovascular wellness.',img:'https://copilot.microsoft.com/th/id/BCO.bbc5cb82-c2db-4daa-be3d-b9144c938f58.png'},
+  {id:29,name:'Stress Relief Blend',  cat:'Adults',    price:479,orig:529,weight:'300g',badge:'New',        rating:4.7,desc:'Magnesium-rich cashews, pumpkin seeds & ashwagandha. Calm in every bite.',img:'https://img.etimg.com/thumb/msid-123015142,width-640,height-480,resizemode-75,imgsize-2401148/pumpkin-seeds.jpg'},
+  {id:30,name:'Immunity Booster Mix', cat:'Adults',    price:519,orig:0,  weight:'300g',badge:'Hot',        rating:4.8,desc:'Turmeric-coated almonds, ginger cashews & seeds. Daily immunity support.',img:'https://images.services.kitchenstories.io/usB8qH_JEkYSsOBgG-FhgkZnzIs=/1920x0/filters:quality(85)/images.kitchenstories.io/communityImages/83f40d747831c88e5022c155f9eb3afa_ea1d2c04-b1a9-47f6-bd38-b7a2912b08fe.jpg'},
+  {id:31,name:'Anti-Ageing Blend',    cat:'Adults',    price:629,orig:699,weight:'250g',badge:'New',        rating:4.6,desc:'Antioxidant-rich walnuts, Brazil nuts, goji berries & dark cacao nibs.',img:'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&q=80'},
+  {id:32,name:'Gym Power Pack',       cat:'Gym',       price:649,orig:729,weight:'400g',badge:'Best Seller',rating:4.9,desc:'High-protein almonds, peanuts & soy nuts — ultimate fuel for muscle recovery.',img:'https://copilot.microsoft.com/th/id/BCO.c6aa2ce5-1b94-4a5e-8e3a-43e689cda0ab.png'},
+  {id:33,name:'Pre-Workout Crunch',   cat:'Gym',       price:499,orig:0,  weight:'350g',badge:'Hot',        rating:4.8,desc:'Energy-dense dates, cashews & peanuts. Perfect fuel before your session.',img:'https://copilot.microsoft.com/th/id/BCO.7975fd92-600d-4f84-b2aa-121ccbc5510b.png'},
+  {id:34,name:'Post-Workout Recovery',cat:'Gym',       price:579,orig:649,weight:'400g',badge:'',           rating:4.7,desc:'BCAA-supporting walnut, almond & pumpkin seed blend for post-gym recovery.',img:'https://copilot.microsoft.com/th/id/BCO.aa2f5017-b32e-459f-abdf-133528b4bb12.png'},
+  {id:35,name:'Natural Nut Butter',   cat:'Gym',       price:429,orig:479,weight:'300g',badge:'New',        rating:4.8,desc:'Almond-peanut butter blend — zero added sugar, zero palm oil.',img:'https://copilot.microsoft.com/th/id/BCO.7da88f77-c4f5-47e2-9bb2-5bb185f9e377.png'},
+  {id:36,name:'Lean Muscle Mix',      cat:'Gym',       price:549,orig:0,  weight:'350g',badge:'Hot',        rating:4.8,desc:'Soy nuts, hemp seeds, pumpkin seeds & roasted chickpeas. High protein, low fat.',img:'https://copilot.microsoft.com/th/id/BCO.ad8db2b4-bf1a-40c0-a138-52c83021e61f.png'},
+  {id:38,name:'Superfood Seed Mix',   cat:'Seeds',     price:229,orig:269,weight:'200g',badge:'Best Seller',rating:4.8,desc:'Pumpkin, sunflower & flaxseeds — a daily superfood powerhouse.',img:'https://copilot.microsoft.com/th/id/BCO.b461e239-cca6-4a5f-aec7-3cb5e8d2ab7b.png'},
+  {id:39,name:'Chia Seeds',           cat:'Seeds',     price:199,orig:0,  weight:'250g',badge:'',           rating:4.7,desc:'Organic chia seeds — loaded with omega-3, fibre and protein.',img:'https://copilot.microsoft.com/th/id/BCO.b5324518-603a-4a5e-98fb-54a260f7ac9d.png'},
+  {id:40,name:'Hemp Seeds',           cat:'Seeds',     price:349,orig:399,weight:'200g',badge:'New',        rating:4.7,desc:'Hulled hemp seeds — complete plant protein with all 9 essential amino acids.',img:'https://tse3.mm.bing.net/th/id/OIP.JieHU7bGbl4XLSKDp0aO2AHaE6?rs=1&pid=ImgDetMain&o=7&rm=3'},
+  {id:41,name:'Sesame Seeds',         cat:'Seeds',     price:149,orig:0,  weight:'300g',badge:'',           rating:4.4,desc:'Toasted sesame seeds — rich in calcium, zinc and healthy fats.',img:'https://tse3.mm.bing.net/th/id/OIP.HCnw-o67Syo0-tiIV6lxngHaHa?rs=1&pid=ImgDetMain&o=7&rm=3'},
+  {id:42,name:'Saffron Almonds',      cat:'Exotic',    price:699,orig:799,weight:'200g',badge:'Exotic',     rating:4.9,desc:'Premium almonds infused with pure Kashmiri saffron. A luxurious snack.',img:'https://images.unsplash.com/photo-1508061253366-f7da158b6d46?w=500&q=80'},
+  {id:43,name:'Rose Pistachio Mix',   cat:'Exotic',    price:649,orig:0,  weight:'200g',badge:'New',        rating:4.8,desc:'Iranian pistachios tossed with dried rose petals and cardamom. Persian style.',img:'https://tse1.explicit.bing.net/th/id/OIP.P_vum2l-39XFg7DxvAFShQHaE7?rs=1&pid=ImgDetMain&o=7&rm=3'},
+  {id:44,name:'Truffle Cashews',      cat:'Exotic',    price:749,orig:849,weight:'150g',badge:'Hot',        rating:4.8,desc:'Premium cashews infused with black truffle oil and sea salt. Gourmet indulgence.',img:'https://tse3.mm.bing.net/th/id/OIP.bQEZCcLWInUail5_cSDamQHaHa?rs=1&pid=ImgDetMain&o=7&rm=3'},
+];
+
+async function loadProducts(){
+  try{
+    const res=await fetch(API_BASE+'/products');
+    if(!res.ok)throw new Error('Server error '+res.status);
+    const data=await res.json();
+    // Handle both plain array and {products:[...]} response shapes
+    const raw=Array.isArray(data)?data:(data.products||data.data||[]);
+    ALL_PRODUCTS=raw
+      .filter(p=>p.isActive!==false)
+      .map(p=>({id:p._id,name:p.name,cat:p.category,price:p.price,orig:p.originalPrice||0,weight:p.weight||'250g',badge:p.badge||'',rating:p.rating||4.5,desc:p.description||'',img:p.image||'https://images.unsplash.com/photo-1508061253366-f7da158b6d46?w=500&q=80'}));
+    if(ALL_PRODUCTS.length===0)throw new Error('No active products returned');
+  }catch(err){
+    console.warn('API unavailable or empty, using fallback data:',err.message);
+    ALL_PRODUCTS=FALLBACK_PRODUCTS;
+  }
+  buildSideNav();
+}
+
+async function init(){
+  activeCat=getCatFromURL();
+  const meta=CAT_META[activeCat];
+  document.title=meta.label+' – NutsNTreat';
+  document.getElementById('hero-img').src=meta.img;
+  document.getElementById('hero-img').alt=meta.label;
+  document.getElementById('hero-title').innerHTML=meta.title;
+  document.getElementById('hero-desc').textContent=meta.desc;
+  document.getElementById('breadcrumb-cat').textContent=meta.label;
+  document.getElementById('side-nav-list').innerHTML=ALL_CATS.map(c=>'<a class="side-nav-item'+(c.key===activeCat?' active':'')+'" href="?cat='+encodeURIComponent(c.key)+'">'+c.emoji+' '+c.label+'<span class="count">—</span></a>').join('');
+  buildFilterTags(meta.filters);
+  buildMobCats();
+  document.getElementById('product-grid').innerHTML='<div style="grid-column:1/-1;text-align:center;padding:3rem;color:rgba(59,31,10,0.45)"><div style="display:inline-block;width:34px;height:34px;border:3px solid var(--amber-light);border-top-color:var(--amber);border-radius:50%;animation:spin 0.7s linear infinite;margin-bottom:0.8rem"></div><p>Loading products...</p></div>';
+  await Promise.all([loadProducts(), NNT.init()]);
+  updateCartCount();
+  updateWishCount();
+  renderProducts();
+}
+
+function toggleMenu(){
+  const btn=document.getElementById('hamburger');
+  const menu=document.getElementById('mobile-menu');
+  btn.classList.toggle('open');menu.classList.toggle('open');
+  document.body.style.overflow=menu.classList.contains('open')?'hidden':'';
+}
+function closeMenu(){
+  document.getElementById('hamburger').classList.remove('open');
+  document.getElementById('mobile-menu').classList.remove('open');
+  document.body.style.overflow='';
+}
+function doLogout(){
+  closeMenu();
+  document.cookie='nnt_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+  document.cookie='nnt_user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+  window.location.href='login.html';
+}
+document.addEventListener('click',e=>{
+  const menu=document.getElementById('mobile-menu');
+  const btn=document.getElementById('hamburger');
+  if(menu&&menu.classList.contains('open')&&!menu.contains(e.target)&&!btn.contains(e.target))closeMenu();
+});
+function showToast(icon,msg){
+  document.getElementById('toast-icon').textContent=icon;
+  document.getElementById('toast-msg').textContent=msg;
+  const t=document.getElementById('toast');t.classList.add('show');
+  clearTimeout(window._tt);window._tt=setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+init();
+
+// Re-render if sync removed stale products from cart/wish
+window.addEventListener('nnt:products-synced', function () {
+  updateCartCount();
+  updateWishCount();
+});
+</script>
+<script src="../js/products-sync.js"></script>
+<script>
+function _nntToggleNav(){
+  var d=document.getElementById('nnt-drawer'),t=document.getElementById('nnt-toggle'),o=document.getElementById('nnt-overlay');
+  var open=d.classList.toggle('open');
+  t.classList.toggle('open',open);
+  o.classList.toggle('open',open);
+  document.body.style.overflow=open?'hidden':'';
+}
+function _nntCloseNav(){
+  var d=document.getElementById('nnt-drawer'),t=document.getElementById('nnt-toggle'),o=document.getElementById('nnt-overlay');
+  d.classList.remove('open');t.classList.remove('open');o.classList.remove('open');
+  document.body.style.overflow='';
+}
+(function(){
+  function init(){
+    var dr=document.getElementById('nnt-drawer');
+    if(!dr)return;
+    dr.querySelectorAll('a').forEach(function(a){a.addEventListener('click',_nntCloseNav);});
+  }
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init);}else{init();}
+})();
+</script>
+</body>
+</html>
