@@ -27,9 +27,13 @@ const limiter = rateLimit({
   message: { error: 'Too many requests' }
 });
 app.use('/api/', limiter);
-
 // ── Static Files ──
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use(express.static(path.join(__dirname, '../frontend')));
+// Serve index.html for root
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/pages/index.html'));
+});
 
 // ── Routes ──
 app.use('/api/auth',          require('./routes/auth'));

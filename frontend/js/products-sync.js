@@ -14,7 +14,7 @@ const title = [
 (function () {
   'use strict';
 
-  const API_BASE = 'http://localhost:5000/api';
+  const API_BASE = 'api';
 
   /* ── Core purge: remove deleted products from NNT server state ── */
   async function purgeDeleted(validIds) {

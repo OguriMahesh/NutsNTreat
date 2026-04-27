@@ -574,7 +574,7 @@ else { document.body.classList.add('ready'); }
 // ══════════════════════════════════════════════════════════════
 // API HELPER — always sends Bearer token from cookie
 // ══════════════════════════════════════════════════════════════
-const API = 'https://your-backend-name.onrender.com/api';
+const API = '/api';
 
 async function apiFetch(endpoint, opts = {}) {
   const res = await fetch(API + endpoint, {

@@ -8,7 +8,7 @@
 // ══════════════════════════════════════════════════════════════
 
 const NNT = (() => {
-  const API_BASE = 'http://localhost:5000/api';
+  const API_BASE = '/api';
 
   // ── AUTH — mirrors login.html Store.getSession() fallback chain ──
   function getCookie(name) {
