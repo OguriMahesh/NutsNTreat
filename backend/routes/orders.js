@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const Notification = require('../models/Notification');
+const { sendOrderConfirmation } = require('../utils/email');
 
 const orderSchema = new mongoose.Schema({
   orderId:       { type: String, unique: true },
@@ -129,7 +130,27 @@ router.post('/', async (req, res) => {
 
     // ── Create admin notification ──
     await createOrderNotification(order);
-
+    // ── Send confirmation email ──
+    try {
+       await sendOrderConfirmation({
+      to: order.email,
+      name: order.customerName,
+      orderId: order.orderId,
+      items: order.items.map(i => ({
+       name: i.name,
+       price: i.price,
+       quantity: i.qty || 1
+    })),
+    subtotal: order.subtotal || order.total,
+    shipping: order.shipping || 0,
+    total: order.total,
+    address: order.address,
+    paymentMethod: order.paymentMethod || 'COD'
+  });
+   console.log(`📧 Confirmation email sent to ${order.email}`);
+     } catch(emailErr) {
+   console.error('Email send failed:', emailErr.message);
+    }
     res.status(201).json({ order, orderId: order.orderId });
   } catch (err) {
     console.error('❌ Order error:', err.message);
