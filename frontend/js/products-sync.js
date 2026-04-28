@@ -14,7 +14,7 @@ const title = [
 (function () {
   'use strict';
 
-  const API_BASE = 'api';
+  const API_BASE = 'https://nutsntreat-backend2.onrender.com/api';
 
   /* ── Core purge: remove deleted products from NNT server state ── */
   async function purgeDeleted(validIds) {

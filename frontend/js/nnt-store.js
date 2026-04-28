@@ -8,8 +8,8 @@
 // ══════════════════════════════════════════════════════════════
 
 const NNT = (() => {
-  const API_BASE = '/api';
-
+  const API_BASE = 'https://nutsntreat-backend2.onrender.com/api';
+  
   // ── AUTH — mirrors login.html Store.getSession() fallback chain ──
   function getCookie(name) {
     return decodeURIComponent(
