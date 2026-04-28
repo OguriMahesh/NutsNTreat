@@ -356,6 +356,11 @@ canvas{width:100%!important}
   #subs-stats-row{grid-template-columns:1fr 1fr!important}
   .stat-value{font-size:1.25rem}
 }
+#page-users .table-scroll,
+#page-contacts .table-scroll{
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+}
 </style>
 </head>
 <body>
@@ -693,10 +698,12 @@ function showAdminPage(name) {
   const page = document.getElementById('page-' + name);
   if (page) page.classList.add('active');
 
-  document.querySelectorAll('.nav-item').forEach(item => {
-    if (item.textContent.trim().toLowerCase().startsWith(name.slice(0,4).toLowerCase()))
-      item.classList.add('active');
-  });
+const nameMap = { dashboard:'dashboard', products:'products', orders:'orders', subscriptions:'subscriptions', users:'customers', contacts:'messages' };
+document.querySelectorAll('.nav-item').forEach(item => {
+  const text = item.textContent.trim().toLowerCase();
+  if (text.startsWith((nameMap[name]||name).slice(0,4)))
+    item.classList.add('active');
+});
 
   const titles = { dashboard:'Dashboard', products:'Products', orders:'Orders', subscriptions:'Subscriptions', users:'Customers', contacts:'Messages' };
   document.getElementById('page-title').textContent = titles[name] || name;
