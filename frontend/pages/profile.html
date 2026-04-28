@@ -579,7 +579,7 @@ else { document.body.classList.add('ready'); }
 const API_BASE = 'https://nutsntreat.onrender.com/api';
 
 async function apiFetch(endpoint, opts = {}) {
-  const res = await fetch(API + endpoint, {
+ const res = await fetch(API_BASE + endpoint, {
     ...opts,
     headers: {
       'Content-Type': 'application/json',
