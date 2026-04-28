@@ -36,6 +36,13 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/pages/index.html'));
 });
 
+// Serve any HTML page directly
+app.get('/:page.html', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/pages', req.params.page + '.html'), err => {
+    if (err) res.status(404).json({ error: 'Page not found' });
+  });
+});
+
 // ── Routes ──
 app.use('/api/auth',          require('./routes/auth'));
 app.use('/api/products',      require('./routes/products'));
