@@ -956,7 +956,7 @@ async function renderSubscriptions() {
     document.getElementById('sub-count-text').textContent = subs.length + ' subscription' + (subs.length !== 1 ? 's' : '');
 
     if (!subs.length) {
-      body.innerHTML = `<div class="empty-state"><span class="empty-emoji"><i class="fa-solid fa-rotate"></i></span><div class="empty-title">No subscriptions yet</div><div class="empty-desc">Subscribe to a daily box plan and get fresh nuts delivered every day!</div><a href="Dailyplans.html" class="shop-link">Explore Plans →</a></div>`;
+      body.innerHTML = `<div class="empty-state"><span class="empty-emoji"><i class="fa-solid fa-rotate"></i></span><div class="empty-title">No subscriptions yet</div><div class="empty-desc">Subscribe to a daily box plan and get fresh nuts delivered every day!</div><a href="Dailyplans.html" class="shop-link">Explore Plans </a></div>`;
       return;
     }
 
