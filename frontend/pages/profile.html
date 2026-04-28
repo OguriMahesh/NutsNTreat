@@ -6,6 +6,7 @@
 <link rel="icon" type="image/png" href="/assests/img/high-resolution-color-logo-removebg-preview.png">
 <link rel="apple-touch-icon" href="/assests/img/high-resolution-color-logo-removebg-preview.png">
 <title>My Profile – NutsNTreat</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -284,7 +285,7 @@ nav{background:var(--brown);padding:0 2.5rem;display:flex;align-items:center;jus
        alt="Nuts N Treat Logo"
         style="height: 40px; width: auto; object-fit: contain;"
      />
-    <button class="mobile-drawer-close" onclick="toggleNav()">✕</button>
+    <button class="mobile-drawer-close" onclick="toggleNav()"><i class="fa-solid fa-xmark"></i></button>
   </div>
   <a href="index.html"><img src="https://cdn.jsdelivr.net/npm/lucide-static@0.383.0/icons/home.svg" alt="">Home</a>
   <a href="shop.html"><img src="https://cdn.jsdelivr.net/npm/lucide-static@0.383.0/icons/shopping-bag.svg" alt="">Shop</a>
@@ -357,10 +358,10 @@ nav{background:var(--brown);padding:0 2.5rem;display:flex;align-items:center;jus
       <div class="tab-panel active" id="tab-personal">
         <div class="section-card">
           <div class="card-head">
-            <h2>👤 Personal Information</h2>
+            <h2><i class="fa-solid fa-user"></i> Personal Information</h2>
             <div style="display:flex;gap:0.5rem">
-              <button class="edit-btn" id="edit-btn" onclick="toggleEdit()">✏️ Edit</button>
-              <button class="save-btn" id="save-btn" onclick="saveInfo()">✓ Save Changes</button>
+              <button class="edit-btn" id="edit-btn" onclick="toggleEdit()"><i class="fa-solid fa-pen"></i> Edit</button>
+              <button class="save-btn" id="save-btn" onclick="saveInfo()"><i class="fa-solid fa-check"></i> Save Changes</button>
             </div>
           </div>
           <div class="card-body" id="info-grid-wrap">
@@ -403,7 +404,7 @@ nav{background:var(--brown);padding:0 2.5rem;display:flex;align-items:center;jus
         </div>
 
         <div class="section-card">
-          <div class="card-head"><h2>🔒 Account &amp; Security</h2></div>
+          <div class="card-head"><h2><i class="fa-solid fa-lock"></i> Account &amp; Security</h2></div>
           <div class="card-body">
             <div class="info-grid">
               <div class="info-field">
@@ -412,7 +413,7 @@ nav{background:var(--brown);padding:0 2.5rem;display:flex;align-items:center;jus
               </div>
               <div class="info-field">
                 <div class="field-label">Account Status</div>
-                <div class="field-value" style="color:var(--green)">✓ Verified</div>
+                <div class="field-value" style="color:var(--green)"><i class="fa-solid fa-circle-check"></i>Verified</div>
               </div>
               <div class="info-field full">
                 <div class="field-label">Password</div>
@@ -430,7 +431,7 @@ nav{background:var(--brown);padding:0 2.5rem;display:flex;align-items:center;jus
       <div class="tab-panel" id="tab-orders">
         <div class="section-card">
           <div class="card-head">
-            <h2>📦 Order History</h2>
+            <h2><i class="fa-solid fa-box"></i>Order History</h2>
             <span style="font-size:0.8rem;color:rgba(59,31,10,0.45)" id="orders-count-text">0 orders</span>
           </div>
           <div class="card-body" id="orders-body">
@@ -445,7 +446,7 @@ nav{background:var(--brown);padding:0 2.5rem;display:flex;align-items:center;jus
       <div class="tab-panel" id="tab-subscriptions">
         <div class="section-card">
           <div class="card-head">
-            <h2>🔄 My Subscriptions</h2>
+            <h2><i class="fa-solid fa-rotate"></i> My Subscriptions</h2>
             <span style="font-size:0.8rem;color:rgba(59,31,10,0.45)" id="sub-count-text"></span>
           </div>
           <div class="card-body" id="subs-body">
@@ -460,12 +461,12 @@ nav{background:var(--brown);padding:0 2.5rem;display:flex;align-items:center;jus
       <div class="tab-panel" id="tab-addresses">
         <div class="section-card">
           <div class="card-head">
-            <h2>📍 Saved Addresses</h2>
+            <h2><i class="fa-solid fa-location-dot"></i>Saved Addresses</h2>
             <button class="edit-btn" onclick="openAddrModal()">+ Add New</button>
           </div>
           <div class="card-body">
             <div class="addr-grid" id="address-container">
-              <div style="text-align:center;padding:2rem;color:rgba(59,31,10,0.35);grid-column:1/-1">⏳ Loading…</div>
+              <div style="text-align:center;padding:2rem;color:rgba(59,31,10,0.35);grid-column:1/-1"><i class="fa-solid fa-hourglass"></i> Loading…</div>
             </div>
           </div>
         </div>
@@ -478,8 +479,8 @@ nav{background:var(--brown);padding:0 2.5rem;display:flex;align-items:center;jus
 <div class="modal-overlay" id="addr-modal" onclick="if(event.target===this)closeAddrModal()">
   <div class="modal">
     <div class="modal-header">
-      <div class="modal-title" id="modal-addr-title">📍 Add New Address</div>
-      <button class="modal-close" onclick="closeAddrModal()">✕</button>
+      <div class="modal-title" id="modal-addr-title"><i class="fa-solid fa-location-dot"></i> Add New Address</div>
+      <button class="modal-close" onclick="closeAddrModal()"><i class="fa-solid fa-xmark"></i></button>
     </div>
     <div class="modal-body">
       <div class="modal-grid">
@@ -516,7 +517,7 @@ nav{background:var(--brown);padding:0 2.5rem;display:flex;align-items:center;jus
     </div>
     <div class="modal-footer">
       <button class="modal-cancel" onclick="closeAddrModal()">Cancel</button>
-      <button class="modal-save" id="addr-save-btn" onclick="saveAddress()">💾 Save Address</button>
+      <button class="modal-save" id="addr-save-btn" onclick="saveAddress()"><i class="fa-solid fa-floppy-disk"></i>  Save Address</button>
     </div>
   </div>
 </div>
@@ -781,7 +782,7 @@ function getCatEmoji(item) {
 
 async function renderOrders() {
   const body = document.getElementById('orders-body');
-  body.innerHTML = '<div style="text-align:center;padding:2rem;color:rgba(59,31,10,0.35)"><div style="font-size:2rem;margin-bottom:0.5rem">⏳</div>Loading orders…</div>';
+  body.innerHTML = '<div style="text-align:center;padding:2rem;color:rgba(59,31,10,0.35)"><div style="font-size:2rem;margin-bottom:0.5rem"><i class="fa-solid fa-hourglass"></i></div>Loading orders…</div>';
   buildProductImageMap();
 
   const email = USER.email || '';
@@ -811,7 +812,7 @@ async function renderOrders() {
     );
 
   } catch(err) {
-    body.innerHTML = `<div class="empty-state"><span class="empty-emoji">⚠️</span><div class="empty-title">Could not load orders</div><div class="empty-desc">${err.message}</div></div>`;
+    body.innerHTML = `<div class="empty-state"><span class="empty-emoji"><i class="fa-solid fa-triangle-exclamation"></i></span><div class="empty-title">Could not load orders</div><div class="empty-desc">${err.message}</div></div>`;
     return;
   }
 
@@ -832,7 +833,7 @@ async function renderOrders() {
   document.getElementById('orders-count-text').textContent = orders.length + ' orders placed';
 
   if (!orders.length) {
-    body.innerHTML = `<div class="empty-state"><span class="empty-emoji">📦</span><div class="empty-title">No orders yet!</div><div class="empty-desc">You haven't placed any orders yet.</div><a href="index.html" class="shop-link">Shop Now →</a></div>`;
+    body.innerHTML = `<div class="empty-state"><span class="empty-emoji"><i class="fa-solid fa-box"></i></span><div class="empty-title">No orders yet!</div><div class="empty-desc">You haven't placed any orders yet.</div><a href="index.html" class="shop-link">Shop Now →</a></div>`;
     return;
   }
 
@@ -862,7 +863,7 @@ function buildStepper(status) {
   return `<div class="order-stepper">` +
     STATUS_STEPS.map((s, i) => {
       let dc, lc, ic;
-      if (cancelled)          { dc='cancelled'; lc='cancelled'; ic='✕'; }
+      if (cancelled)          { dc='cancelled'; lc='cancelled'; ic='<i class="fa-solid fa-xmark"></i>'; }
       else if (i < activeIdx) { dc='done';      lc='done';      ic='✓'; }
       else if (i===activeIdx) { dc='active';    lc='active';    ic='●'; }
       else                    { dc='upcoming';  lc='';          ic=i+1; }
@@ -914,7 +915,7 @@ function buildOrderCard(o, idx) {
       <div class="order-card-head">
         <div>
           <div class="order-id">#NNT${orderId}</div>
-          <div class="order-date">📅 ${dateStr}</div>
+          <div class="order-date"><i class="fa-solid fa-calendar"></i> ${dateStr}</div>
         </div>
         <div class="order-status ${statusClass(status)}">${status}</div>
       </div>
@@ -927,7 +928,7 @@ function buildOrderCard(o, idx) {
         </div>
         <div class="order-foot-right">
           ${items.length ? `<span class="order-items-count">${items.length} item${items.length > 1 ? 's' : ''}</span>` : ''}
-          <span class="order-pay-badge">💳 ${payment}</span>
+          <span class="order-pay-badge"><i class="fa-solid fa-credit-card"></i> ${payment}</span>
         </div>
       </div>
     </div>`;
@@ -938,7 +939,7 @@ function buildOrderCard(o, idx) {
 // ══════════════════════════════════════════════════════════════
 async function renderSubscriptions() {
   const body = document.getElementById('subs-body');
-  body.innerHTML = '<div style="text-align:center;padding:2rem;color:rgba(59,31,10,0.35)"><div style="font-size:2rem;margin-bottom:0.5rem">⏳</div>Loading…</div>';
+  body.innerHTML = '<div style="text-align:center;padding:2rem;color:rgba(59,31,10,0.35)"><div style="font-size:2rem;margin-bottom:0.5rem"><i class="fa-solid fa-hourglass"></i></div>Loading…</div>';
   try {
     let d;
     try { d = await apiFetch('/subscriptions/my'); }
@@ -955,16 +956,16 @@ async function renderSubscriptions() {
     document.getElementById('sub-count-text').textContent = subs.length + ' subscription' + (subs.length !== 1 ? 's' : '');
 
     if (!subs.length) {
-      body.innerHTML = `<div class="empty-state"><span class="empty-emoji">🔄</span><div class="empty-title">No subscriptions yet</div><div class="empty-desc">Subscribe to a daily box plan and get fresh nuts delivered every day!</div><a href="Dailyplans.html" class="shop-link">Explore Plans →</a></div>`;
+      body.innerHTML = `<div class="empty-state"><span class="empty-emoji"><i class="fa-solid fa-rotate"></i></span><div class="empty-title">No subscriptions yet</div><div class="empty-desc">Subscribe to a daily box plan and get fresh nuts delivered every day!</div><a href="Dailyplans.html" class="shop-link">Explore Plans →</a></div>`;
       return;
     }
 
     const badge2 = st => {
       const s = (st || 'pending').toLowerCase();
-      if (s==='active')    return '<span class="sub-status-badge sub-active-badge">✅ Active</span>';
-      if (s==='paused')    return '<span class="sub-status-badge sub-paused-badge">⏸ Paused</span>';
-      if (s==='cancelled') return '<span class="sub-status-badge sub-cancelled-badge">🚫 Cancelled</span>';
-      return '<span class="sub-status-badge sub-pending-badge">⏳ Pending</span>';
+      if (s==='active')    return '<span class="sub-status-badge sub-active-badge"><i class="fa-solid fa-circle-check"></i> Active</span>';
+      if (s==='paused')    return '<span class="sub-status-badge sub-paused-badge"><i class="fa-solid fa-pause"></i> Paused</span>';
+      if (s==='cancelled') return '<span class="sub-status-badge sub-cancelled-badge"><i class="fa-solid fa-ban"></i> Cancelled</span>';
+      return '<span class="sub-status-badge sub-pending-badge"><i class="fa-solid fa-hourglass"></i> Pending</span>';
     };
     const cc = st => {
       const s = (st || '').toLowerCase();
@@ -983,7 +984,7 @@ async function renderSubscriptions() {
         <div class="sub-card ${cc(s.status)}">
           <div class="sub-header">
             <div>
-              <div class="sub-plan-name">📦 ${s.plan || '—'}</div>
+              <div class="sub-plan-name"><i class="fa-solid fa-box"></i> ${s.plan || '—'}</div>
               <div style="font-size:0.75rem;color:rgba(59,31,10,0.45);margin-top:3px">Subscribed on ${ds}</div>
             </div>
             <div style="text-align:right">
@@ -992,19 +993,19 @@ async function renderSubscriptions() {
             </div>
           </div>
           <div class="sub-meta">
-            <div>🚚 Delivery: <strong>${day !== '—' ? day + ord(Number(day)) + ' of every month' : '—'}</strong></div>
-            <div>🕐 ${s.deliverySlot || 'Morning (7–10 AM)'}</div>
+            <div><i class="fa-solid fa-truck"></i> Delivery: <strong>${day !== '—' ? day + ord(Number(day)) + ' of every month' : '—'}</strong></div>
+            <div><i class="fa-solid fa-clock"></i> ${s.deliverySlot || 'Morning (7–10 AM)'}</div>
           </div>
-          ${st==='active'  ? `<div style="background:rgba(45,80,22,0.06);border:1px solid rgba(45,80,22,0.15);border-radius:10px;padding:0.7rem 1rem;margin-bottom:1rem;font-size:0.82rem;color:var(--green);font-weight:600">✅ Your subscription is active!</div>` : ''}
-          ${st==='pending' ? `<div style="background:rgba(200,131,42,0.08);border:1px solid rgba(200,131,42,0.2);border-radius:10px;padding:0.7rem 1rem;margin-bottom:1rem;font-size:0.82rem;color:var(--amber-dark)">⏳ Awaiting admin activation.</div>` : ''}
+          ${st==='active'  ? `<div style="background:rgba(45,80,22,0.06);border:1px solid rgba(45,80,22,0.15);border-radius:10px;padding:0.7rem 1rem;margin-bottom:1rem;font-size:0.82rem;color:var(--green);font-weight:600"><i class="fa-solid fa-circle-check"></i> Your subscription is active!</div>` : ''}
+          ${st==='pending' ? `<div style="background:rgba(200,131,42,0.08);border:1px solid rgba(200,131,42,0.2);border-radius:10px;padding:0.7rem 1rem;margin-bottom:1rem;font-size:0.82rem;color:var(--amber-dark)"><i class="fa-solid fa-hourglass"></i> Awaiting admin activation.</div>` : ''}
           <div class="sub-actions">
-            ${!cancelled ? `<button class="sub-cancel-btn" onclick="cancelSub('${s._id || s.id}',this)">✕ Cancel</button>` : '<span style="font-size:0.78rem;color:rgba(59,31,10,0.4)">Cancelled.</span>'}
+            ${!cancelled ? `<button class="sub-cancel-btn" onclick="cancelSub('${s._id || s.id}',this)"><i class="fa-solid fa-xmark"></i> Cancel</button>` : '<span style="font-size:0.78rem;color:rgba(59,31,10,0.4)">Cancelled.</span>'}
             <a href="Dailyplans.html" style="background:var(--cream);border:1.5px solid var(--amber-light);color:var(--amber-dark);padding:0.42rem 1rem;border-radius:10px;font-size:0.78rem;font-weight:700;font-family:inherit;text-decoration:none">View Plans</a>
           </div>
         </div>`;
     }).join('');
   } catch(err) {
-    body.innerHTML = `<div class="empty-state"><span class="empty-emoji">⚠️</span><div class="empty-title">Could not load</div><div class="empty-desc">${err.message}</div></div>`;
+    body.innerHTML = `<div class="empty-state"><span class="empty-emoji"><i class="fa-solid fa-triangle-exclamation"></i></span><div class="empty-title">Could not load</div><div class="empty-desc">${err.message}</div></div>`;
   }
 }
 
@@ -1017,7 +1018,7 @@ async function cancelSub(id, btn) {
     renderSubscriptions();
   } catch(e) {
     showToast('Could not cancel — try again', 'error');
-    btn.disabled = false; btn.textContent = '✕ Cancel';
+    btn.disabled = false; btn.textContent = '<i class="fa-solid fa-xmark"></i> Cancel';
   }
 }
 
@@ -1031,24 +1032,24 @@ async function fetchAddresses() {
 
 async function renderAddresses() {
   const container = document.getElementById('address-container');
-  container.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:1.5rem;color:rgba(59,31,10,0.35)">⏳ Loading…</div>';
+  container.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:1.5rem;color:rgba(59,31,10,0.35)"><i class="fa-solid fa-hourglass"></i> Loading…</div>';
 
   let list = [];
   try { list = await fetchAddresses(); }
   catch(e) {
-    container.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><span class="empty-emoji">⚠️</span><div class="empty-title">Could not load addresses</div></div>`;
+    container.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><span class="empty-emoji"><i class="fa-solid fa-triangle-exclamation"></i> </span><div class="empty-title">Could not load addresses</div></div>`;
     return;
   }
 
   if (!list.length) {
     container.innerHTML = `
       <div class="empty-state" style="grid-column:1/-1">
-        <span class="empty-emoji">📍</span>
+        <span class="empty-emoji"><i class="fa-solid fa-location-dot"></i></span>
         <div class="empty-title">No addresses saved</div>
         <div class="empty-desc">Add a delivery address to get started</div>
       </div>
       <div class="add-addr-card" onclick="openAddrModal()" style="grid-column:1/-1;max-width:220px;margin:0 auto">
-        <div style="font-size:1.8rem;opacity:0.5">➕</div>
+        <div style="font-size:1.8rem;opacity:0.5"><i class="fa-solid fa-plus"></i></div>
         <div style="font-size:0.82rem;font-weight:600;color:rgba(59,31,10,0.5)">Add New Address</div>
       </div>`;
     return;
@@ -1064,17 +1065,17 @@ async function renderAddresses() {
           <strong>${a.name}</strong><br>
           ${a.addr1 || a.addressLine1 || ''}${(a.addr2 || a.addressLine2) ? ', ' + (a.addr2 || a.addressLine2) : ''}<br>
           ${a.city}, ${a.state} – ${a.pin || a.pincode}<br>
-          📱 ${a.phone}
+          <i class="fa-solid fa-phone"></i> ${a.phone}
         </div>
         <div class="addr-actions">
-          <button class="addr-btn" onclick="openAddrModal(${i})">✏️ Edit</button>
-          ${!isDef ? `<button class="addr-btn" onclick="setDefaultAddr('${a._id}')">⭐ Default</button>` : ''}
-          <button class="addr-btn del" onclick="deleteAddr('${a._id}', ${isDef})">🗑</button>
+          <button class="addr-btn" onclick="openAddrModal(${i})"><i class="fa-solid fa-pen"></i> Edit</button>
+          ${!isDef ? `<button class="addr-btn" onclick="setDefaultAddr('${a._id}')"><i class="fa-solid fa-star"></i> Default</button>` : ''}
+          <button class="addr-btn del" onclick="deleteAddr('${a._id}', ${isDef})"><i class="fa-solid fa-trash"></i></button>
         </div>
       </div>`;
   }).join('') + `
     <div class="add-addr-card" onclick="openAddrModal()">
-      <div style="font-size:1.8rem;opacity:0.5">➕</div>
+      <div style="font-size:1.8rem;opacity:0.5"><i class="fa-solid fa-plus"></i></div>
       <div style="font-size:0.82rem;font-weight:600;color:rgba(59,31,10,0.5)">Add New Address</div>
     </div>`;
 }
@@ -1103,7 +1104,7 @@ async function setDefaultAddr(addrId) {
 
 async function openAddrModal(index) {
   editAddrIdx = (index !== undefined) ? index : -1;
-  document.getElementById('modal-addr-title').textContent = editAddrIdx === -1 ? '📍 Add New Address' : '✏️ Edit Address';
+  document.getElementById('modal-addr-title').textContent = editAddrIdx === -1 ? '<i class="fa-solid fa-location-dot"></i> Add New Address' : '<i class="fa-solid fa-pen"></i> Edit Address';
   document.querySelectorAll('.err-msg').forEach(e => e.classList.remove('show'));
   document.querySelectorAll('.modal-input').forEach(i => i.classList.remove('error'));
 
