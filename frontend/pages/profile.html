@@ -576,7 +576,7 @@ else { document.body.classList.add('ready'); }
 // ══════════════════════════════════════════════════════════════
 // API HELPER — always sends Bearer token from cookie
 // ══════════════════════════════════════════════════════════════
-const API = 'https://nutsntreat-backend2.onrender.com/api';
+const API_BASE = 'https://nutsntreat.onrender.com/api';
 
 async function apiFetch(endpoint, opts = {}) {
   const res = await fetch(API + endpoint, {
