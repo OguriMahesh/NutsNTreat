@@ -130,7 +130,7 @@ npx serve pages
 
 ---
 
-## 🔑 Default Admin Login
+##  Default Admin Login
 
 ```
 Email:    admin@nutsNtreat.in
