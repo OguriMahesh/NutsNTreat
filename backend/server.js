@@ -29,7 +29,7 @@ const limiter = rateLimit({
 app.use('/api/', limiter);
 // ── Static Files ──
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-app.use('/assests', express.static(path.join(__dirname, '../frontend/pages/assets/img')));
+app.use('/assests', express.static(path.join(__dirname, '../frontend/pages/assests')));
 app.use(express.static(path.join(__dirname, '../frontend')));
 // Serve index.html for root
 app.get('/', (req, res) => {
