@@ -991,11 +991,6 @@ function doLogout() {
   try { localStorage.removeItem('nnt_session'); } catch(e) {}
   window.location.href = 'login.html';
 }
-document.addEventListener('click', e => {
-  const menu = document.getElementById('mobile-menu');
-  const btn  = document.getElementById('hamburger');
-  if (menu.classList.contains('open') && !menu.contains(e.target) && !btn.contains(e.target)) closeMenu();
-});
 
 document.addEventListener('DOMContentLoaded', async function () {
   await Promise.all([loadProducts(), NNT.init()]);
