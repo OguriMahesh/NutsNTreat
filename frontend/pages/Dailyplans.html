@@ -399,6 +399,7 @@ footer{background:var(--brown)}
 @media(max-width:640px){
   .nnt-nav-toggle{display:flex}
   .nav-links{display:none!important}
+
 }
 </style>
 </head>
@@ -896,7 +897,40 @@ footer{background:var(--brown)}
     </div>
   </div>
 </section>
+<!-- Pincode Gate Modal -->
+<div id="pin-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:9999;align-items:center;justify-content:center">
+  <div style="background:#fff;border-radius:24px;padding:2.4rem 2rem;max-width:420px;width:92%;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,0.35)">
+    
+    <!-- Default: input state -->
+    <div id="pin-state-input">
+      <div style="font-size:2.8rem;margin-bottom:0.6rem">📍</div>
+      <h3 style="font-family:'Playfair Display',serif;font-size:1.5rem;color:#3B1F0A;margin-bottom:0.4rem">Check Delivery Availability</h3>
+      <p style="color:rgba(59,31,10,0.52);font-size:0.88rem;margin-bottom:1.5rem;line-height:1.6">Daily Plans have home delivery in select areas only.<br>Enter your pincode to confirm.</p>
+      <input id="pin-input" type="text" inputmode="numeric" maxlength="6" placeholder="Enter 6-digit pincode"
+        style="width:100%;padding:0.9rem 1rem;border:2px solid #F5D5A0;border-radius:12px;font-size:1.15rem;text-align:center;letter-spacing:5px;outline:none;font-family:'DM Sans',sans-serif;color:#3B1F0A;margin-bottom:0.5rem;transition:border-color 0.2s">
+      <div id="pin-err" style="font-size:0.82rem;color:#C0392B;min-height:1.2rem;margin-bottom:1rem"></div>
+      <div style="display:flex;gap:0.7rem">
+        <button onclick="closePinModal()" style="flex:1;padding:0.8rem;border-radius:12px;border:2px solid #F5D5A0;background:#fff;color:#3B1F0A;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif">Cancel</button>
+        <button id="pin-check-btn" onclick="checkPincode()" style="flex:2;padding:0.8rem;border-radius:12px;border:none;background:#C8832A;color:#fff;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:0.95rem">Check & Continue →</button>
+      </div>
+    </div>
 
+    <!-- Sorry state -->
+    <div id="pin-state-sorry" style="display:none">
+      <div style="font-size:3rem;margin-bottom:0.8rem">😔</div>
+      <h3 style="font-family:'Playfair Display',serif;font-size:1.45rem;color:#3B1F0A;margin-bottom:0.6rem">Not Available Yet</h3>
+      <p style="color:rgba(59,31,10,0.6);font-size:0.9rem;line-height:1.75;margin-bottom:0.4rem">
+        Sorry, we're not delivering to your location right now.
+      </p>
+      <p style="color:rgba(59,31,10,0.6);font-size:0.9rem;line-height:1.75;margin-bottom:1.8rem">
+        We're expanding fast — we'll be in your area soon! 
+      </p>
+      <button onclick="closePinModal()" style="width:100%;padding:0.9rem;border-radius:12px;border:none;background:#3B1F0A;color:#fff;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:0.95rem">Got it, I'll wait!</button>
+      <button onclick="resetPinModal()" style="margin-top:0.6rem;width:100%;padding:0.75rem;border-radius:12px;border:2px solid #F5D5A0;background:#fff;color:#3B1F0A;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:0.88rem">Try a different pincode</button>
+    </div>
+
+  </div>
+</div>
 <!-- TESTIMONIALS -->
 <section class="testis">
   <div class="testis-inner">
@@ -996,8 +1030,11 @@ footer{background:var(--brown)}
 </footer>
 
 <div class="toast" id="toast"><span id="toast-icon">✅</span><span id="toast-msg"></span></div>
+<div id="pin-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:9999;align-items:center;justify-content:center">
 
 <script>
+
+
 const PLAN_META = {
   'Children':        { price: 1499, img: 'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=300&q=70' },
   'Gym Power':       { price: 1799, img: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&q=70' },
@@ -1028,8 +1065,79 @@ const PLAN_META = {
     doInject();
   }
 })();
+let _pendingPlan = null;
 
-async function subscribe(planName) {
+function subscribe(planName) {
+  _pendingPlan = planName;
+  // Reset modal to input state
+  document.getElementById('pin-state-input').style.display = 'block';
+  document.getElementById('pin-state-sorry').style.display = 'none';
+  document.getElementById('pin-input').value = '';
+  document.getElementById('pin-err').textContent = '';
+  document.getElementById('pin-modal').style.display = 'flex';
+  setTimeout(() => document.getElementById('pin-input').focus(), 150);
+}
+
+function closePinModal() {
+  document.getElementById('pin-modal').style.display = 'none';
+  _pendingPlan = null;
+}
+
+function resetPinModal() {
+  document.getElementById('pin-state-input').style.display = 'block';
+  document.getElementById('pin-state-sorry').style.display = 'none';
+  document.getElementById('pin-input').value = '';
+  document.getElementById('pin-err').textContent = '';
+  setTimeout(() => document.getElementById('pin-input').focus(), 150);
+}
+
+async function checkPincode() {
+  const pincode = document.getElementById('pin-input').value.trim();
+  const errEl   = document.getElementById('pin-err');
+
+  if (!/^\d{6}$/.test(pincode)) {
+    errEl.textContent = '⚠️ Please enter a valid 6-digit pincode.';
+    return;
+  }
+
+  const btn = document.getElementById('pin-check-btn');
+  btn.textContent = 'Checking...';
+  btn.disabled = true;
+  errEl.textContent = '';
+
+  try {
+    const res  = await fetch('/api/pincodes/active');
+    const data = await res.json();
+    const match = (data.pincodes || []).find(p => p.pincode === pincode);
+
+    if (!match) {
+      // Show sorry screen
+      document.getElementById('pin-state-input').style.display = 'none';
+      document.getElementById('pin-state-sorry').style.display = 'block';
+    } else {
+      // Pincode valid — proceed to subscribe
+      closePinModal();
+      _doSubscribe(_pendingPlan, pincode, match);
+    }
+  } catch (e) {
+    errEl.textContent = '⚠️ Could not check availability. Try again.';
+  } finally {
+    btn.textContent = 'Check & Continue →';
+    btn.disabled = false;
+  }
+}
+
+// Close on backdrop click
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('pin-modal').addEventListener('click', function(e) {
+    if (e.target === this) closePinModal();
+  });
+  document.getElementById('pin-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') checkPincode();
+  });
+});
+
+async function _doSubscribe(planName, pincode, pincodeData) {
   const slotKey   = planName === 'Children'       ? 'children'
                   : planName === 'Gym Power'       ? 'gym'
                   : planName === 'Senior Wellness' ? 'senior'
@@ -1050,6 +1158,9 @@ async function subscribe(planName) {
     isSubscription: true,
     plan:           planName,
     slot:           slotLabel,
+    pincode:        pincode,
+    area:           pincodeData.area,
+    city:           pincodeData.city,
   };
 
   localStorage.setItem('nnt_pending_cart_item', JSON.stringify(subItem));
@@ -1057,8 +1168,8 @@ async function subscribe(planName) {
   try {
     const session = JSON.parse(localStorage.getItem('nnt_session') || 'null');
     const headers = { 'Content-Type': 'application/json' };
-    if (session && session.token) headers['Authorization'] = 'Bearer ' + session.token;
-    await fetch('http://localhost:5000/api/subscriptions', {
+    if (session?.token) headers['Authorization'] = 'Bearer ' + session.token;
+    await fetch('/api/subscriptions', {
       method: 'POST', headers,
       body: JSON.stringify({
         plan:         planName + ' Box',
@@ -1066,6 +1177,9 @@ async function subscribe(planName) {
         deliverySlot: slotLabel,
         deliveryDay:  1,
         status:       'Pending',
+        pincode,
+        area:         pincodeData.area,
+        city:         pincodeData.city,
         customerName: session?.user?.name  || 'Guest',
         email:        session?.user?.email || '',
         phone:        session?.user?.phone || '',
@@ -1248,8 +1362,6 @@ document.addEventListener('DOMContentLoaded',()=>{
     switchDay(p,1,document.querySelector(`#days-${p} .day-tab`));
   });
 });
-</script>
-<script>
 function _nntToggleNav(){
   var d=document.getElementById('nnt-drawer'),t=document.getElementById('nnt-toggle'),o=document.getElementById('nnt-overlay');
   var open=d.classList.toggle('open');

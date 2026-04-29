@@ -349,6 +349,22 @@ canvas{width:100%!important}
   overflow-x:auto;
   -webkit-overflow-scrolling:touch;
 }
+
+/* DELIVERY ZONES */
+.zone-city-block{background:#fff;border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,0.06);margin-bottom:1.5rem;overflow:hidden}
+.zone-city-header{padding:1rem 1.4rem;display:flex;align-items:center;gap:0.7rem;border-bottom:2px solid #f0e8d8;background:#faf6f0}
+.zone-city-header h3{font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--brown);flex:1}
+.zone-city-icon{width:34px;height:34px;border-radius:50%;background:var(--amber-light);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.zone-city-icon i{font-size:14px;color:var(--amber-dark)}
+.zone-badge-count{font-size:0.74rem;font-weight:700;background:var(--amber);color:#fff;padding:2px 9px;border-radius:12px}
+.zone-areas-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:0.8rem;padding:1.2rem 1.4rem}
+.zone-chip{display:flex;align-items:center;justify-content:space-between;background:#fdf6ec;border:1.5px solid var(--amber-light);border-radius:10px;padding:0.6rem 0.85rem;gap:0.5rem}
+.zone-chip.inactive{opacity:0.5;border-style:dashed}
+.zone-chip-info{flex:1;min-width:0}
+.zone-chip-area{font-weight:700;font-size:0.85rem;color:var(--brown);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.zone-chip-pin{font-size:0.74rem;color:rgba(59,31,10,0.45);font-family:monospace;margin-top:1px}
+.zone-chip-actions{display:flex;gap:4px;flex-shrink:0}
+.zone-empty{text-align:center;padding:2.5rem;color:rgba(59,31,10,0.35);font-size:0.87rem;grid-column:1/-1}
 </style>
 </head>
 <body>
@@ -359,16 +375,15 @@ canvas{width:100%!important}
     <div class="topnav-logo">Nuts<span>N</span>Treat<small>Admin</small></div>
     <div class="nav-item active" onclick="showAdminPage('dashboard')"><span class="icon"><i class="fa-solid fa-chart-bar"></i></span> Dashboard</div>
     <div class="nav-item" onclick="showAdminPage('products')"><span class="icon"><i class="fa-solid fa-box"></i></span> Products</div>
-    <div class="nav-item" onclick="showAdminPage('orders')">
-      <span class="icon"><i class="fa-solid fa-cart-shopping"></i></span> Orders
+    <div class="nav-item" onclick="showAdminPage('orders')"> <span class="icon"><i class="fa-solid fa-cart-shopping"></i></span> Orders
       <span class="notif-dot" id="orders-dot" style="display:none"></span>
     </div>
     <div class="nav-item" onclick="showAdminPage('subscriptions')"><span class="icon"><i class="fa-solid fa-rotate"></i></span> Subscriptions</div>
     <div class="nav-item" onclick="showAdminPage('users')"><span class="icon"><i class="fa-solid fa-users"></i></span> Customers</div>
-    <div class="nav-item" onclick="showAdminPage('contacts')">
-      <span class="icon"><i class="fa-solid fa-envelope"></i></span> Messages
+    <div class="nav-item" onclick="showAdminPage('contacts')"><span class="icon"><i class="fa-solid fa-envelope"></i></span> Messages
       <span class="notif-dot" id="contacts-dot" style="display:none"></span>
     </div>
+    <div class="nav-item" onclick="showAdminPage('delivery')"><span class="icon"><i class="fa-solid fa-map-marker-alt"></i></span> Delivery Zones</div>
   </div>
 </nav>
 
@@ -529,6 +544,19 @@ canvas{width:100%!important}
   </div>
 </div>
 
+  <!-- DELIVERY ZONES -->
+  <div class="admin-page" id="page-delivery">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:0.8rem">
+      <div>
+        <p style="font-size:0.84rem;color:rgba(59,31,10,0.5);margin-top:4px">Manage cities and pincodes where daily subscription deliveries are available.</p>
+      </div>
+      <button class="btn btn-secondary btn-sm" onclick="openZoneModal()"><i class="fa-solid fa-plus" style="font-size:11px"></i> Add Pincode</button>
+    </div>
+    <div id="delivery-zones-body">
+      <div style="text-align:center;padding:3rem;color:rgba(59,31,10,0.35)"><div class="spinner"></div><br>Loading delivery zones...</div>
+    </div>
+  </div>
+
 </main>
 
 <!-- PRODUCT MODAL -->
@@ -579,6 +607,52 @@ canvas{width:100%!important}
       <button class="modal-close" onclick="closeModal('order-modal')"><i class="fa-solid fa-xmark"></i></button>
     </div>
     <div class="modal-body" id="order-detail-body"></div>
+  </div>
+</div>
+
+<!-- DELIVERY ZONE MODAL -->
+<div class="modal-overlay" id="zone-modal">
+  <div class="modal-box" style="max-width:440px">
+    <div class="modal-header">
+      <h2 id="zone-modal-title">Add Delivery Pincode</h2>
+      <button class="modal-close" onclick="closeModal('zone-modal')"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="zone-id">
+      <div class="form-group">
+        <label>City *</label>
+        <select id="zone-city">
+          <option value="Chennai">Chennai</option>
+          <option value="Bangalore">Bangalore</option>
+          <option value="Hyderabad">Hyderabad</option>
+          <option value="Mumbai">Mumbai</option>
+          <option value="Delhi">Delhi</option>
+          <option value="Pune">Pune</option>
+          <option value="Coimbatore">Coimbatore</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div class="form-group" id="zone-city-other-group" style="display:none">
+        <label>City Name *</label>
+        <input type="text" id="zone-city-other" placeholder="Enter city name">
+      </div>
+      <div class="form-group">
+        <label>Area / Locality *</label>
+        <input type="text" id="zone-area" placeholder="e.g. Anna Nagar, Koramangala…">
+      </div>
+      <div class="form-group">
+        <label>Pincode *</label>
+        <input type="text" id="zone-pincode" placeholder="e.g. 600040" maxlength="6" oninput="this.value=this.value.replace(/\D/g,'')">
+      </div>
+      <div class="form-group">
+        <label>Active</label>
+        <select id="zone-active">
+          <option value="true">Yes – Deliveries enabled</option>
+          <option value="false">No – Paused</option>
+        </select>
+      </div>
+      <button class="btn btn-secondary" style="width:100%;margin-top:0.5rem;padding:0.85rem;border-radius:12px" onclick="saveZone()">Save Pincode</button>
+    </div>
   </div>
 </div>
 
@@ -686,14 +760,14 @@ function showAdminPage(name) {
   const page = document.getElementById('page-' + name);
   if (page) page.classList.add('active');
 
-const nameMap = { dashboard:'dashboard', products:'products', orders:'orders', subscriptions:'subscriptions', users:'customers', contacts:'messages' };
-document.querySelectorAll('.nav-item').forEach(item => {
-  const text = item.textContent.trim().toLowerCase();
-  if (text.startsWith((nameMap[name]||name).slice(0,4)))
-    item.classList.add('active');
-});
+  const nameMap = { dashboard:'dashboard', products:'products', orders:'orders', subscriptions:'subscriptions', users:'customers', contacts:'messages', delivery:'delivery zones' };
+  document.querySelectorAll('.nav-item').forEach(item => {
+    const text = item.textContent.trim().toLowerCase();
+    const target = (nameMap[name] || name).slice(0, 5);
+    if (text.startsWith(target)) item.classList.add('active');
+  });
 
-  const titles = { dashboard:'Dashboard', products:'Products', orders:'Orders', subscriptions:'Subscriptions', users:'Customers', contacts:'Messages' };
+  const titles = { dashboard:'Dashboard', products:'Products', orders:'Orders', subscriptions:'Subscriptions', users:'Customers', contacts:'Messages', delivery:'Delivery Zones' };
   document.getElementById('page-title').textContent = titles[name] || name;
 
   if (name === 'products')      loadProducts();
@@ -701,6 +775,7 @@ document.querySelectorAll('.nav-item').forEach(item => {
   if (name === 'subscriptions') loadSubscriptions();
   if (name === 'users')         loadUsers();
   if (name === 'contacts')      loadContacts();
+  if (name === 'delivery')      loadDeliveryZones();
 }
 
 function closeModal(id) { document.getElementById(id).classList.remove('open'); }
@@ -1251,6 +1326,163 @@ async function markContact(id, status) {
   catch(err) { showToast(err.message, 'error'); }
 }
 
+// ─── DELIVERY ZONES ─────────────────────────────────────────────────────────
+
+let allZones = [];
+
+const CITY_ORDER = ['Chennai', 'Bangalore', 'Hyderabad', 'Mumbai', 'Delhi', 'Pune', 'Coimbatore'];
+const CITY_ICONS = {
+  Chennai:    'fa-water',
+  Bangalore:  'fa-leaf',
+  Hyderabad:  'fa-mosque',
+  Mumbai:     'fa-city',
+  Delhi:      'fa-landmark',
+  Pune:       'fa-mountain',
+  Coimbatore: 'fa-industry',
+};
+
+async function loadDeliveryZones() {
+  const el = document.getElementById('delivery-zones-body');
+  el.innerHTML = '<div style="text-align:center;padding:3rem;color:rgba(59,31,10,0.35)"><div class="spinner"></div><br>Loading delivery zones...</div>';
+  try {
+    const d = await apiCall('/pincodes');
+    allZones = d.pincodes || [];
+    renderDeliveryZones(allZones);
+  } catch(err) {
+    el.innerHTML = `<div style="text-align:center;padding:3rem;color:var(--red)"><i class="fa-solid fa-circle-exclamation" style="font-size:2rem;margin-bottom:0.8rem;display:block"></i>${err.message}</div>`;
+  }
+}
+
+function renderDeliveryZones(zones) {
+  const el = document.getElementById('delivery-zones-body');
+  if (!zones.length) {
+    el.innerHTML = `
+      <div class="zone-city-block">
+        <div style="text-align:center;padding:4rem 2rem;color:rgba(59,31,10,0.35)">
+          <i class="fa-solid fa-map-pin" style="font-size:2.5rem;margin-bottom:1rem;display:block;color:var(--amber-light)"></i>
+          <div style="font-weight:600;margin-bottom:6px">No delivery zones added yet</div>
+          <div style="font-size:0.82rem">Click <strong>Add Pincode</strong> to configure delivery areas.</div>
+        </div>
+      </div>`;
+    return;
+  }
+
+  // Group by city
+  const grouped = {};
+  zones.forEach(z => {
+    const c = z.city || 'Other';
+    if (!grouped[c]) grouped[c] = [];
+    grouped[c].push(z);
+  });
+
+  // Sort cities: known ones first, then alphabetical
+  const cityNames = Object.keys(grouped).sort((a, b) => {
+    const ai = CITY_ORDER.indexOf(a), bi = CITY_ORDER.indexOf(b);
+    if (ai !== -1 && bi !== -1) return ai - bi;
+    if (ai !== -1) return -1;
+    if (bi !== -1) return 1;
+    return a.localeCompare(b);
+  });
+
+  el.innerHTML = cityNames.map(city => {
+    const list = grouped[city];
+    const icon = CITY_ICONS[city] || 'fa-location-dot';
+    const activeCount = list.filter(z => z.isActive).length;
+    return `
+      <div class="zone-city-block">
+        <div class="zone-city-header">
+          <div class="zone-city-icon"><i class="fa-solid ${icon}"></i></div>
+          <h3>${city}</h3>
+          <span class="zone-badge-count">${activeCount}/${list.length} active</span>
+        </div>
+        <div class="zone-areas-grid">
+          ${list.map(z => `
+            <div class="zone-chip ${z.isActive ? '' : 'inactive'}" id="chip-${z._id}">
+              <div class="zone-chip-info">
+                <div class="zone-chip-area" title="${z.area}">${z.area}</div>
+                <div class="zone-chip-pin"><i class="fa-solid fa-location-dot" style="font-size:9px;margin-right:3px"></i>${z.pincode}${z.isActive ? '' : ' · Paused'}</div>
+              </div>
+              <div class="zone-chip-actions">
+                <button class="act-btn ${z.isActive ? 'act-green' : 'act-edit'}" title="${z.isActive ? 'Pause' : 'Activate'}" onclick="toggleZone('${z._id}')">
+                  <i class="fa-solid ${z.isActive ? 'fa-pause' : 'fa-play'}" style="font-size:10px"></i>
+                </button>
+                <button class="act-btn act-delete" title="Delete" onclick="deleteZone('${z._id}','${z.area.replace(/'/g,"\\'")}','${z.pincode}')">
+                  <i class="fa-solid fa-trash" style="font-size:10px"></i>
+                </button>
+              </div>
+            </div>`).join('')}
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function openZoneModal(id) {
+  document.getElementById('zone-id').value = '';
+  document.getElementById('zone-city').value = 'Chennai';
+  document.getElementById('zone-city-other').value = '';
+  document.getElementById('zone-city-other-group').style.display = 'none';
+  document.getElementById('zone-area').value = '';
+  document.getElementById('zone-pincode').value = '';
+  document.getElementById('zone-active').value = 'true';
+  document.getElementById('zone-modal-title').textContent = 'Add Delivery Pincode';
+  document.getElementById('zone-modal').classList.add('open');
+}
+
+// Show/hide "Other city" input
+document.addEventListener('DOMContentLoaded', () => {
+  const citySelect = document.getElementById('zone-city');
+  if (citySelect) {
+    citySelect.addEventListener('change', () => {
+      document.getElementById('zone-city-other-group').style.display =
+        citySelect.value === 'Other' ? 'block' : 'none';
+    });
+  }
+});
+
+async function saveZone() {
+  const cityRaw  = document.getElementById('zone-city').value;
+  const city     = cityRaw === 'Other' ? (document.getElementById('zone-city-other').value.trim()) : cityRaw;
+  const area     = document.getElementById('zone-area').value.trim();
+  const pincode  = document.getElementById('zone-pincode').value.trim();
+  const isActive = document.getElementById('zone-active').value === 'true';
+
+  if (!city)    return showToast('Please enter a city name', 'error');
+  if (!area)    return showToast('Area / Locality is required', 'error');
+  if (!/^\d{6}$/.test(pincode)) return showToast('Pincode must be 6 digits', 'error');
+
+  try {
+    await apiCall('/pincodes', 'POST', { city, area, pincode, isActive });
+    closeModal('zone-modal');
+    showToast(`Pincode ${pincode} (${area}) added!`);
+    loadDeliveryZones();
+  } catch(err) {
+    showToast(err.message, 'error');
+  }
+}
+
+async function toggleZone(id) {
+  try {
+    const d = await apiCall('/pincodes/' + id + '/toggle', 'PUT');
+    const z = d.pincode;
+    showToast(`${z.area} ${z.isActive ? 'activated' : 'paused'}`);
+    loadDeliveryZones();
+  } catch(err) {
+    showToast(err.message, 'error');
+  }
+}
+
+async function deleteZone(id, area, pincode) {
+  if (!confirm(`Delete pincode ${pincode} – ${area}?\nSubscribers in this area will lose delivery access.`)) return;
+  try {
+    await apiCall('/pincodes/' + id, 'DELETE');
+    showToast(`Deleted ${area} (${pincode})`);
+    loadDeliveryZones();
+  } catch(err) {
+    showToast(err.message, 'error');
+  }
+}
+
+// ─── NOTIFICATIONS ───────────────────────────────────────────────────────────
 // NOTIFICATIONS
 let _notifications   = [];
 let _alertOrderId    = null;

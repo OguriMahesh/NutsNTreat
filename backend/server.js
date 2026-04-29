@@ -54,6 +54,7 @@ app.use('/api/cart',          require('./routes/cart'));
 app.use('/api/wishlist',      require('./routes/wishlist'));
 app.use('/api/notifications', require('./routes/notifications')); 
 app.use('/api/users',         require('./routes/users'));
+app.use('/api/pincodes',      require('./routes/pincodes'));
 
 // ── Health Check ──
 app.get('/api/health', (req, res) =>
