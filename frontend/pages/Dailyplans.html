@@ -1033,7 +1033,7 @@ footer{background:var(--brown)}
 <div id="pin-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:9999;align-items:center;justify-content:center">
 
 <script>
-
+const API_BASE = 'https://nutsntreat.onrender.com/api';
 
 const PLAN_META = {
   'Children':        { price: 1499, img: 'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=300&q=70' },
@@ -1106,7 +1106,7 @@ async function checkPincode() {
   errEl.textContent = '';
 
   try {
-    const res  = await fetch('/api/pincodes/active');
+    const res = await fetch(API_BASE + '/pincodes/active');
     const data = await res.json();
     const match = (data.pincodes || []).find(p => p.pincode === pincode);
 
@@ -1169,7 +1169,7 @@ async function _doSubscribe(planName, pincode, pincodeData) {
     const session = JSON.parse(localStorage.getItem('nnt_session') || 'null');
     const headers = { 'Content-Type': 'application/json' };
     if (session?.token) headers['Authorization'] = 'Bearer ' + session.token;
-    await fetch('/api/subscriptions', {
+  await fetch(API_BASE + '/subscriptions', {
       method: 'POST', headers,
       body: JSON.stringify({
         plan:         planName + ' Box',
