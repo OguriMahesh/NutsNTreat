@@ -1115,9 +1115,10 @@ async function checkPincode() {
       document.getElementById('pin-state-input').style.display = 'none';
       document.getElementById('pin-state-sorry').style.display = 'block';
     } else {
-      // Pincode valid — proceed to subscribe
+      // Capture plan BEFORE closePinModal() nullifies _pendingPlan
+      const planToSubscribe = _pendingPlan;
       closePinModal();
-      _doSubscribe(_pendingPlan, pincode, match);
+      _doSubscribe(planToSubscribe, pincode, match);
     }
   } catch (e) {
     errEl.textContent = '⚠️ Could not check availability. Try again.';
@@ -1163,13 +1164,19 @@ async function _doSubscribe(planName, pincode, pincodeData) {
     city:           pincodeData.city,
   };
 
-  localStorage.setItem('nnt_pending_cart_item', JSON.stringify(subItem));
-
   try {
     const session = JSON.parse(localStorage.getItem('nnt_session') || 'null');
     const headers = { 'Content-Type': 'application/json' };
     if (session?.token) headers['Authorization'] = 'Bearer ' + session.token;
-  await fetch(API_BASE + '/subscriptions', {
+
+    // Add item directly to server cart
+    await fetch(API_BASE + '/cart', {
+      method: 'POST', headers,
+      body: JSON.stringify({ item: subItem }),
+    });
+
+    // Save subscription record
+    await fetch(API_BASE + '/subscriptions', {
       method: 'POST', headers,
       body: JSON.stringify({
         plan:         planName + ' Box',
@@ -1187,7 +1194,9 @@ async function _doSubscribe(planName, pincode, pincodeData) {
       }),
     });
   } catch(e) {
-    console.warn('[NNT] Backend save skipped:', e.message);
+    console.warn('[NNT] Backend error:', e.message);
+    showToast('⚠️', 'Could not add to cart. Please try again.');
+    return;
   }
 
   showToast('🛒', `${planName} Box added to cart! Redirecting...`);
