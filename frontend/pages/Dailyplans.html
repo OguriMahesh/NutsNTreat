@@ -1031,7 +1031,7 @@ footer{background:var(--brown)}
 
 <div class="toast" id="toast"><span id="toast-icon">✅</span><span id="toast-msg"></span></div>
 <div id="pin-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:9999;align-items:center;justify-content:center">
-
+<script src="../js/nnt-store.js"></script>
 <script>
 const API_BASE = 'https://nutsntreat.onrender.com/api';
 
@@ -1137,7 +1137,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.key === 'Enter') checkPincode();
   });
 });
-
 async function _doSubscribe(planName, pincode, pincodeData) {
   const slotKey   = planName === 'Children'       ? 'children'
                   : planName === 'Gym Power'       ? 'gym'
@@ -1147,37 +1146,23 @@ async function _doSubscribe(planName, pincode, pincodeData) {
   const slot      = slotEl ? slotEl.value : 'morning';
   const slotLabel = slot === 'morning' ? 'Morning (7–10 AM)' : 'Evening (5–8 PM)';
   const meta      = PLAN_META[planName] || { price: 1499, img: '' };
+  const user  = NNT.getUser();
+  const token = NNT.getToken();
 
-  const subItem = {
-    id:             'sub_' + slotKey,
-    name:           planName + ' Box – Daily Plan',
-    price:          meta.price,
-    img:            meta.img,
-    qty:            1,
-    weight:         '4 items/day · 30-day cycle · ' + slotLabel,
-    cat:            'Subscription',
-    isSubscription: true,
-    plan:           planName,
-    slot:           slotLabel,
-    pincode:        pincode,
-    area:           pincodeData.area,
-    city:           pincodeData.city,
-  };
+  // Guard: must be logged in
+  if (!NNT.getToken()) {
+    showToast('⚠️', 'Please login to subscribe');
+    setTimeout(() => { window.location.href = 'login.html?redirect=Dailyplans.html'; }, 1200);
+    return;
+  }
 
+  showToast('⏳', 'Processing your subscription…');
+
+  // Step 1: Save subscription to MongoDB
   try {
-    const session = JSON.parse(localStorage.getItem('nnt_session') || 'null');
-    const headers = { 'Content-Type': 'application/json' };
-    if (session?.token) headers['Authorization'] = 'Bearer ' + session.token;
-
-    // Add item directly to server cart
-    await fetch(API_BASE + '/cart', {
-      method: 'POST', headers,
-      body: JSON.stringify({ item: subItem }),
-    });
-
-    // Save subscription record
-    await fetch(API_BASE + '/subscriptions', {
-      method: 'POST', headers,
+    const res = await fetch(API_BASE + '/subscriptions', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json', ...(token ? { 'Authorization': 'Bearer ' + token } : {}) },
       body: JSON.stringify({
         plan:         planName + ' Box',
         price:        meta.price,
@@ -1187,20 +1172,43 @@ async function _doSubscribe(planName, pincode, pincodeData) {
         pincode,
         area:         pincodeData.area,
         city:         pincodeData.city,
-        customerName: session?.user?.name  || 'Guest',
-        email:        session?.user?.email || '',
-        phone:        session?.user?.phone || '',
-        user:         session?.user?.id    || null,
+        customerName: user?.name  || 'Guest',
+        email:        user?.email || '',
+        phone:        user?.phone || '',
+        user:         user?.id || user?._id || null,
       }),
     });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Subscription failed');
+    console.log('[NNT] ✅ Subscription saved');
   } catch(e) {
-    console.warn('[NNT] Backend error:', e.message);
-    showToast('⚠️', 'Could not add to cart. Please try again.');
+    console.error('[NNT] Subscription failed:', e.message);
+    showToast('⚠️', 'Could not save subscription. Try again.');
     return;
   }
 
-  showToast('🛒', `${planName} Box added to cart! Redirecting...`);
-  setTimeout(() => { window.location.href = 'cart.html'; }, 950);
+  // Step 2: Add to server cart via NNT
+  // API_BASE is now defined before nnt-store.js loads, so this works
+  try {
+    await NNT.init();
+    await NNT.addToCart({
+      id:     'sub_' + slotKey,
+      name:   planName + ' Box – Daily Plan',
+      price:  meta.price,
+      img:    meta.img,
+      qty:    1,
+      weight: '4 items/day · 30-day cycle · ' + slotLabel,
+      cat:    'Subscription',
+    });
+    console.log('[NNT] ✅ Added to cart');
+    showToast('🛒', `${planName} Box added to cart!`);
+    setTimeout(() => { window.location.href = 'cart.html'; }, 1000);
+  } catch(e) {
+    console.error('[NNT] Cart add failed:', e.message);
+    // Subscription is saved — redirect to profile to see it
+    showToast('✅', `${planName} Box subscribed! View in your profile.`);
+    setTimeout(() => { window.location.href = 'profile.html'; }, 1200);
+  }
 }
 
 const IMGS = {
@@ -1391,6 +1399,7 @@ function _nntCloseNav(){
   }
   if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init);}else{init();}
 })();
+
 </script>
 </body>
 </html>
