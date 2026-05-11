@@ -120,7 +120,15 @@ router.put('/users/:id/toggle', adminOnly, async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 });
-
+// Admin API route - add this to your backend
+router.patch('/users/:id/verify', adminOnly, async (req, res) => {
+  try {
+    await mongoose.model('User').findByIdAndUpdate(req.params.id, { isVerified: true });
+    res.json({ success: true });
+  } catch(err) {
+    res.status(500).json({ error: 'Server error' });
+  }
+});
 // ── DELETE user ──
 router.delete('/users/:id', adminOnly, async (req, res) => {
   try {

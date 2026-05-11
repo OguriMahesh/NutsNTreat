@@ -1286,7 +1286,8 @@ async function loadUsers() {
       <td>${new Date(u.createdAt).toLocaleDateString('en-IN')}</td>
       <td>
         <span style="color:${u.isActive!==false?'var(--green)':'var(--red)'};font-weight:600">${u.isActive!==false?'<i class="fa-solid fa-circle-check" style="font-size:12px"></i> Active':'<i class="fa-solid fa-circle-xmark" style="font-size:12px"></i> Disabled'}</span>
-        ${!u.isVerified?'<span class="badge badge-gray" style="margin-left:4px">Unverified</span>':''}
+        ${!u.isVerified?'<span class="badge badge-gray" style="margin-left:4px">Unverified</span><button class="act-btn act-green" style="margin-left:6px;font-size:0.7rem;padding:3px 10px" onclick="verifyUser(\'${u.id||u._id}\')">Verify</button>':''}
+        
       </td>
       <td><button class="act-btn ${u.isActive!==false?'act-delete':'act-green'}" onclick="toggleUser('${u.id||u._id}')">${u.isActive!==false?'Disable':'Enable'}</button></td>
     </tr>`).join('');
@@ -1296,8 +1297,17 @@ async function loadUsers() {
 async function toggleUser(id) {
   try { await apiCall('/admin/users/'+id+'/toggle', 'PUT'); loadUsers(); showToast('User status updated'); }
   catch(err) { showToast(err.message, 'error'); }
-}
 
+}
+async function verifyUser(id) {
+  if (!confirm('Manually verify this user?')) return;
+  try { 
+    await apiCall('/admin/users/'+id+'/verify', 'PATCH'); 
+    loadUsers(); 
+    showToast('User verified successfully'); 
+  }
+  catch(err) { showToast(err.message, 'error'); }
+}
 // CONTACTS
 async function loadContacts() {
   try {
